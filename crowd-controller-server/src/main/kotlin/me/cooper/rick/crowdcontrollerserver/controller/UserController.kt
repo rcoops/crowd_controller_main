@@ -20,7 +20,7 @@ class UserController(private val userService: UserService,
         return "home"
     }
 
-    @GetMapping("/add")
+    @GetMapping("/register")
     @ResponseBody
     fun register(@RequestParam dto: UserDto): Message {
         val userDto = userService.save(dto)
