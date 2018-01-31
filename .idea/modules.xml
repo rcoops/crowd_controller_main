@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Crowd Controller.iml" filepath="$PROJECT_DIR$/Crowd Controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crowd-controller-api/Crowd Controller API.iml" filepath="$PROJECT_DIR$/crowd-controller-api/Crowd Controller API.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crowd-controller-server/Crowd Controller Server.iml" filepath="$PROJECT_DIR$/crowd-controller-server/Crowd Controller Server.iml" />
+    </modules>
+  </component>
+</project>

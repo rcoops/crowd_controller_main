@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Crowd Controller API" />
+        <module name="Crowd Controller Server" />
+        <module name="crowd-controller-server" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Crowd Controller" target="1.8" />
+      <module name="Crowd Controller API" target="1.8" />
+      <module name="Crowd Controller Server" target="1.8" />
+      <module name="crowd-controller-server" target="1.6" />
+      <module name="crowdcontrollerapi" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

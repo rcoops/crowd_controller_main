@@ -1,0 +1,11 @@
+server:
+  port: 9098
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://helios.csesalford.com:3306/stb098_crowdcontroller
+    username: stb098
+    password: '*stb098*'
