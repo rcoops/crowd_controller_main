@@ -6,31 +6,27 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Configuration
 @EnableWebSecurity
-internal class WebSecurityConfig(val userDetailsService: UserDetailsService): WebSecurityConfigurerAdapter() {
+internal class WebSecurityConfig: WebSecurityConfigurerAdapter() {
 
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
 
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder())
+        auth.inMemoryAuthentication()
+                .withUser("rick")
+                .password("rick")
+                .roles("USER")
     }
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .antMatchers("/resources/**", "/registration")
-                .permitAll()
+                .antMatchers("/**")
+                .hasRole("USER")
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-}
+                .httpBasic()
+    }
 }

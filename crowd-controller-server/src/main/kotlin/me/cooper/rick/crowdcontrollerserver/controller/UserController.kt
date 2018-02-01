@@ -6,10 +6,7 @@ import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.service.SecurityService
 import me.cooper.rick.crowdcontrollerserver.service.UserService
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 
 @Controller
 class UserController(private val userService: UserService,
@@ -20,7 +17,7 @@ class UserController(private val userService: UserService,
         return "home"
     }
 
-    @GetMapping("/register")
+    @PostMapping("/register", consumes = ["application/json"], produces = ["application/json"])
     @ResponseBody
     fun register(@RequestParam dto: UserDto): Message {
         val userDto = userService.save(dto)

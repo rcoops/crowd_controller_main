@@ -6,6 +6,6 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    url: jdbc:mysql://helios.csesalford.com:3306/stb098_crowdcontroller
+    url: jdbc:mysql://helios.csesalford.com:3306/stb098_crowdcontroller?useSSL=false
     username: stb098
     password: '*stb098*'

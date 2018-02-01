@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17263325-090d-426f-ae13-9534aeb06025" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/CrowdControllerServerApplication.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/CrowdControllerServerApplication.kt" />
+      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/WebSecurityConfig.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/WebSecurityConfig.kt" />
       <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt" />
+      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -37,8 +38,8 @@
       <file leaf-file-name="UserDetailsServiceImpl.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserDetailsServiceImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+            <state relative-caret-position="306">
+              <caret line="23" column="5" lean-forward="false" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
               <folding>
                 <element signature="e#54#500#0" expanded="true" />
               </folding>
@@ -46,13 +47,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WebSecurityConfig.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WebSecurityConfig.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/WebSecurityConfig.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="16" column="31" lean-forward="true" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
+            <state relative-caret-position="353">
+              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding>
-                <element signature="e#53#685#0" expanded="true" />
+                <element signature="e#53#613#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CrowdControllerServerApplication.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/CrowdControllerServerApplication.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="8" column="38" lean-forward="false" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+              <folding>
+                <element signature="e#46#286#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -61,7 +74,7 @@
       <file leaf-file-name="User.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/User.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
+            <state relative-caret-position="288">
               <caret line="19" column="8" lean-forward="false" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
               <folding>
                 <element signature="e#53#231#0" expanded="true" />
@@ -70,14 +83,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Role.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/Role.kt">
+      <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="37" lean-forward="false" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
-              <folding>
-                <element signature="e#53#124#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="144">
+              <caret line="8" column="84" lean-forward="false" selection-start-line="8" selection-start-column="84" selection-end-line="8" selection-end-column="84" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -85,8 +96,8 @@
       <file leaf-file-name="SecurityServiceImpl.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/SecurityServiceImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="13" column="8" lean-forward="false" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
+            <state relative-caret-position="432">
+              <caret line="24" column="71" lean-forward="false" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
               <folding>
                 <element signature="e#54#607#0" expanded="true" />
               </folding>
@@ -97,21 +108,11 @@
       <file leaf-file-name="UserController.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="22" column="26" lean-forward="false" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+            <state relative-caret-position="630">
+              <caret line="35" column="1" lean-forward="false" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
               <folding>
-                <element signature="e#57#637#0" expanded="true" />
+                <element signature="e#57#446#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="87" column="11" lean-forward="false" selection-start-line="87" selection-start-column="11" selection-end-line="87" selection-end-column="11" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -119,7 +120,7 @@
       <file leaf-file-name="UserService.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserService.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
+            <state relative-caret-position="108">
               <caret line="8" column="35" lean-forward="false" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
               <folding>
                 <element signature="e#54#216#0" expanded="true" />
@@ -131,7 +132,7 @@
       <file leaf-file-name="UserServiceImpl.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserServiceImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
+            <state relative-caret-position="162">
               <caret line="15" column="19" lean-forward="false" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
               <folding>
                 <element signature="e#54#474#0" expanded="true" />
@@ -194,7 +195,6 @@
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/crowd-controller-server/pom.xml" />
-        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/LoginDto.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/RegistrationDto.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/RegistrationController.kt" />
@@ -204,13 +204,15 @@
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/Role.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/SecurityService.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/LoginController.kt" />
-        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/WebSecurityConfig.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/SecurityServiceImpl.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/User.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserService.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserServiceImpl.kt" />
-        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/CrowdControllerServerApplication.kt" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/WebSecurityConfig.kt" />
       </list>
     </option>
   </component>
@@ -279,9 +281,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -623,12 +625,13 @@
       <workItem from="1517221344564" duration="1446000" />
       <workItem from="1517222935114" duration="4677000" />
       <workItem from="1517404442570" duration="1069000" />
-      <workItem from="1517414456362" duration="5772000" />
+      <workItem from="1517414456362" duration="7348000" />
+      <workItem from="1517485560207" duration="862000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26703000" />
+    <option name="totallyTimeSpent" value="29141000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="48" y="-17" width="1873" height="1098" extended-state="6" />
@@ -650,11 +653,11 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32790446" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.330076" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25753424" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.330076" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26027396" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -680,12 +683,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt</url>
-          <line>19</line>
+          <line>16</line>
           <properties />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/WebSecurityConfig.kt</url>
-          <line>24</line>
+          <line>25</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
@@ -732,7 +735,7 @@
         <state relative-caret-position="90">
           <caret line="5" column="61" lean-forward="false" selection-start-line="5" selection-start-column="61" selection-end-line="5" selection-end-column="61" />
           <folding>
-            <element signature="e#57#637#0" expanded="true" />
+            <element signature="e#57#446#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -741,7 +744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -766,7 +768,7 @@
         <state relative-caret-position="90">
           <caret line="5" column="61" lean-forward="false" selection-start-line="5" selection-start-column="61" selection-end-line="5" selection-end-column="61" />
           <folding>
-            <element signature="e#57#637#0" expanded="true" />
+            <element signature="e#57#446#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -775,7 +777,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="77" lean-forward="false" selection-start-line="1" selection-start-column="77" selection-end-line="1" selection-end-column="77" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -800,7 +801,7 @@
         <state relative-caret-position="342">
           <caret line="19" column="31" lean-forward="true" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
           <folding>
-            <element signature="e#57#637#0" expanded="true" />
+            <element signature="e#57#446#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -998,7 +999,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1034,14 +1034,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="24" lean-forward="false" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/LoginDto.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -1058,19 +1050,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/CrowdControllerServerApplication.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="10" column="1" lean-forward="true" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.13.RELEASE/spring-web-4.3.13.RELEASE.jar!/org/springframework/web/bind/annotation/RequestMapping.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1079,7 +1062,7 @@
         <state relative-caret-position="126">
           <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
           <folding>
-            <element signature="e#57#173#0" expanded="true" />
+            <element signature="e#57#173#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1089,7 +1072,7 @@
         <state relative-caret-position="90">
           <caret line="5" column="51" lean-forward="true" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
           <folding>
-            <element signature="e#57#173#0" expanded="true" />
+            <element signature="e#57#173#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1098,13 +1081,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="14" column="18" lean-forward="false" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/Role.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
+        <state relative-caret-position="162">
           <caret line="10" column="37" lean-forward="false" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
           <folding>
             <element signature="e#53#124#0" expanded="true" />
@@ -1112,20 +1094,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/SecurityServiceImpl.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="13" column="8" lean-forward="false" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
-          <folding>
-            <element signature="e#54#607#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserDetailsServiceImpl.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+        <state relative-caret-position="306">
+          <caret line="23" column="5" lean-forward="false" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
           <folding>
             <element signature="e#54#500#0" expanded="true" />
           </folding>
@@ -1140,17 +1112,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/RegistrationController.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="66" lean-forward="true" selection-start-line="10" selection-start-column="66" selection-end-line="17" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/RegistrationController.kt" />
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserService.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
+        <state relative-caret-position="108">
           <caret line="8" column="35" lean-forward="false" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
           <folding>
             <element signature="e#54#216#0" expanded="true" />
@@ -1160,7 +1125,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/User.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
+        <state relative-caret-position="288">
           <caret line="19" column="8" lean-forward="false" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
           <folding>
             <element signature="e#53#231#0" expanded="true" />
@@ -1170,30 +1135,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserServiceImpl.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
+        <state relative-caret-position="162">
           <caret line="15" column="19" lean-forward="false" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
           <folding>
             <element signature="e#54#474#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/WebSecurityConfig.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="16" column="31" lean-forward="true" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
-          <folding>
-            <element signature="e#53#685#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="22" column="26" lean-forward="false" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
-          <folding>
-            <element signature="e#57#637#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1202,7 +1147,54 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="448">
           <caret line="87" column="11" lean-forward="false" selection-start-line="87" selection-start-column="11" selection-end-line="87" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="84" lean-forward="false" selection-start-line="8" selection-start-column="84" selection-end-line="8" selection-end-column="84" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/SecurityServiceImpl.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="71" lean-forward="false" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
+          <folding>
+            <element signature="e#54#607#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="35" column="1" lean-forward="false" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+          <folding>
+            <element signature="e#57#446#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/CrowdControllerServerApplication.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="38" lean-forward="false" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+          <folding>
+            <element signature="e#46#286#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/WebSecurityConfig.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="e#53#613#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
