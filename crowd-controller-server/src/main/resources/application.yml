@@ -4,8 +4,23 @@ server:
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
   datasource:
     url: jdbc:mysql://helios.csesalford.com:3306/stb098_crowdcontroller?useSSL=false
     username: stb098
     password: '*stb098*'
+
+security:
+  signing-key: MaYzkSjmkzPC57L
+  encoding-strength: 256
+  security-realm: Spring Boot JWT Example Realm
+  oauth2:
+    resource:
+      filter-order: 3
+  jwt:
+    client-id: testjwtclientid
+    client-secret: XY7kmzoNzl100
+    grant-type: password
+    scope-read: read
+    scope-write: write
+    resource-ids: testjwtresourceid

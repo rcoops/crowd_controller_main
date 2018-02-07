@@ -1,6 +1,5 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
-import me.cooper.rick.crowdcontrollerapi.dto.LoginDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.domain.User
 import me.cooper.rick.crowdcontrollerserver.repository.RoleRepository
@@ -26,6 +25,12 @@ class UserServiceImpl(private val userRepository: UserRepository,
 
     override fun findByUsername(username: String): User {
         return userRepository.findByUsername(username)
+    }
+
+    override fun allUsers(): List<UserDto> {
+        val users = userRepository.findAll()
+        val userDtos = users.map { it.toDto() }
+        return userDtos
     }
 
 }

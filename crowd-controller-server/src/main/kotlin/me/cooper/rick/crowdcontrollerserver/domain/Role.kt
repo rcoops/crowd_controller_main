@@ -7,8 +7,5 @@ import javax.persistence.GenerationType.AUTO
 @Table(name = "roles")
 data class Role(
         @Id @GeneratedValue(strategy = AUTO) val id: Long = 0,
-        val name: String = "",
-        @ManyToMany(mappedBy = "roles")
-        val users: Set<User> = setOf()
-) {
-}
+        val name: String = ""
+)

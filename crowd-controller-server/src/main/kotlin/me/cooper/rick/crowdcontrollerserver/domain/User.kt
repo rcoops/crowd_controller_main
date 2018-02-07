@@ -13,8 +13,8 @@ data class User(
         val password: String = "",
         @ManyToMany
         @JoinTable(name = "user_role",
-                joinColumns = [JoinColumn(name = "user_id")],
-                inverseJoinColumns = [(JoinColumn(name="role_id"))])
+                joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
+                inverseJoinColumns = [(JoinColumn(name="role_id", referencedColumnName = "id"))])
         val roles: Set<Role> = setOf()) {
 
     fun toDto(): UserDto {

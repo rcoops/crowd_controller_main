@@ -10,4 +10,6 @@ interface UserService {
 
     fun findByUsername(username: String): User
 
+    fun allUsers(): List<UserDto>
+
 }
