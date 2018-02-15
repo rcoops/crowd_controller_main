@@ -57,7 +57,6 @@ class SecurityConfig(
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(bCryptPasswordEncoder())
-//                .passwordEncoder(shaPasswordEncoder())
     }
 
     override fun configure(http: HttpSecurity) {
@@ -70,4 +69,5 @@ class SecurityConfig(
                 .csrf()
                 .disable()
     }
+
 }

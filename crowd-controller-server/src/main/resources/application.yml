@@ -5,6 +5,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
   datasource:
     url: jdbc:mysql://helios.csesalford.com:3306/stb098_crowdcontroller?useSSL=false
     username: stb098
@@ -13,14 +18,14 @@ spring:
 security:
   signing-key: MaYzkSjmkzPC57L
   encoding-strength: 256
-  security-realm: Spring Boot JWT Example Realm
+  security-realm: Ricks Realm
   oauth2:
     resource:
       filter-order: 3
   jwt:
-    client-id: testjwtclientid
-    client-secret: XY7kmzoNzl100
-    grant-type: password
+    client-id: crowdcontrollerclientid
+    client-secret: IKUJENFiewf8124ensdcfwfSDF
+    grant-types: password
     scope-read: read
     scope-write: write
     resource-ids: testjwtresourceid

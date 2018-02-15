@@ -21,7 +21,7 @@ class AuthorizationServerConfig(
 
     @Value("\${security.jwt.client-id}") private val clientId: String = ""
     @Value("\${security.jwt.client-secret}") private val clientSecret: String = ""
-    @Value("\${security.jwt.grant-type}") private val grantType: String = ""
+    @Value("\${security.jwt.grant-types}") private val grantTypes: String = ""
     @Value("\${security.jwt.scope-read}") private val scopeRead: String = ""
     @Value("\${security.jwt.scope-write}") private val scopeWrite: String = "write"
     @Value("\${security.jwt.resource-ids}") private val resourceIds: String = ""
@@ -30,9 +30,10 @@ class AuthorizationServerConfig(
         clients.inMemory()
                 .withClient(clientId)
                 .secret(clientSecret)
-                .authorizedGrantTypes(grantType)
+                .authorizedGrantTypes(*(grantTypes.split(" ").toTypedArray()))
                 .scopes(scopeRead, scopeWrite)
                 .resourceIds(resourceIds)
+                .accessTokenValiditySeconds(-1)
     }
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
