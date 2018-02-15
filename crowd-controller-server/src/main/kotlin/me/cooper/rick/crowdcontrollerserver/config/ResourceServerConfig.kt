@@ -25,9 +25,9 @@ class ResourceServerConfig(
         http.requestMatchers()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/actuator/**", "api-docs/**", "user/**")
+                .antMatchers("/actuator/**", "api-docs/**")
                 .permitAll()
-                .antMatchers("/springjwt/**")
+                .antMatchers("/users/**")
                 .authenticated()
     }
 }

@@ -6,9 +6,11 @@ import me.cooper.rick.crowdcontrollerserver.domain.User
 import me.cooper.rick.crowdcontrollerserver.repository.UserRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.security.Principal
 
 @Service
+@Transactional
 internal class UserServiceImpl(private val userRepository: UserRepository,
                                private val bCryptPasswordEncoder: BCryptPasswordEncoder) : UserService {
 
