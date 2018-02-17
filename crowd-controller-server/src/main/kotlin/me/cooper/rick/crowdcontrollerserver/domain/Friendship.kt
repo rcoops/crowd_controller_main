@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name="friendship")
-internal class Friendship(
+internal data class Friendship(
         @Id @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "inviter_id") val inviter: User? = null,
         @Id @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "invitee_id") val invitee: User? = null,
         val activated: Boolean = false): Serializable  {

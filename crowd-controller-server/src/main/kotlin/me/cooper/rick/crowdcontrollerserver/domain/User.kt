@@ -5,9 +5,10 @@ import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import javax.persistence.*
 import javax.persistence.GenerationType.AUTO
+import javax.persistence.FetchType.LAZY
 
 @Entity
-@Table(name="users")
+@Table(name="user")
 internal data class User(
         @Id @GeneratedValue(strategy = AUTO) private val id: Long = 0,
 
@@ -29,7 +30,9 @@ internal data class User(
         private val friendsInviters: Set<Friendship> = emptySet(),
 
         @OneToMany(mappedBy = "invitee")
-        private val friendsInvitees: Set<Friendship> = emptySet()) {
+        private val friendsInvitees: Set<Friendship> = emptySet(),
+
+        @ManyToOne(fetch = LAZY) @JoinColumn(name="group_id") private val group: Group? = null) {
 
     fun toDto(): UserDto {
         return UserDto(
