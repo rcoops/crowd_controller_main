@@ -27,7 +27,5 @@ class ResourceServerConfig(
                 .authorizeRequests()
                 .antMatchers("/actuator/**", "api-docs/**")
                 .permitAll()
-                .antMatchers("/users/**")
-                .authenticated()
     }
 }

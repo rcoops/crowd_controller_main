@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices
 import org.springframework.security.oauth2.provider.token.TokenStore
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
@@ -27,13 +28,9 @@ class SecurityConfig(
 
     @Value("\${security.signing-key}") private val signingKey: String = ""
     @Value("\${security.security-realm}") private val securityRealm: String = ""
-    @Value("\${security.encoding-strength}") private val encodingStrength: Int = 256
 
     @Bean
-    fun bCryptPasswordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder(10)
-
-    @Bean
-    fun shaPasswordEncoder(): ShaPasswordEncoder = ShaPasswordEncoder(encodingStrength)
+    fun bCryptPasswordEncoder(): PasswordEncoder = BCryptPasswordEncoder(10)
 
     @Bean
     fun accessTokenConverter(): JwtAccessTokenConverter {
@@ -60,8 +57,8 @@ class SecurityConfig(
     }
 
     override fun configure(http: HttpSecurity) {
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .httpBasic()
                 .realmName(securityRealm)

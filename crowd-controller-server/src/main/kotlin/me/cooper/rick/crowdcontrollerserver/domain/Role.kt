@@ -10,7 +10,7 @@ internal data class Role(
         val name: String = ""
 ) {
     companion object {
-        const val USER = "STANDARD_USER"
-        const val ADMIN = "ADMIN_USER"
+        const val USER = "ROLE_USER"
+        const val ADMIN = "ROLE_ADMIN"
     }
 }

@@ -29,3 +29,6 @@ security:
     scope-read: read
     scope-write: write
     resource-ids: testjwtresourceid
+
+management:
+  context-path: /actuator

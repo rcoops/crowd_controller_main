@@ -25,21 +25,25 @@ internal data class User(
                 inverseJoinColumns = [(JoinColumn(name="role_id", referencedColumnName = "id"))])
         val roles: Set<Role> = setOf(Role(name = Role.USER)),
 
-        @OneToMany private val friends: Set<Friendship> = setOf()) {
+        @OneToMany(mappedBy = "inviter")
+        private val friendsInviters: Set<Friendship> = emptySet(),
+
+        @OneToMany(mappedBy = "invitee")
+        private val friendsInvitees: Set<Friendship> = emptySet()) {
 
     fun toDto(): UserDto {
         return UserDto(
                 id,
                 username,
                 email,
-                friends.map(this::toFriendDto).toSet(),
+                (friendsInvitees + friendsInviters).map(this::toFriendDto).toSet(),
                 roles.map { it.name }.toSet()
         )
     }
 
     private fun toFriendDto(friendship: Friendship): FriendDto {
         return FriendDto(
-                friendship.partner(username).username,
+                friendship.partner(username)?.username ?: "",
                 !friendship.isInviter(username),
                 friendship.activated
         )

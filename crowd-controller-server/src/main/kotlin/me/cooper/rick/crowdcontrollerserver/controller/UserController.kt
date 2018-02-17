@@ -3,6 +3,7 @@ package me.cooper.rick.crowdcontrollerserver.controller
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.service.UserService
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -10,16 +11,15 @@ import org.springframework.web.bind.annotation.*
 class UserController(private val userService: UserService) {
 
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     fun users(): List<UserDto> = userService.allUsers()
 
     @GetMapping("/{username}")
-    fun user(@PathVariable username: String): UserDto {
-        return userService.user(username)
-    }
+    @PreAuthorize("isAuthenticated()")
+    fun user(@PathVariable username: String): UserDto = userService.user(username)
 
     @PostMapping()
-    fun create(@RequestBody dto: RegistrationDto): UserDto {
-        return userService.create(dto)
-    }
+    @PreAuthorize("permitAll()")
+    fun create(@RequestBody dto: RegistrationDto): UserDto = userService.create(dto)
 
 }
