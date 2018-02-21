@@ -9,4 +9,8 @@ import javax.persistence.GenerationType.AUTO
 internal data class Role(
         @Id @GeneratedValue(strategy = AUTO) val id: Long = 0,
         val name: String = Role.ROLE_USER.name
-)
+) {
+    override fun toString(): String {
+        return name
+    }
+}

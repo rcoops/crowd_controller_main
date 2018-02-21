@@ -3,6 +3,7 @@ package me.cooper.rick.crowdcontrollerserver.domain
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import java.util.*
 import javax.persistence.*
 import javax.persistence.GenerationType.AUTO
 import javax.persistence.FetchType.LAZY
@@ -28,7 +29,7 @@ internal data class User(
         @JoinTable(name = "user_role",
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
                 inverseJoinColumns = [(JoinColumn(name="role_id", referencedColumnName = "id"))])
-        val roles: Set<Role> = setOf(Role()),
+        var roles: Set<Role> = setOf(Role()),
 
         @OneToMany(mappedBy = "inviter")
         private val friendsInviters: Set<Friendship> = emptySet(),
@@ -36,7 +37,7 @@ internal data class User(
         @OneToMany(mappedBy = "invitee")
         private val friendsInvitees: Set<Friendship> = emptySet(),
 
-        @ManyToOne @JoinColumn(name="group_id")
+        @ManyToOne @JoinColumn(name="group_id", referencedColumnName = "id")
         private val group: Group? = null) {
 
     fun toDto(): UserDto {
@@ -45,10 +46,15 @@ internal data class User(
                 username,
                 email,
                 mobileNumber,
-                (friendsInvitees + friendsInviters).map(this::toFriendDto).toSet(),
-                roles.map { it.name }.toSet()
+                friends().map(this::toFriendDto).toSet(),
+                roles.map { it.name }.toSet(),
+                group?.id
         )
     }
+
+    override fun hashCode(): Int = Objects.hash(id, username, email, password, mobileNumber)
+
+    private fun friends() = (friendsInviters + friendsInvitees).toSet()
 
     private fun toFriendDto(friendship: Friendship): FriendDto {
         val partner = friendship.partner(username)
