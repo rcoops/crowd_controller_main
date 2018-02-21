@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/groups")
 class GroupController(private val groupService: GroupService) {
 
+    @GetMapping
+    fun groups(): List<GroupDto> = groupService.groups()
+
+    @GetMapping("/{groupId}")
+    fun group(@PathVariable groupId: Long): GroupDto? = groupService.group(groupId)
+
     @PostMapping
     fun create(@RequestBody userDto: UserDto): UserDto = groupService.create(userDto.id)
 
@@ -20,5 +26,8 @@ class GroupController(private val groupService: GroupService) {
     @DeleteMapping("/{groupId}/members/{userId}")
     fun removeFromGroup(@PathVariable groupId: Long,
                    @PathVariable userId: Long): GroupDto = groupService.removeFromGroup(groupId, userId)
+
+    @DeleteMapping("/{groupId}")
+    fun removeGroup(@PathVariable groupId: Long): Boolean = groupService.removeGroup(groupId)
 
 }

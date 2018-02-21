@@ -17,7 +17,6 @@ spring:
 
 security:
   signing-key: MaYzkSjmkzPC57L
-  encoding-strength: 256
   security-realm: Ricks Realm
   oauth2:
     resource:
@@ -28,7 +27,7 @@ security:
     grant-types: password
     scope-read: read
     scope-write: write
-    resource-ids: testjwtresourceid
+    resource-ids: ricksResourceId
 
 management:
   context-path: /actuator
@@ -37,3 +36,8 @@ endpoints:
   shutdown:
     enabled: true
     sensitive: false
+
+logging:
+  level:
+    root: INFO
+    me.cooper.rick: DEBUG
