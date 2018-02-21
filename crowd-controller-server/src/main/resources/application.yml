@@ -28,6 +28,7 @@ security:
     scope-read: read
     scope-write: write
     resource-ids: ricksResourceId
+    validity: 0
 
 management:
   context-path: /actuator

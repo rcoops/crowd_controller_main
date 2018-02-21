@@ -2,92 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17263325-090d-426f-ae13-9534aeb06025" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/GroupDto.kt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/resources/logback.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/FriendDto.kt" afterPath="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/FriendDto.kt" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/UserDto.kt" afterPath="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/UserDto.kt" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/crowd-controller-api-1.0-SNAPSHOT.jar" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-snapshot.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-snapshot.tab.keystream" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-snapshot.tab.keystream.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-snapshot.tab.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-snapshot.tab.values.at" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-snapshot.tab_i" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-snapshot.tab_i.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-to-output.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-to-output.tab.keystream" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-to-output.tab.keystream.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-to-output.tab.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-to-output.tab.values.at" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-to-output.tab_i" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/inputs/source-to-output.tab_i.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/internal-name-to-source.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/proto.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/proto.tab.keystream" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/proto.tab.keystream.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/proto.tab.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/proto.tab.values.at" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/proto.tab_i" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/proto.tab_i.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/source-to-classes.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/source-to-classes.tab.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/source-to-classes.tab_i" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/jvm/kotlin/source-to-classes.tab_i.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/counters.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/file-to-id.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/file-to-id.tab.keystream" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/file-to-id.tab.keystream.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/file-to-id.tab.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/file-to-id.tab.values.at" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/file-to-id.tab_i" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/file-to-id.tab_i.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/id-to-file.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/id-to-file.tab.keystream" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/id-to-file.tab.keystream.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/id-to-file.tab.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/id-to-file.tab.values.at" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/id-to-file.tab_i" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/id-to-file.tab_i.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/lookups.tab" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/lookups.tab.keystream" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/lookups.tab.keystream.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/lookups.tab.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/lookups.tab.values.at" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/lookups.tab_i" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/caches-jvm/lookups/lookups.tab_i.len" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/data-container-format-version.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/format-version.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/last-build.bin" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/kotlin-ic/compile/standalone-ic-format-version.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/maven-archiver/pom.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-api/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/GroupController.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/GroupController.kt" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/Group.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/Group.kt" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/Role.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/Role.kt" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/User.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/User.kt" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/repository/UserRepository.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/repository/UserRepository.kt" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupService.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupService.kt" />
+      <change beforePath="$PROJECT_DIR$/crowd-controller-server/pom.xml" afterPath="$PROJECT_DIR$/crowd-controller-server/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/SecurityConfig.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/SecurityConfig.kt" />
+      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt" />
       <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupServiceImpl.kt" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupServiceImpl.kt" />
       <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml" />
-      <change beforePath="$PROJECT_DIR$/crowd-controller-server/src/main/resources/data.sql" afterPath="$PROJECT_DIR$/crowd-controller-server/src/main/resources/data.sql" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -133,13 +53,53 @@
     </expand>
     <select />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="application.yml" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="288">
+                    <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="45" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GroupServiceImpl.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserService.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserService.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserDto.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/UserDto.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GroupServiceImpl.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupServiceImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="64" column="9" lean-forward="false" selection-start-line="64" selection-start-column="9" selection-end-line="64" selection-end-column="9" />
+            <state relative-caret-position="437">
+              <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
               <folding>
                 <element signature="e#54#722#0" expanded="true" />
               </folding>
@@ -151,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/resources/logback.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
-              <caret line="5" column="16" lean-forward="true" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+              <caret line="5" column="16" lean-forward="false" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -160,41 +120,41 @@
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowd-controller-server/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="114" column="32" lean-forward="false" selection-start-line="114" selection-start-column="32" selection-end-line="114" selection-end-column="32" />
+            <state relative-caret-position="462">
+              <caret line="76" column="21" lean-forward="false" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml">
+      <file leaf-file-name="ResourceServerConfig.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/ResourceServerConfig.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+            <state relative-caret-position="338">
+              <caret line="28" column="28" lean-forward="false" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SecurityConfig.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/SecurityConfig.kt">
+      <file leaf-file-name="UserController.kt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="29" column="67" lean-forward="false" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="67" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GroupController.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/GroupController.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="30" column="57" lean-forward="false" selection-start-line="30" selection-start-column="57" selection-end-line="30" selection-end-column="57" />
+            <state relative-caret-position="180">
+              <caret line="36" column="36" lean-forward="false" selection-start-line="36" selection-start-column="36" selection-end-line="36" selection-end-column="36" />
               <folding>
-                <element signature="e#57#277#0" expanded="true" />
+                <element signature="e#57#700#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Principal.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.sdkman/candidates/java/current/src.zip!/java/security/Principal.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-388">
+              <caret line="38" column="17" lean-forward="false" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -204,38 +164,6 @@
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
               <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserController.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="30" column="38" lean-forward="false" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GroupService.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupService.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="43" lean-forward="false" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
-              <folding>
-                <element signature="e#54#160#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserRepository.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/repository/UserRepository.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="17" column="45" lean-forward="false" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -287,8 +215,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/LoginDto.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/RegistrationController.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/SecurityService.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/LoginController.kt" />
@@ -305,7 +231,6 @@
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/ResourceController.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/AuthorizationServerConfig.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/Token.kt" />
-        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/SecurityConfig.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/RegistrationDto.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/repository/RoleRepository.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/ResourceServerConfig.kt" />
@@ -315,11 +240,9 @@
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/domain/FriendshipId.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserServiceImpl.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserService.kt" />
-        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/Role.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/constants/Role.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/deploy/deploy" />
-        <option value="$PROJECT_DIR$/crowd-controller-server/pom.xml" />
         <option value="$PROJECT_DIR$/crowd-controller-server/deploy/restart.sh" />
         <option value="$PROJECT_DIR$/crowd-controller-server/deploy/stop.sh" />
         <option value="$PROJECT_DIR$/crowd-controller-server/deploy/deploy.sh" />
@@ -336,8 +259,13 @@
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupService.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/GroupController.kt" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/resources/logback.xml" />
-        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupServiceImpl.kt" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/pom.xml" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/TokenProvider.kt" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/JWTFilter.kt" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/SecurityConfig.kt" />
+        <option value="$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt" />
       </list>
     </option>
   </component>
@@ -509,37 +437,17 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="kotlin" type="462c0819:PsiDirectoryNode" />
               <item name="crowdcontrollerserver" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Crowd Controller" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Crowd Controller" type="462c0819:PsiDirectoryNode" />
+              <item name="crowd-controller-server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="crowdcontrollerserver" type="462c0819:PsiDirectoryNode" />
               <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Crowd Controller" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Crowd Controller" type="462c0819:PsiDirectoryNode" />
-              <item name="crowd-controller-server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="crowdcontrollerserver" type="462c0819:PsiDirectoryNode" />
-              <item name="domain" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Crowd Controller" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Crowd Controller" type="462c0819:PsiDirectoryNode" />
-              <item name="crowd-controller-server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="crowdcontrollerserver" type="462c0819:PsiDirectoryNode" />
-              <item name="repository" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Crowd Controller" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Crowd Controller" type="462c0819:PsiDirectoryNode" />
-              <item name="crowd-controller-server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="crowdcontrollerserver" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Crowd Controller" type="b2602c69:ProjectViewProjectNode" />
@@ -777,12 +685,12 @@
       <workItem from="1518853910568" duration="1933000" />
       <workItem from="1519115980858" duration="2242000" />
       <workItem from="1519138491212" duration="3828000" />
-      <workItem from="1519207690375" duration="20408000" />
+      <workItem from="1519207690375" duration="26248000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131635000" />
+    <option name="totallyTimeSpent" value="137475000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -806,7 +714,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4262295" sideWeight="0.49806523" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4262295" sideWeight="0.49806523" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -915,15 +823,51 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt</url>
-          <line>37</line>
+          <line>47</line>
           <properties />
           <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/JWTFilter.kt</url>
+          <line>21</line>
+          <properties />
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/TokenProvider.kt</url>
+          <line>51</line>
+          <properties />
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/TokenProvider.kt</url>
+          <line>52</line>
+          <properties />
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/TokenProvider.kt</url>
+          <line>56</line>
+          <properties />
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/JWTFilter.kt</url>
+          <line>24</line>
+          <properties />
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/JWTFilter.kt</url>
+          <line>23</line>
+          <properties />
+          <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="48" />
+      <option name="time" value="57" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -941,48 +885,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/4.2.3.RELEASE/spring-security-core-4.2.3.RELEASE.jar!/org/springframework/security/core/userdetails/User.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/oauth/spring-security-oauth2/2.2.1.RELEASE/spring-security-oauth2-2.2.1.RELEASE-sources.jar!/org/springframework/security/oauth2/provider/token/store/JwtAccessTokenConverter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="51" column="13" lean-forward="false" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.sdkman/candidates/java/current/src.zip!/java/lang/annotation/Documented.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="41" column="18" lean-forward="false" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.3.13.RELEASE/spring-context-4.3.13.RELEASE.jar!/org/springframework/stereotype/Service.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="15" column="4" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/Token.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/4.2.3.RELEASE/spring-security-core-4.2.3.RELEASE.jar!/org/springframework/security/core/userdetails/UserDetails.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserDetailsServiceImpl.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -1041,13 +943,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/ResourceServerConfig.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="28" column="28" lean-forward="false" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://table:/d43965be/29819982-9713-4276-988d-75a40f834e6b/stb098_crowdcontroller.DATABASECHANGELOG">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1096,25 +991,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://table:/d43965be/29819982-9713-4276-988d-75a40f834e6b/stb098_crowdcontroller.friendship">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/29819982-9713-4276-988d-75a40f834e6b/console_2.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="55" lean-forward="false" selection-start-line="0" selection-start-column="55" selection-end-line="0" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserService.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="1" lean-forward="false" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -1158,14 +1038,6 @@
           <folding>
             <element signature="e#57#174#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/UserDto.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1266,20 +1138,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="30" column="38" lean-forward="false" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupService.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="17" column="43" lean-forward="false" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
           <folding>
-            <element signature="e#54#160#0" expanded="true" />
+            <element signature="e#54#160#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1301,44 +1165,133 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="114" column="32" lean-forward="false" selection-start-line="114" selection-start-column="32" selection-end-line="114" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/resources/logback.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="5" column="16" lean-forward="true" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+          <caret line="5" column="16" lean-forward="false" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/SecurityConfig.kt">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.2.21/kotlin-stdlib-1.2.21-sources.jar!/generated/_Collections.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="29" column="67" lean-forward="false" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="67" />
+        <state relative-caret-position="235">
+          <caret line="2180" column="27" lean-forward="false" selection-start-line="2180" selection-start-column="27" selection-end-line="2180" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.sdkman/candidates/java/current/src.zip!/com/sun/org/apache/xerces/internal/parsers/SecurityConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-350">
+          <caret line="48" column="13" lean-forward="false" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/ResourceServerConfig.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="28" column="28" lean-forward="false" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/resources/application.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+        <state relative-caret-position="288">
+          <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/TokenProvider.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="49" column="15" lean-forward="true" selection-start-line="49" selection-start-column="15" selection-end-line="49" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/auth/JWTFilter.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/oauth/spring-security-oauth2/2.2.1.RELEASE/spring-security-oauth2-2.2.1.RELEASE-sources.jar!/org/springframework/security/oauth2/provider/token/store/JwtAccessTokenConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4214">
+          <caret line="51" column="13" lean-forward="false" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/config/SecurityConfig.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="17" column="82" lean-forward="true" selection-start-line="17" selection-start-column="82" selection-end-line="17" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.sdkman/candidates/java/current/src.zip!/java/security/Principal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-388">
+          <caret line="38" column="17" lean-forward="false" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-api/src/main/kotlin/me/cooper/rick/crowdcontrollerapi/dto/UserDto.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/UserService.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/d43965be/29819982-9713-4276-988d-75a40f834e6b/stb098_crowdcontroller.friendship">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="76" column="21" lean-forward="false" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/service/GroupServiceImpl.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="64" column="9" lean-forward="false" selection-start-line="64" selection-start-column="9" selection-end-line="64" selection-end-column="9" />
+        <state relative-caret-position="437">
+          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
           <folding>
             <element signature="e#54#722#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd-controller-server/src/main/kotlin/me/cooper/rick/crowdcontrollerserver/controller/UserController.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="36" column="36" lean-forward="false" selection-start-line="36" selection-start-column="36" selection-end-line="36" selection-end-column="36" />
+          <folding>
+            <element signature="e#57#700#0" expanded="true" />
           </folding>
         </state>
       </provider>

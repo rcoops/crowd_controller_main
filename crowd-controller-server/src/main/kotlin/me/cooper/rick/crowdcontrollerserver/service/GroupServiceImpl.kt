@@ -53,15 +53,15 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     override fun removeGroup(groupId: Long): Boolean {
         val group = groupRepository.findOne(groupId)
-        return if (group != null) {
+        return if (group == null) {
+            LOGGER.debug("Group not found")
+            false
+        } else {
             val users = userRepository.findByGroup(group)
             removeGroupFromUsers(users)
             groupRepository.delete(groupId)
             groupRepository.flush()
             true
-        } else {
-            LOGGER.debug("Group not found")
-            false
         }
     }
 
@@ -73,4 +73,5 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     companion object {
         val LOGGER: Logger = LoggerFactory.getLogger(GroupServiceImpl::class.java)
     }
+
 }
