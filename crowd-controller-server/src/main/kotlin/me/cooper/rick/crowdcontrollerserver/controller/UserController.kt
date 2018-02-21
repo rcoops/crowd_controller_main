@@ -1,5 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.controller
 
+import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.service.UserService
@@ -10,16 +11,27 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/users")
 class UserController(private val userService: UserService) {
 
-    @GetMapping()
+    @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     fun users(): List<UserDto> = userService.allUsers()
 
-    @GetMapping("/{username}")
+    @GetMapping("/{userId}")
     @PreAuthorize("isAuthenticated()")
-    fun user(@PathVariable username: String): UserDto = userService.user(username)
+    fun user(@PathVariable userId: Long): UserDto? = userService.user(userId)
 
-    @PostMapping()
+    @PostMapping
     @PreAuthorize("permitAll()")
     fun create(@RequestBody dto: RegistrationDto): UserDto = userService.create(dto)
+
+    @GetMapping("/{userId}/friends")
+    @PreAuthorize("isAuthenticated()")
+    fun friends(@PathVariable userId: Long): Set<FriendDto> = userService.friends(userId)
+
+    @PutMapping("/{userId}/friends/{friendIdentifier}")
+    @PreAuthorize("isAuthenticated()")
+    fun addFriend(@PathVariable userId: Long,
+                  @PathVariable friendIdentifier: String): UserDto {
+        return userService.addFriend(userId, friendIdentifier)
+    }
 
 }

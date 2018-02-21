@@ -10,15 +10,19 @@ import javax.persistence.FetchType.LAZY
 @Entity
 @Table(name="user")
 internal data class User(
-        @Id @GeneratedValue(strategy = AUTO) private val id: Long = 0,
+        @Id @GeneratedValue(strategy = AUTO)
+        val id: Long = 0,
 
-        @Column(unique = true) val username: String = "",
+        @Column(unique = true)
+        val username: String = "",
 
         var password: String = "",
 
-        @Column(unique = true) val email: String = "",
+        @Column(unique = true)
+        val email: String = "",
 
-        @Column(unique = true, nullable = false) val mobileNumber: String = "",
+        @Column(unique = true, nullable = false)
+        val mobileNumber: String = "",
 
         @ManyToMany
         @JoinTable(name = "user_role",
@@ -32,7 +36,8 @@ internal data class User(
         @OneToMany(mappedBy = "invitee")
         private val friendsInvitees: Set<Friendship> = emptySet(),
 
-        @ManyToOne(fetch = LAZY) @JoinColumn(name="group_id") private val group: Group? = null) {
+        @ManyToOne @JoinColumn(name="group_id")
+        private val group: Group? = null) {
 
     fun toDto(): UserDto {
         return UserDto(
@@ -45,8 +50,10 @@ internal data class User(
     }
 
     private fun toFriendDto(friendship: Friendship): FriendDto {
+        val partner = friendship.partner(username)
         return FriendDto(
-                friendship.partner(username)?.username ?: "",
+                partner?.id ?: -1,
+                partner?.username ?: "",
                 !friendship.isInviter(username),
                 friendship.activated
         )
