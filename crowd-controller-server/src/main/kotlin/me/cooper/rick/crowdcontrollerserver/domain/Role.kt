@@ -1,8 +1,11 @@
 package me.cooper.rick.crowdcontrollerserver.domain
 
 import me.cooper.rick.crowdcontrollerapi.constants.Role
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.AUTO
+import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
 @Table(name = "role")

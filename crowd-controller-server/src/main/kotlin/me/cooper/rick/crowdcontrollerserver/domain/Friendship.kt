@@ -3,7 +3,6 @@ package me.cooper.rick.crowdcontrollerserver.domain
 import java.io.Serializable
 import java.util.*
 import javax.persistence.*
-import javax.persistence.FetchType.LAZY
 
 @Entity
 @IdClass(FriendshipId::class)

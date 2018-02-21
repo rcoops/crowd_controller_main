@@ -3,8 +3,6 @@ package me.cooper.rick.crowdcontrollerserver.service
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
-import me.cooper.rick.crowdcontrollerserver.domain.User
-import java.security.Principal
 
 interface UserService {
 

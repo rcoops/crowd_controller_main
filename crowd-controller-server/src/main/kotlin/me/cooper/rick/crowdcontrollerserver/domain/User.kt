@@ -6,7 +6,6 @@ import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import java.util.*
 import javax.persistence.*
 import javax.persistence.GenerationType.AUTO
-import javax.persistence.FetchType.LAZY
 
 @Entity
 @Table(name="user")
