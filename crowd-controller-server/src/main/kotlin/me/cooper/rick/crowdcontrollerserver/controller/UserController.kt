@@ -30,8 +30,11 @@ class UserController(private val userService: UserService) {
     @PutMapping("/{userId}/friends/{friendIdentifier}")
     @PreAuthorize("isAuthenticated()")
     fun addFriend(@PathVariable userId: Long,
-                  @PathVariable friendIdentifier: String): UserDto {
-        return userService.addFriend(userId, friendIdentifier)
-    }
+                  @PathVariable friendIdentifier: String): UserDto = userService.addFriend(userId, friendIdentifier)
+
+    @PutMapping("/{userId}/friends/{friendId}/activate")
+    @PreAuthorize("isAuthenticated()")
+    fun acceptFriendRequest(@PathVariable userId: Long,
+                  @PathVariable friendId: Long): UserDto = userService.acceptFriendRequest(userId, friendId)
 
 }

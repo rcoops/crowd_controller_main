@@ -32,3 +32,8 @@ security:
 
 management:
   context-path: /actuator
+
+endpoints:
+  shutdown:
+    enabled: true
+    sensitive: false

@@ -43,14 +43,12 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
             val friendship = Friendship(user, friend, false)
             friendshipRepository.saveAndFlush(friendship)
         }
-        val newUSer = userRepository.findOne(userId)
-        val newDto = newUSer.toDto()
-        return newDto
+        return userRepository.findOne(userId).toDto()
     }
 
     override fun acceptFriendRequest(userId: Long, friendId: Long): UserDto {
         val friendship = friendshipRepository.findFriendshipBetweenUsers(userId, friendId)
-        friendshipRepository.save(friendship?.copy(activated = true))
+        friendshipRepository.saveAndFlush(friendship?.copy(activated = true))
 
         return userRepository.findOne(userId).toDto()
     }

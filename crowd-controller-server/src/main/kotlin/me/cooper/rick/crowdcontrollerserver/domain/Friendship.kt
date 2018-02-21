@@ -17,6 +17,7 @@ internal data class Friendship(
 
     fun partner(username: String): User? = if (isInviter(username)) invitee else inviter
 
+    // Overrides required to prevent circular reference
 
     override fun hashCode(): Int {
         return Objects.hash(inviter?.id, invitee?.id, activated)

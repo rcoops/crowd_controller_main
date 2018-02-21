@@ -28,7 +28,7 @@ internal data class User(
         @JoinTable(name = "user_role",
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
                 inverseJoinColumns = [(JoinColumn(name="role_id", referencedColumnName = "id"))])
-        val roles: Set<Role> = setOf(Role(name = Role.USER)),
+        val roles: Set<Role> = setOf(Role()),
 
         @OneToMany(mappedBy = "inviter")
         private val friendsInviters: Set<Friendship> = emptySet(),
@@ -44,6 +44,7 @@ internal data class User(
                 id,
                 username,
                 email,
+                mobileNumber,
                 (friendsInvitees + friendsInviters).map(this::toFriendDto).toSet(),
                 roles.map { it.name }.toSet()
         )

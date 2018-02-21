@@ -1,5 +1,0 @@
-#!/bin/bash
-ssh stb098@helios.csesalford.com <<< $'rm crowd-controller-server-*.jar'
-
-sftp stb098@helios.csesalford.com <<< $'put target/crowd-controller-server-*.jar'
-ssh stb098@helios.csesalford.com <<< $'java -jar crowd-controller-server-*.jar'

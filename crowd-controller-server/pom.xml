@@ -110,7 +110,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>deploy/deploy</executable>
+                            <executable>deploy/deploy.sh</executable>
                         </configuration>
                     </execution>
                 </executions>
