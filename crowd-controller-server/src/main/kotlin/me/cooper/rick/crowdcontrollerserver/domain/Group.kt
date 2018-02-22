@@ -12,7 +12,7 @@ internal data class Group(
         @OneToOne val admin: User? = null,
         @OneToMany(mappedBy = "group") val members: MutableSet<User> = mutableSetOf()) {
 
-    fun toDto(): GroupDto = GroupDto(id!!, admin!!.id, memberIds().toSet())
+    fun toDto(): GroupDto = GroupDto(id!!, admin!!.toDto(), members.map { it.toDto() })
 
     private fun memberIds(): Array<Long> {
         return members.map { it.id }.toTypedArray()
@@ -29,12 +29,8 @@ internal data class Group(
 
     companion object {
 
-        fun fromUser(user: User): Group {
-            return Group(
-                    null,
-                    user,
-                    mutableSetOf(user)
-            )
+        fun fromUsers(user: User, members: List<User>): Group {
+            return Group(null, user, members.toMutableSet())
         }
 
     }

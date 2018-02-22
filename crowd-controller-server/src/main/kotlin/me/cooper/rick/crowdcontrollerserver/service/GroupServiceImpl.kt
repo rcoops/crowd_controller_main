@@ -1,6 +1,7 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
 import me.cooper.rick.crowdcontrollerapi.constants.Role.ROLE_GROUP_ADMIN
+import me.cooper.rick.crowdcontrollerapi.dto.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.domain.Group
@@ -23,14 +24,14 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     override fun group(groupId: Long): GroupDto? = groupRepository.findOne(groupId).toDto()
 
-    override fun create(groupDto: GroupDto): UserDto {
-        val user = userRepository.findOne(groupDto.adminId)
-        val group = groupRepository.save(Group.fromUser(user))
-        val role = roleRepository.findByName(ROLE_GROUP_ADMIN.name)
-        userRepository.saveAndFlush(user.copy(group = group, roles = (user.roles + role)))
-        val userDto = userRepository.findOne(groupDto.adminId).toDto()
-        LOGGER.debug("New group created ${group.toDto()} by $userDto")
-        return userDto
+    override fun create(createGroupDto: CreateGroupDto): GroupDto {
+        val user = userRepository.findOne(createGroupDto.adminId)
+        val members = userRepository.findAllWithIdIn(createGroupDto.members)
+        val group = groupRepository.save(Group.fromUsers(user, members))
+        userRepository.saveAndFlush(user.copy(group = group))
+        val groupDto = group.toDto()
+        LOGGER.debug("New group created $groupDto by ${user.username}")
+        return groupDto
     }
 
     override fun addToGroup(groupId: Long, userId: Long): GroupDto {
@@ -63,6 +64,11 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
             groupRepository.flush()
             true
         }
+    }
+
+    override fun admin(groupId: Long): String {
+        val group = groupRepository.findOne(groupId)
+        return group.admin!!.username
     }
 
     private fun removeGroupFromUsers(users: List<User>) {

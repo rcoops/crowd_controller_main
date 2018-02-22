@@ -1,5 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
+import me.cooper.rick.crowdcontrollerapi.dto.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 
@@ -9,12 +10,14 @@ interface GroupService {
 
     fun groups(): List<GroupDto>
 
-    fun create(groupDto: GroupDto): UserDto
+    fun create(createGroupDto: CreateGroupDto): GroupDto
 
     fun addToGroup(groupId: Long, userId: Long): GroupDto
 
     fun removeFromGroup(groupId: Long, userId: Long): GroupDto
 
     fun removeGroup(groupId: Long): Boolean
+
+    fun admin(groupId: Long): String
 
 }

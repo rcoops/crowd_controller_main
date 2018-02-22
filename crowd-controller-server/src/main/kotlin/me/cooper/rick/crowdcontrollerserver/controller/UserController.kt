@@ -33,20 +33,21 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/{userId}/friends", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("isAuthenticated() and #principal.name==@userServiceImpl.user(#userId)?.username")
-    fun friends(@PathVariable userId: Long,
-                principal: Principal): Set<FriendDto> = userService.friends(userId)
+    @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and #principal.name==@userServiceImpl.user(#userId)?.username")
+    fun friends(@PathVariable userId: Long, principal: Principal): Set<FriendDto> = userService.friends(userId)
 
     @PutMapping("/{userId}/friends/{friendIdentifier}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and #principal.name==@userServiceImpl.user(#userId)?.username")
     fun addFriend(@PathVariable userId: Long,
-                  @PathVariable friendIdentifier: String,
-                  principal: Principal): UserDto = userService.addFriend(userId, friendIdentifier)
+                  @PathVariable friendIdentifier: String, principal: Principal): UserDto {
+        return userService.addFriend(userId, friendIdentifier)
+    }
 
     @PutMapping("/{userId}/friends/{friendId}/activate", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("isAuthenticated() and #principal.name==@userServiceImpl.user(#userId)?.username")
+    @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and #principal.name==@userServiceImpl.user(#friendId)?.username")
     fun acceptFriendRequest(@PathVariable userId: Long,
-                            @PathVariable friendId: Long,
-                            principal: Principal): UserDto = userService.acceptFriendRequest(userId, friendId)
+                            @PathVariable friendId: Long, principal: Principal): UserDto {
+        return userService.acceptFriendRequest(userId, friendId)
+    }
 
 }
