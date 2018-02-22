@@ -1,5 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.controller
 
+import io.swagger.annotations.Api
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
@@ -10,6 +11,7 @@ import java.security.Principal
 
 @RestController
 @RequestMapping("/users")
+@Api(value = "User", description = "REST API for User", tags = ["User"])
 class UserController(private val userService: UserService) {
 
     @GetMapping
