@@ -8,11 +8,11 @@ import javax.persistence.GenerationType.AUTO
 @Entity
 @Table(name = "clique")
 internal data class Group(
-        @Id @GeneratedValue(strategy = AUTO) val id: Long = -1,
+        @Id @GeneratedValue(strategy = AUTO) val id: Long? = null,
         @OneToOne val admin: User? = null,
         @OneToMany(mappedBy = "group") val members: MutableSet<User> = mutableSetOf()) {
 
-    fun toDto(): GroupDto = GroupDto(id, admin?.id ?: -1, memberIds().toSet())
+    fun toDto(): GroupDto = GroupDto(id!!, admin!!.id, memberIds().toSet())
 
     private fun memberIds(): Array<Long> {
         return members.map { it.id }.toTypedArray()
@@ -25,6 +25,18 @@ internal data class Group(
     override fun toString(): String {
         return "Group(id=$id, admin_id=${admin?.id}, " +
                 "members=[${memberIds().joinToString(", ")}])"
+    }
+
+    companion object {
+
+        fun fromUser(user: User): Group {
+            return Group(
+                    null,
+                    user,
+                    mutableSetOf(user)
+            )
+        }
+
     }
 
 }

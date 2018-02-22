@@ -23,12 +23,12 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     override fun group(groupId: Long): GroupDto? = groupRepository.findOne(groupId).toDto()
 
-    override fun create(userId: Long): UserDto {
-        val user = userRepository.findOne(userId)
-        val group = groupRepository.save(Group(admin = user, members = mutableSetOf(user)))
+    override fun create(groupDto: GroupDto): UserDto {
+        val user = userRepository.findOne(groupDto.adminId)
+        val group = groupRepository.save(Group.fromUser(user))
         val role = roleRepository.findByName(ROLE_GROUP_ADMIN.name)
         userRepository.saveAndFlush(user.copy(group = group, roles = (user.roles + role)))
-        val userDto = userRepository.findOne(userId).toDto()
+        val userDto = userRepository.findOne(groupDto.adminId).toDto()
         LOGGER.debug("New group created ${group.toDto()} by $userDto")
         return userDto
     }

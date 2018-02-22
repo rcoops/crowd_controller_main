@@ -9,7 +9,7 @@ interface GroupService {
 
     fun groups(): List<GroupDto>
 
-    fun create(userId: Long): UserDto
+    fun create(groupDto: GroupDto): UserDto
 
     fun addToGroup(groupId: Long, userId: Long): GroupDto
 
