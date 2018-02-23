@@ -4,8 +4,9 @@ import io.swagger.annotations.Api
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerapi.exception.FriendNotFoundException
 import me.cooper.rick.crowdcontrollerserver.service.UserService
-import org.springframework.http.HttpStatus.CREATED
+import org.springframework.http.HttpStatus.*
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -39,8 +40,13 @@ class UserController(private val userService: UserService) {
     @PutMapping("/{userId}/friends/{friendIdentifier}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and #principal.name==@userServiceImpl.user(#userId)?.username")
     fun addFriend(@PathVariable userId: Long,
-                  @PathVariable friendIdentifier: String, principal: Principal): UserDto {
-        return userService.addFriend(userId, friendIdentifier)
+                  @PathVariable friendIdentifier: String, principal: Principal): ResponseEntity<UserDto> {
+        return try {
+            ResponseEntity(userService.addFriend(userId, friendIdentifier), OK)
+        } catch (e: FriendNotFoundException) {
+            ResponseEntity(userService.user(userId)!!, NOT_FOUND)
+        }
+
     }
 
     @PutMapping("/{userId}/friends/{friendId}/activate", produces = [APPLICATION_JSON_VALUE])

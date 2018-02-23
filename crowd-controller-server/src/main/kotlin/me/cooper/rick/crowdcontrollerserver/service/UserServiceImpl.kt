@@ -3,6 +3,7 @@ package me.cooper.rick.crowdcontrollerserver.service
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerapi.exception.FriendNotFoundException
 import me.cooper.rick.crowdcontrollerserver.domain.Friendship
 import me.cooper.rick.crowdcontrollerserver.domain.User
 import me.cooper.rick.crowdcontrollerserver.repository.FriendshipRepository
@@ -36,12 +37,17 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
     override fun friends(id: Long): Set<FriendDto> = userRepository.findOne(id).toDto().friends
 
+    @Throws(FriendNotFoundException::class)
     override fun addFriend(userId: Long, friendIdentifier: String): UserDto {
         val user = userRepository.findOne(userId)
-        val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendIdentifier)
-        if (!isExistingFriendship(userId, friend!!.id)) {
+
+        val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendIdentifier) ?:
+        throw FriendNotFoundException()
+
+        if (!isExistingFriendship(userId, friend.id)) {
             val friendship = Friendship(user, friend, false)
             friendshipRepository.saveAndFlush(friendship)
+            userRepository.flush()
         }
         return userRepository.findOne(userId).toDto()
     }
