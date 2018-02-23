@@ -16,8 +16,8 @@ interface UserService {
 
     fun friends(id: Long): Set<FriendDto>
 
-    fun addFriend(userId: Long, friendIdentifier: String): UserDto
+    fun addFriend(userId: Long, friendIdentifier: String): Set<FriendDto>
 
-    fun acceptFriendRequest(userId: Long, friendId: Long): UserDto
+    fun acceptFriendRequest(userId: Long, friendId: Long): Set<FriendDto>
 
 }

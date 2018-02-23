@@ -40,11 +40,11 @@ class UserController(private val userService: UserService) {
     @PutMapping("/{userId}/friends/{friendIdentifier}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and #principal.name==@userServiceImpl.user(#userId)?.username")
     fun addFriend(@PathVariable userId: Long,
-                  @PathVariable friendIdentifier: String, principal: Principal): ResponseEntity<UserDto> {
+                  @PathVariable friendIdentifier: String, principal: Principal): ResponseEntity<Set<FriendDto>> {
         return try {
             ResponseEntity(userService.addFriend(userId, friendIdentifier), OK)
         } catch (e: FriendNotFoundException) {
-            ResponseEntity(userService.user(userId)!!, NOT_FOUND)
+            ResponseEntity(userService.friends(userId), NOT_FOUND)
         }
 
     }
@@ -52,7 +52,7 @@ class UserController(private val userService: UserService) {
     @PutMapping("/{userId}/friends/{friendId}/activate", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("hasRole('ADMIN') or isAuthenticated() and #principal.name==@userServiceImpl.user(#friendId)?.username")
     fun acceptFriendRequest(@PathVariable userId: Long,
-                            @PathVariable friendId: Long, principal: Principal): UserDto {
+                            @PathVariable friendId: Long, principal: Principal): Set<FriendDto> {
         return userService.acceptFriendRequest(userId, friendId)
     }
 
