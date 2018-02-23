@@ -20,4 +20,6 @@ interface UserService {
 
     fun acceptFriendRequest(userId: Long, friendId: Long): Set<FriendDto>
 
+    fun deleteFriend(userId: Long, friendId: Long): Set<FriendDto>
+
 }

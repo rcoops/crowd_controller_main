@@ -51,6 +51,13 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         return userRepository.findOne(userId).toDto().friends
     }
 
+    override fun deleteFriend(userId: Long, friendId: Long): Set<FriendDto> {
+        val friendship = friendshipRepository.findFriendshipBetweenUsers(userId, friendId)
+        if (friendship != null) deleteFriendship(friendship)
+
+        return userRepository.findOne(userId).toDto().friends
+    }
+
     private fun newUser(dto: RegistrationDto): User {
         val user = User.fromDto(dto)
         val roles = roleRepository.findAllByNameIn(user.roles.map(Role::name)).toSet()
@@ -65,6 +72,12 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     @Transactional(propagation = Propagation.REQUIRES_NEW) // Needs separate transaction to update user
     fun saveFriendship(friendship: Friendship) {
         friendshipRepository.saveAndFlush(friendship)
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // Needs separate transaction to update user
+    fun deleteFriendship(friendship: Friendship) {
+        friendshipRepository.delete(friendship)
+        friendshipRepository.flush()
     }
 
 }
