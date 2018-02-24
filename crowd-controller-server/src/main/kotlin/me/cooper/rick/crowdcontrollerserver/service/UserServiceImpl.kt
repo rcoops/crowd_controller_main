@@ -39,7 +39,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendIdentifier) ?:
         throw FriendNotFoundException()
 
-        if (!isExistingFriendship(userId, friend.id)) saveFriendship(Friendship(user, friend, false))
+        if (!friendshipExists(userId, friend.id)) saveFriendship(Friendship(user, friend, false))
 
         return userRepository.findOne(userId).toDto().friends
     }
@@ -53,7 +53,8 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
     override fun deleteFriend(userId: Long, friendId: Long): Set<FriendDto> {
         val friendship = friendshipRepository.findFriendshipBetweenUsers(userId, friendId)
-        if (friendship != null) deleteFriendship(friendship)
+
+        friendship?.let(this::deleteFriendship)
 
         return userRepository.findOne(userId).toDto().friends
     }
@@ -65,7 +66,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         return user.copy(password = bCryptPasswordEncoder.encode(dto.password), roles = roles)
     }
 
-    private fun isExistingFriendship(userId: Long, friendId: Long): Boolean {
+    private fun friendshipExists(userId: Long, friendId: Long): Boolean {
         return friendshipRepository.findFriendshipBetweenUsers(userId, friendId) != null
     }
 
