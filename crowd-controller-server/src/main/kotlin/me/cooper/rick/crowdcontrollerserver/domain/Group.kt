@@ -1,6 +1,8 @@
 package me.cooper.rick.crowdcontrollerserver.domain
 
 import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
+import java.sql.Timestamp
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 import javax.persistence.GenerationType.AUTO
@@ -10,7 +12,8 @@ import javax.persistence.GenerationType.AUTO
 internal data class Group(
         @Id @GeneratedValue(strategy = AUTO) val id: Long? = null,
         @OneToOne val admin: User? = null,
-        @OneToMany(mappedBy = "group") val members: MutableSet<User> = mutableSetOf()) {
+        @OneToMany(mappedBy = "group") val members: MutableSet<User> = mutableSetOf(),
+        val created: Timestamp = Timestamp.valueOf(LocalDateTime.now())) {
 
     fun toDto(): GroupDto = GroupDto(id!!, admin!!.toDto(), members.map { it.toDto() })
 
@@ -19,11 +22,11 @@ internal data class Group(
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(id, admin?.id, *memberIds())
+        return Objects.hash(id, admin?.id, *memberIds(), created)
     }
 
     override fun toString(): String {
-        return "Group(id=$id, admin_id=${admin?.id}, " +
+        return "Group(id=$id, admin_id=${admin?.id}, created= $created" +
                 "members=[${memberIds().joinToString(", ")}])"
     }
 

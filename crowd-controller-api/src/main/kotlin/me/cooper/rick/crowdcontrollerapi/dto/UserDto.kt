@@ -9,5 +9,6 @@ data class UserDto(
         val mobileNumber: String = "",
         val friends: Set<FriendDto> = setOf(),
         val roles: Set<String> = setOf(Role.ROLE_USER.name),
-        val group: Long? = null
+        val group: Long? = null,
+        val groupAccepted: Boolean = false
 )

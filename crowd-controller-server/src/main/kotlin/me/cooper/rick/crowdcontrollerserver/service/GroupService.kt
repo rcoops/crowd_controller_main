@@ -6,11 +6,11 @@ import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 
 interface GroupService {
 
-    fun group(groupId: Long): GroupDto?
+    fun group(groupId: Long): GroupDto
 
     fun groups(): List<GroupDto>
 
-    fun create(createGroupDto: CreateGroupDto): GroupDto
+    fun create(dto: CreateGroupDto): GroupDto
 
     fun addToGroup(groupId: Long, userId: Long): GroupDto
 
@@ -19,5 +19,7 @@ interface GroupService {
     fun removeGroup(groupId: Long): Boolean
 
     fun admin(groupId: Long): String
+
+    fun acceptGroupInvite(groupId: Long, userId: Long): GroupDto
 
 }

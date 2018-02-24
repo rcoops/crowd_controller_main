@@ -37,7 +37,9 @@ internal data class User(
         private val friendsInvitees: Set<Friendship> = emptySet(),
 
         @ManyToOne @JoinColumn(name="group_id", referencedColumnName = "id")
-        private val group: Group? = null) {
+        val group: Group? = null,
+
+        val groupAccepted: Boolean = false) {
 
     fun toDto(): UserDto {
         return UserDto(
@@ -47,7 +49,8 @@ internal data class User(
                 mobileNumber,
                 friends().map(this::toFriendDto).toSet(),
                 roles.map { it.name }.toSet(),
-                group?.id
+                group?.id,
+                groupAccepted
         )
     }
 
@@ -61,7 +64,8 @@ internal data class User(
                 partner?.id ?: -1,
                 partner?.username ?: "",
                 !friendship.isInviter(username),
-                friendship.activated
+                friendship.activated,
+                partner?.groupAccepted ?: false
         )
     }
 
