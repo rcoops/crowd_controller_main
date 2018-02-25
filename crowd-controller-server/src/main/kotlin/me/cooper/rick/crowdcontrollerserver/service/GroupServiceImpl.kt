@@ -2,10 +2,10 @@ package me.cooper.rick.crowdcontrollerserver.service
 
 import me.cooper.rick.crowdcontrollerapi.dto.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
-import me.cooper.rick.crowdcontrollerserver.controller.exception.GroupNotFoundException
-import me.cooper.rick.crowdcontrollerserver.controller.exception.UserInGroupException
-import me.cooper.rick.crowdcontrollerserver.controller.exception.UserNotFoundException
-import me.cooper.rick.crowdcontrollerserver.controller.exception.UserNotGroupedException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.GroupNotFoundException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserInGroupException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotFoundException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotGroupedException
 import me.cooper.rick.crowdcontrollerserver.domain.Group
 import me.cooper.rick.crowdcontrollerserver.domain.User
 import me.cooper.rick.crowdcontrollerserver.repository.GroupRepository

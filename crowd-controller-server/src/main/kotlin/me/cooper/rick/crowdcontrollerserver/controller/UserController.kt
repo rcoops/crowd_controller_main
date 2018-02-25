@@ -4,13 +4,11 @@ import io.swagger.annotations.Api
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
-import me.cooper.rick.crowdcontrollerserver.controller.exception.UserNotFoundException
 import me.cooper.rick.crowdcontrollerserver.controller.constants.Authorization.Companion.IS_ADMIN
 import me.cooper.rick.crowdcontrollerserver.controller.constants.Authorization.Companion.IS_USER
 import me.cooper.rick.crowdcontrollerserver.service.UserService
-import org.springframework.http.HttpStatus.*
+import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
-import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
@@ -29,11 +27,9 @@ class UserController(private val userService: UserService) {
     fun user(@PathVariable userId: Long, principal: Principal): UserDto? = userService.user(userId)
 
     @PostMapping(produces = [APPLICATION_JSON_VALUE])
+    @ResponseStatus(CREATED)
     @PreAuthorize("permitAll()")
-    fun create(@RequestBody dto: RegistrationDto): ResponseEntity<UserDto> {
-        val userDto = userService.create(dto)
-        return ResponseEntity(userDto, CREATED)
-    }
+    fun create(@RequestBody dto: RegistrationDto): UserDto = userService.create(dto)
 
     @GetMapping("/{userId}/friends", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_USER")
@@ -42,13 +38,8 @@ class UserController(private val userService: UserService) {
     @PutMapping("/{userId}/friends/{friendIdentifier:.*}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_USER")
     fun addFriend(@PathVariable userId: Long,
-                  @PathVariable friendIdentifier: String, principal: Principal): ResponseEntity<Set<FriendDto>> {
-        return try {
-            ResponseEntity(userService.addFriend(userId, friendIdentifier), OK)
-        } catch (e: UserNotFoundException) {
-            ResponseEntity(userService.friends(userId), NOT_FOUND)
-        }
-
+                  @PathVariable friendIdentifier: String, principal: Principal): Set<FriendDto> {
+        return userService.addFriend(userId, friendIdentifier)
     }
 
     @PutMapping("/{userId}/friends/{friendId}/accept", produces = [APPLICATION_JSON_VALUE])

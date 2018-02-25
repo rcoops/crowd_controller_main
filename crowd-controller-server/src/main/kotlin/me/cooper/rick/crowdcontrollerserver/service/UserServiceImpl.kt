@@ -3,7 +3,7 @@ package me.cooper.rick.crowdcontrollerserver.service
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
-import me.cooper.rick.crowdcontrollerserver.controller.exception.UserNotFoundException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotFoundException
 import me.cooper.rick.crowdcontrollerserver.domain.Friendship
 import me.cooper.rick.crowdcontrollerserver.domain.Role
 import me.cooper.rick.crowdcontrollerserver.domain.User

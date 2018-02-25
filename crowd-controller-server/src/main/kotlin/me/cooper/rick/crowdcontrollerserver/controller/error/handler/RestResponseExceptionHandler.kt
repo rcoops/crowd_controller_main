@@ -1,8 +1,8 @@
-package me.cooper.rick.crowdcontrollerserver.controller
+package me.cooper.rick.crowdcontrollerserver.controller.error.handler
 
-import me.cooper.rick.crowdcontrollerserver.controller.exception.APIError
-import me.cooper.rick.crowdcontrollerserver.controller.exception.ResourceNotFoundException
-import me.cooper.rick.crowdcontrollerserver.controller.exception.UserGroupException
+import me.cooper.rick.crowdcontrollerserver.controller.error.model.APIError
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.ResourceNotFoundException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserGroupException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.NOT_FOUND
