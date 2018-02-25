@@ -12,6 +12,7 @@ internal class UserDetailsServiceImpl(private val userRepository: UserRepository
 
     @Transactional(readOnly = true)
     override fun loadUserByUsername(username: String): UserDetails {
+        TODO("throw usernotfoun")
         val user = userRepository.findByUsername(username) ?: userRepository.findByEmail(username)
         val grantedAuthorities = user!!.roles.map { SimpleGrantedAuthority(it.name) }
 
