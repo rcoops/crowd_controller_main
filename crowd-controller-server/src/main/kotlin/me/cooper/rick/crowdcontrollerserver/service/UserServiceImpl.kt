@@ -26,29 +26,36 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
     override fun allUsers(): List<UserDto> = userRepository.findAll().map(User::toDto)
 
-    override fun user(username: String): UserDto? = userRepository.findByUsername(username)?.toDto()
+    @Throws(UserNotFoundException::class)
+    override fun user(username: String): UserDto {
+        return userRepository.findByUsername(username)?.toDto() ?:
+        throw UserNotFoundException("User with name $username does not exist")
+    }
 
-    override fun user(id: Long): UserDto? = userRepository.findOne(id)?.toDto()
+    @Throws(UserNotFoundException::class)
+    override fun user(id: Long): UserDto = userEntity(id).toDto()
 
-    override fun friends(id: Long): Set<FriendDto> = userRepository.findOne(id).toDto().friends
+    @Throws(UserNotFoundException::class)
+    override fun friends(id: Long): Set<FriendDto> = user(id).friends
 
     @Throws(UserNotFoundException::class)
     override fun addFriend(userId: Long, friendIdentifier: String): Set<FriendDto> {
-        val user = userRepository.findOne(userId)
+        val user = userEntity(userId)
 
         val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendIdentifier) ?:
-        throw UserNotFoundException()
+        throw UserNotFoundException("User with detail: $friendIdentifier does not exist")
 
         if (!friendshipExists(userId, friend.id)) saveFriendship(Friendship(user, friend, false))
 
-        return userRepository.findOne(userId).toDto().friends
+        return friends(userId)
     }
 
     override fun acceptFriendRequest(userId: Long, friendId: Long): Set<FriendDto> {
         val friendship = friendshipRepository.findFriendshipBetweenUsers(userId, friendId)
+
         saveFriendship(friendship?.copy(activated = true)!!)
 
-        return userRepository.findOne(userId).toDto().friends
+        return friends(userId)
     }
 
     override fun deleteFriend(userId: Long, friendId: Long): Set<FriendDto> {
@@ -56,7 +63,18 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
         friendship?.let(this::deleteFriendship)
 
-        return userRepository.findOne(userId).toDto().friends
+        return friends(userId)
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // Needs separate transaction to update user
+    fun saveFriendship(friendship: Friendship) {
+        friendshipRepository.saveAndFlush(friendship)
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // Needs separate transaction to update user
+    fun deleteFriendship(friendship: Friendship) {
+        friendshipRepository.delete(friendship)
+        friendshipRepository.flush()
     }
 
     private fun newUser(dto: RegistrationDto): User {
@@ -70,15 +88,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         return friendshipRepository.findFriendshipBetweenUsers(userId, friendId) != null
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW) // Needs separate transaction to update user
-    fun saveFriendship(friendship: Friendship) {
-        friendshipRepository.saveAndFlush(friendship)
-    }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW) // Needs separate transaction to update user
-    fun deleteFriendship(friendship: Friendship) {
-        friendshipRepository.delete(friendship)
-        friendshipRepository.flush()
-    }
+    @Throws(UserNotFoundException::class)
+    private fun userEntity(id: Long): User = userRepository.findOne(id) ?: throw UserNotFoundException(id)
 
 }
