@@ -1,6 +1,6 @@
-package me.cooper.rick.crowdcontrollerserver.repository
+package me.cooper.rick.crowdcontrollerserver.persistence.repository
 
-import me.cooper.rick.crowdcontrollerserver.domain.Friendship
+import me.cooper.rick.crowdcontrollerserver.persistence.model.Friendship
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param

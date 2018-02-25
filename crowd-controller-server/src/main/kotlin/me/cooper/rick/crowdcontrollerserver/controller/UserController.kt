@@ -49,7 +49,7 @@ class UserController(private val userService: UserService) {
         return userService.acceptFriendRequest(userId, friendId)
     }
 
-    @DeleteMapping("/{userId}/friends/{friendId}")
+    @DeleteMapping("/{userId}/friends/{friendId}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_USER")
     fun deleteFriend(@PathVariable userId: Long,
                      @PathVariable friendId: Long, principal: Principal): Set<FriendDto> {

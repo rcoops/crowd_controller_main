@@ -1,6 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
-import me.cooper.rick.crowdcontrollerserver.repository.UserRepository
+import me.cooper.rick.crowdcontrollerserver.persistence.repository.UserRepository
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

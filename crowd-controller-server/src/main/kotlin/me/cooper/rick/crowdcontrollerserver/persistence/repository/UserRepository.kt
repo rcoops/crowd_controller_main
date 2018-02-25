@@ -1,7 +1,7 @@
-package me.cooper.rick.crowdcontrollerserver.repository
+package me.cooper.rick.crowdcontrollerserver.persistence.repository
 
-import me.cooper.rick.crowdcontrollerserver.domain.Group
-import me.cooper.rick.crowdcontrollerserver.domain.User
+import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
+import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param

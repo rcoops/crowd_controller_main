@@ -1,6 +1,6 @@
-package me.cooper.rick.crowdcontrollerserver.repository
+package me.cooper.rick.crowdcontrollerserver.persistence.repository
 
-import me.cooper.rick.crowdcontrollerserver.domain.Role
+import me.cooper.rick.crowdcontrollerserver.persistence.model.Role
 import org.springframework.data.jpa.repository.JpaRepository
 
 internal interface RoleRepository: JpaRepository<Role, Long> {

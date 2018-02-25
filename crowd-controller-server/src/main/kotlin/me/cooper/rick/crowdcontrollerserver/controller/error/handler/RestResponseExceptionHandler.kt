@@ -1,6 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.controller.error.handler
 
-import me.cooper.rick.crowdcontrollerserver.controller.error.model.APIError
+import me.cooper.rick.crowdcontrollerapi.dto.error.APIErrorDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.ResourceNotFoundException
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserGroupException
 import org.springframework.http.HttpHeaders
@@ -18,16 +18,16 @@ class RestResponseExceptionHandler: ResponseEntityExceptionHandler() {
     
     @ExceptionHandler(value = [ResourceNotFoundException::class])
     fun handle(e: ResourceNotFoundException, request: WebRequest): ResponseEntity<Any> {
-        return responseEntity(APIError(NOT_FOUND.value(), e.message))
+        return responseEntity(APIErrorDto(NOT_FOUND.value(), e.message))
     }
 
     @ExceptionHandler(value = [UserGroupException::class])
     fun handle(e: UserGroupException, request: WebRequest): ResponseEntity<Any> {
-        return responseEntity(APIError(BAD_REQUEST.value(), e.message))
+        return responseEntity(APIErrorDto(BAD_REQUEST.value(), e.message))
     }
 
-    private fun responseEntity(apiError: APIError): ResponseEntity<Any> {
-        return ResponseEntity(apiError, HttpHeaders(), HttpStatus.valueOf(apiError.status))
+    private fun responseEntity(dto: APIErrorDto): ResponseEntity<Any> {
+        return ResponseEntity(dto, HttpHeaders(), HttpStatus.valueOf(dto.status))
     }
 
 }

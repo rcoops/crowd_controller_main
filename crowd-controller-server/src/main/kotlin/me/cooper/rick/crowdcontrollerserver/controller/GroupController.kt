@@ -52,7 +52,7 @@ class GroupController(private val groupService: GroupService) {
         return groupService.removeFromGroup(groupId, userId)
     }
 
-    @DeleteMapping("/{groupId}", produces = [APPLICATION_JSON_VALUE])
+    @DeleteMapping("/{groupId}")
     @ResponseStatus(NO_CONTENT)
     @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN")
     fun removeGroup(@PathVariable groupId: Long, principal: Principal) = groupService.removeGroup(groupId)

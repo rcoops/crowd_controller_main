@@ -6,10 +6,10 @@ import me.cooper.rick.crowdcontrollerserver.controller.error.exception.GroupNotF
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserInGroupException
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotFoundException
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotGroupedException
-import me.cooper.rick.crowdcontrollerserver.domain.Group
-import me.cooper.rick.crowdcontrollerserver.domain.User
-import me.cooper.rick.crowdcontrollerserver.repository.GroupRepository
-import me.cooper.rick.crowdcontrollerserver.repository.UserRepository
+import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
+import me.cooper.rick.crowdcontrollerserver.persistence.model.User
+import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupRepository
+import me.cooper.rick.crowdcontrollerserver.persistence.repository.UserRepository
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

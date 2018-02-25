@@ -1,4 +1,4 @@
-package me.cooper.rick.crowdcontrollerserver.domain
+package me.cooper.rick.crowdcontrollerserver.persistence.model
 
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto

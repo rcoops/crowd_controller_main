@@ -1,4 +1,4 @@
-package me.cooper.rick.crowdcontrollerserver.domain
+package me.cooper.rick.crowdcontrollerserver.persistence.model
 
 import java.io.Serializable
 
