@@ -18,12 +18,12 @@ class RestResponseExceptionHandler: ResponseEntityExceptionHandler() {
     
     @ExceptionHandler(value = [ResourceNotFoundException::class])
     fun handle(e: ResourceNotFoundException, request: WebRequest): ResponseEntity<Any> {
-        return responseEntity(APIErrorDto(NOT_FOUND.value(), e.message))
+        return responseEntity(APIErrorDto(NOT_FOUND.value(), "Not Found", e.message))
     }
 
     @ExceptionHandler(value = [UserGroupException::class])
     fun handle(e: UserGroupException, request: WebRequest): ResponseEntity<Any> {
-        return responseEntity(APIErrorDto(BAD_REQUEST.value(), e.message))
+        return responseEntity(APIErrorDto(BAD_REQUEST.value(), "Group Conflict", e.message))
     }
 
     private fun responseEntity(dto: APIErrorDto): ResponseEntity<Any> {
