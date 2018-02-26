@@ -3,25 +3,30 @@ package me.cooper.rick.crowdcontrollerserver.persistence.model
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_EMAIL
+import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_MOBILE
+import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_USERNAME
 import java.util.*
 import javax.persistence.*
 import javax.persistence.GenerationType.AUTO
 
 @Entity
-@Table(name="user")
+@Table(name="user", uniqueConstraints = [
+    UniqueConstraint(name = UNIQUE_USERNAME, columnNames = ["username"]),
+    UniqueConstraint(name = UNIQUE_EMAIL, columnNames = ["email"]),
+    UniqueConstraint(name = UNIQUE_MOBILE, columnNames = ["mobileNumber"])
+])
 internal data class User(
         @Id @GeneratedValue(strategy = AUTO)
         val id: Long = 0,
 
-        @Column(unique = true)
         val username: String = "",
 
         var password: String = "",
 
-        @Column(unique = true)
         val email: String = "",
 
-        @Column(unique = true, nullable = false)
+        @Column(nullable = false)
         val mobileNumber: String = "",
 
         @ManyToMany

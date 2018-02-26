@@ -10,8 +10,8 @@ class APIErrorDto(val status: Int = DEFAULT_STATUS,
     companion object {
 
         private const val DEFAULT_STATUS = 503
-        private const val DEFAULT_ERROR = "Connection Error"
-        private const val DEFAULT_DESCRIPTION = "Unfortunately the service is not currently available. Please try again later."
+        const val DEFAULT_ERROR = "Connection Error"
+        const val DEFAULT_DESCRIPTION = "Unfortunately the service is not currently available. Please try again later."
 
     }
 

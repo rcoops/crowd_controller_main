@@ -6,7 +6,7 @@ echo 'SHUTTING DOWN APP'
 curl -X POST http://stb098.edu.csesalford.com/actuator/shutdown
 echo 'SHUTDOWN END'
 echo 'REMOVING OLD JAR'
-ssh stb098@helios.csesalford.com <<< $'bash stop.sh'
+ssh stb098@helios.csesalford.com <<< $'chmod 777 st*.sh; bash stop.sh'
 echo 'OLD JAR REMOVAL END'
 echo 'DEPLOYING NEW JAR'
 sftp stb098@helios.csesalford.com <<< $'put target/crowd-controller-server-*.jar'
