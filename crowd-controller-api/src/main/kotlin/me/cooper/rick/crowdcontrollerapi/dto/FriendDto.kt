@@ -3,18 +3,19 @@ package me.cooper.rick.crowdcontrollerapi.dto
 data class FriendDto(
         val id: Long = 0,
         val username: String = "",
-        val inGroup: Boolean = false,
-        private val isInviter: Boolean = false,
-        private val activated: Boolean = false) {
-
-    val status: Status = when {
-        activated -> Status.ACTIVATED
-        isInviter -> Status.AWAITING_ACCEPT
-        else -> Status.TO_ACCEPT
-    }
+        val status: Status = Status.TO_ACCEPT,
+        val inGroup: Boolean = false) {
 
     enum class Status {
         ACTIVATED, AWAITING_ACCEPT, TO_ACCEPT
+    }
+
+    companion object {
+        fun getStatus(isInviter: Boolean, isFriendshipActivated: Boolean) = when {
+            isFriendshipActivated -> FriendDto.Status.ACTIVATED
+            isInviter -> FriendDto.Status.AWAITING_ACCEPT
+            else -> FriendDto.Status.TO_ACCEPT
+        }
     }
 
 }
