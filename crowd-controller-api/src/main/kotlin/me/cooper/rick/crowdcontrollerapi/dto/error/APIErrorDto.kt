@@ -1,10 +1,11 @@
 package me.cooper.rick.crowdcontrollerapi.dto.error
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 class APIErrorDto(val status: Int = DEFAULT_STATUS,
                   val error: String = DEFAULT_ERROR,
-                  @SerializedName("error_description")
+                  @get:JsonProperty("error_description")
+                  @param:JsonProperty("error_description")
                   val errorDescription: String = DEFAULT_DESCRIPTION) {
 
     companion object {

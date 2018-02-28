@@ -14,9 +14,9 @@ spring:
     url: jdbc:mysql://helios.csesalford.com:3306/stb098_crowdcontroller?useSSL=false
     username: stb098
     password: '*stb098*'
-  http:
-    converters:
-      preferred-json-mapper: gson
+#  http:
+#    converters:
+#      preferred-json-mapper: gson
 
 security:
   signing-key: MaYzkSjmkzPC57L
