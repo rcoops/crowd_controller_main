@@ -2,10 +2,13 @@ package me.cooper.rick.crowdcontrollerapi.dto.error
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class APIErrorDto(val status: Int = DEFAULT_STATUS,
+class APIErrorDto(@get:JsonProperty("status")
+                  val status: Int = DEFAULT_STATUS,
+
+                  @get:JsonProperty("error")
                   val error: String = DEFAULT_ERROR,
+
                   @get:JsonProperty("error_description")
-                  @param:JsonProperty("error_description")
                   val errorDescription: String = DEFAULT_DESCRIPTION) {
 
     companion object {

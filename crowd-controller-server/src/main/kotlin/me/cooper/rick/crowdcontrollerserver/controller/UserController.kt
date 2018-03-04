@@ -4,8 +4,8 @@ import io.swagger.annotations.Api
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
-import me.cooper.rick.crowdcontrollerserver.controller.constants.Authorization.Companion.IS_ADMIN
-import me.cooper.rick.crowdcontrollerserver.controller.constants.Authorization.Companion.IS_USER
+import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_ADMIN
+import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_PRINCIPAL
 import me.cooper.rick.crowdcontrollerserver.service.UserService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -23,7 +23,7 @@ class UserController(private val userService: UserService) {
     fun users(): List<UserDto> = userService.allUsers()
 
     @GetMapping("/{userId}", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("$IS_ADMIN or $IS_USER")
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun user(@PathVariable userId: Long, principal: Principal): UserDto? = userService.user(userId)
 
     @PostMapping(produces = [APPLICATION_JSON_VALUE])
@@ -32,27 +32,28 @@ class UserController(private val userService: UserService) {
     fun create(@RequestBody dto: RegistrationDto): UserDto = userService.create(dto)
 
     @GetMapping("/{userId}/friends", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("$IS_ADMIN or $IS_USER")
-    fun friends(@PathVariable userId: Long, principal: Principal): Set<FriendDto> = userService.friends(userId)
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
+    fun friends(@PathVariable userId: Long, principal: Principal): List<FriendDto> = userService.friends(userId)
 
     @PutMapping("/{userId}/friends/{friendIdentifier:.*}", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("$IS_ADMIN or $IS_USER")
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun addFriend(@PathVariable userId: Long,
-                  @PathVariable friendIdentifier: String, principal: Principal): Set<FriendDto> {
+                  @PathVariable friendIdentifier: String, principal: Principal): List<FriendDto> {
         return userService.addFriend(userId, friendIdentifier)
     }
 
-    @PutMapping("/{userId}/friends/{friendId}/accept", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("$IS_ADMIN or $IS_USER")
-    fun acceptFriendRequest(@PathVariable userId: Long,
-                            @PathVariable friendId: Long, principal: Principal): Set<FriendDto> {
-        return userService.acceptFriendRequest(userId, friendId)
+    @PutMapping("/{userId}/friends/{friendId}/{isAccepting}", produces = [APPLICATION_JSON_VALUE])
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
+    fun respondToFriendRequest(@PathVariable userId: Long,
+                               @PathVariable friendId: Long,
+                               @PathVariable isAccepting: Boolean, principal: Principal): List<FriendDto> {
+        return userService.respondToFriendRequest(userId, friendId, isAccepting)
     }
 
     @DeleteMapping("/{userId}/friends/{friendId}", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("$IS_ADMIN or $IS_USER")
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun deleteFriend(@PathVariable userId: Long,
-                     @PathVariable friendId: Long, principal: Principal): Set<FriendDto> {
+                     @PathVariable friendId: Long, principal: Principal): List<FriendDto> {
         return userService.deleteFriend(userId, friendId)
     }
 

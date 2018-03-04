@@ -28,4 +28,5 @@ class ResourceServerConfig(
                 .antMatchers("/actuator/**", "api-docs/**")
                 .permitAll()
     }
+
 }

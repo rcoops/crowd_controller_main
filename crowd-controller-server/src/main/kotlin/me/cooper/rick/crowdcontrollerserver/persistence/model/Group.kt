@@ -15,7 +15,7 @@ internal data class Group(
         @OneToMany(mappedBy = "group") val members: MutableSet<User> = mutableSetOf(),
         val created: Timestamp = Timestamp.valueOf(LocalDateTime.now())) {
 
-    fun toDto(): GroupDto = GroupDto(id!!, admin!!.toDto(), members.map { it.toDto() })
+    fun toDto(): GroupDto = GroupDto(id!!, admin!!.id, members.map { it.toDto() })
 
     private fun memberIds(): Array<Long> {
         return members.map { it.id }.toTypedArray()

@@ -7,7 +7,7 @@ data class UserDto(
         val username: String = "",
         val email: String = "",
         val mobileNumber: String = "",
-        val friends: Set<FriendDto> = setOf(),
+        val friends: List<FriendDto> = listOf(),
         val roles: Set<String> = setOf(Role.ROLE_USER.name),
         val group: Long? = null,
         val groupAccepted: Boolean = false

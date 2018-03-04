@@ -22,4 +22,6 @@ interface GroupService {
 
     fun acceptGroupInvite(groupId: Long, userId: Long): GroupDto
 
+    fun isInGroup(groupId: Long, username: String): Boolean
+
 }

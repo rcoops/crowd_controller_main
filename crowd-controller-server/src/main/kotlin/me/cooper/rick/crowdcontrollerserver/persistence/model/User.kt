@@ -53,7 +53,7 @@ internal data class User(
                 username,
                 email,
                 mobileNumber,
-                friends().map(this::toFriendDto).toSet(),
+                friendsToDto(),
                 roles.map { it.name }.toSet(),
                 group?.id,
                 groupAccepted
@@ -62,16 +62,27 @@ internal data class User(
 
     override fun hashCode(): Int = Objects.hash(id, username, email, password, mobileNumber)
 
-    private fun friends() = (friendsInviters + friendsInvitees).toSet()
+    private fun friends(): Set<Friendship> = (friendsInviters + friendsInvitees).toSet()
+
+    private fun friendsToDto(): List<FriendDto> {
+        return friends().map(this::toFriendDto)
+                .sortedWith(compareBy(FriendDto::status, FriendDto::username))
+    }
 
     private fun toFriendDto(friendship: Friendship): FriendDto {
-
+        fun getGroupStatus(user: User?): FriendDto.GroupStatus {
+            return when {
+                user?.group == null -> FriendDto.GroupStatus.INACTIVE
+                user.groupAccepted -> FriendDto.GroupStatus.CONFIRMED
+                else -> FriendDto.GroupStatus.TO_ACCEPT
+            }
+        }
         val partner = friendship.partner(username)
         return FriendDto(
                 id = partner?.id ?: -1,
                 username = partner?.username ?: "",
                 status = getStatus(!friendship.isInviter(username), friendship.activated),
-                inGroup = partner?.groupAccepted ?: false
+                groupStatus = getGroupStatus(partner)
         )
     }
 

@@ -14,12 +14,12 @@ interface UserService {
 
     fun user(id: Long): UserDto?
 
-    fun friends(id: Long): Set<FriendDto>
+    fun friends(id: Long): List<FriendDto>
 
-    fun addFriend(userId: Long, friendIdentifier: String): Set<FriendDto>
+    fun addFriend(userId: Long, friendIdentifier: String): List<FriendDto>
 
-    fun acceptFriendRequest(userId: Long, friendId: Long): Set<FriendDto>
+    fun respondToFriendRequest(userId: Long, friendId: Long, isAccepting: Boolean): List<FriendDto>
 
-    fun deleteFriend(userId: Long, friendId: Long): Set<FriendDto>
+    fun deleteFriend(userId: Long, friendId: Long): List<FriendDto>
 
 }

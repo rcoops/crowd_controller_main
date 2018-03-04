@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param
 internal interface UserRepository: JpaRepository<User, Long> {
 
     @Query("FROM User WHERE id IN :ids")
-    fun findAllWithIdIn(@Param("ids") ids: List<Long>): List<User>
+    fun findAllWithIdIn(@Param("ids") ids: Set<Long>): List<User>
 
     fun findByUsername(username: String?): User?
 

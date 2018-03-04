@@ -49,7 +49,6 @@ class RestResponseExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity(dto, HttpHeaders(), HttpStatus.valueOf(dto.status))
     }
 
-
     companion object {
         const val UNIQUE_MOBILE = "UK_mobile_number"
         const val UNIQUE_EMAIL = "UK_email"

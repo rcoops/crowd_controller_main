@@ -3,8 +3,8 @@ package me.cooper.rick.crowdcontrollerserver.controller
 import io.swagger.annotations.Api
 import me.cooper.rick.crowdcontrollerapi.dto.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
-import me.cooper.rick.crowdcontrollerserver.controller.constants.Authorization.Companion.IS_ADMIN
-import me.cooper.rick.crowdcontrollerserver.controller.constants.Authorization.Companion.IS_USER
+import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_ADMIN
+import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_PRINCIPAL
 import me.cooper.rick.crowdcontrollerserver.service.GroupService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -23,7 +23,7 @@ class GroupController(private val groupService: GroupService) {
     fun groups(): List<GroupDto> = groupService.groups()
 
     @GetMapping("/{groupId}", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN")
+    @PreAuthorize("$IS_ADMIN or $IS_GROUP_MEMBER")
     fun group(@PathVariable groupId: Long, principal: Principal): GroupDto? = groupService.group(groupId)
 
     @PostMapping(produces = [APPLICATION_JSON_VALUE])
@@ -39,14 +39,14 @@ class GroupController(private val groupService: GroupService) {
     }
 
     @PutMapping("/{groupId}/members/{userId}/accept", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("$IS_ADMIN or $IS_USER")
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun acceptGroupInvite(@PathVariable groupId: Long,
                           @PathVariable userId: Long, principal: Principal): GroupDto {
         return groupService.acceptGroupInvite(groupId, userId)
     }
 
     @DeleteMapping("/{groupId}/members/{userId}", produces = [APPLICATION_JSON_VALUE])
-    @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN or $IS_USER")
+    @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN or $IS_PRINCIPAL")
     fun removeFromGroup(@PathVariable groupId: Long,
                         @PathVariable userId: Long, principal: Principal): GroupDto {
         return groupService.removeFromGroup(groupId, userId)
@@ -59,6 +59,7 @@ class GroupController(private val groupService: GroupService) {
 
     companion object {
         const val IS_GROUP_ADMIN = "isAuthenticated() and #principal.name==@groupServiceImpl.admin(#groupId)"
+        const val IS_GROUP_MEMBER = "isAuthenticated() and @groupServiceImpl.isInGroup(#groupId, #principal.name)"
     }
 
 }

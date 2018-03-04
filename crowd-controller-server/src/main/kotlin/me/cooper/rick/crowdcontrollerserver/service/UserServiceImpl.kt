@@ -36,10 +36,10 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     override fun user(id: Long): UserDto = userEntity(id).toDto()
 
     @Throws(UserNotFoundException::class)
-    override fun friends(id: Long): Set<FriendDto> = user(id).friends
+    override fun friends(id: Long): List<FriendDto> = user(id).friends
 
     @Throws(UserNotFoundException::class)
-    override fun addFriend(userId: Long, friendIdentifier: String): Set<FriendDto> {
+    override fun addFriend(userId: Long, friendIdentifier: String): List<FriendDto> {
         val user = userEntity(userId)
 
         val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendIdentifier) ?:
@@ -50,31 +50,32 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         return friends(userId)
     }
 
-    override fun acceptFriendRequest(userId: Long, friendId: Long): Set<FriendDto> {
+    override fun respondToFriendRequest(userId: Long, friendId: Long, isAccepting: Boolean): List<FriendDto> {
         val friendship = friendshipRepository.findFriendshipBetweenUsers(userId, friendId)
 
-        saveFriendship(friendship?.copy(activated = true)!!)
+        if (isAccepting) saveFriendship(friendship?.copy(activated = true))
+        else deleteFriendship(friendship)
 
         return friends(userId)
     }
 
-    override fun deleteFriend(userId: Long, friendId: Long): Set<FriendDto> {
-        val friendship = friendshipRepository.findFriendshipBetweenUsers(userId, friendId)
-
-        friendship?.let(this::deleteFriendship)
+    override fun deleteFriend(userId: Long, friendId: Long): List<FriendDto> {
+        deleteFriendship(friendshipRepository.findFriendshipBetweenUsers(userId, friendId))
 
         return friends(userId)
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW) // Needs separate transaction to update user
-    fun saveFriendship(friendship: Friendship) {
-        friendshipRepository.saveAndFlush(friendship)
+    fun saveFriendship(friendship: Friendship?) {
+        friendship?.let { friendshipRepository.saveAndFlush(friendship) }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW) // Needs separate transaction to update user
-    fun deleteFriendship(friendship: Friendship) {
-        friendshipRepository.delete(friendship)
-        friendshipRepository.flush()
+    fun deleteFriendship(friendship: Friendship?) {
+        friendship?.let {
+            friendshipRepository.delete(friendship)
+            friendshipRepository.flush()
+        }
     }
 
     private fun newUser(dto: RegistrationDto): User {

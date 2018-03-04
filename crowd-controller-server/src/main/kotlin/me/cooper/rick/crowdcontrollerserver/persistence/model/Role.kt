@@ -11,9 +11,10 @@ import javax.persistence.Table
 @Table(name = "role")
 internal data class Role(
         @Id @GeneratedValue(strategy = AUTO) val id: Long = 0,
-        val name: String = Role.ROLE_USER.name
-) {
+        val name: String = Role.ROLE_USER.name) {
+
     override fun toString(): String {
         return name
     }
+
 }

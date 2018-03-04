@@ -71,4 +71,5 @@ internal class AuthorizationServerConfig(
         }
 
     }
+
 }

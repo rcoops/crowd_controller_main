@@ -30,7 +30,8 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         val user = userRepository.findOne(dto.adminId) ?: throw UserNotFoundException(dto.adminId)
         if (user.group != null) throw UserInGroupException(dto.adminId)
 
-        val members = userRepository.findAllWithIdIn(dto.members)
+        // Ensure that it doesn't matter if admin id is included in members or not
+        val members = userRepository.findAllWithIdIn((dto.members + dto.adminId).toSet())
         val groupedMembers = members.filter { it.group != null }
         if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::id))
 
@@ -98,6 +99,14 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     override fun admin(groupId: Long): String {
         val group = groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
         return group.admin!!.username
+    }
+
+    override fun isInGroup(groupId: Long, username: String): Boolean {
+        val user = userRepository.findByUsername(username) ?:
+        throw UserNotFoundException("User with detail: $username does not exist")
+        val group = groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
+
+        return group.members.any { it.id == user.id }
     }
 
     @Throws(UserInGroupException::class)
