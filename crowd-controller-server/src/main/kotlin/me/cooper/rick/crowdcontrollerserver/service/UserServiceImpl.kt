@@ -3,6 +3,7 @@ package me.cooper.rick.crowdcontrollerserver.service
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipExistsException
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotFoundException
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Friendship
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Role
@@ -38,14 +39,16 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     @Throws(UserNotFoundException::class)
     override fun friends(id: Long): List<FriendDto> = user(id).friends
 
-    @Throws(UserNotFoundException::class)
+    @Throws(UserNotFoundException::class, FriendshipExistsException::class)
     override fun addFriend(userId: Long, friendIdentifier: String): List<FriendDto> {
         val user = userEntity(userId)
 
         val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendIdentifier) ?:
         throw UserNotFoundException("User with detail: $friendIdentifier does not exist")
 
-        if (!friendshipExists(userId, friend.id)) saveFriendship(Friendship(user, friend, false))
+        if (friendshipExists(userId, friend.id)) throw FriendshipExistsException(friend.username)
+
+        saveFriendship(Friendship(user, friend, false))
 
         return friends(userId)
     }

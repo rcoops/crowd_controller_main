@@ -2,7 +2,7 @@ package me.cooper.rick.crowdcontrollerserver.controller.error.handler
 
 import me.cooper.rick.crowdcontrollerapi.dto.error.APIErrorDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.ResourceNotFoundException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserGroupException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.ResourceExistsException
 import org.hibernate.exception.ConstraintViolationException
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpHeaders
@@ -22,9 +22,9 @@ class RestResponseExceptionHandler : ResponseEntityExceptionHandler() {
         return responseEntity(APIErrorDto(NOT_FOUND.value(), "Not Found", e.message))
     }
 
-    @ExceptionHandler(UserGroupException::class)
-    fun handle(e: UserGroupException, request: WebRequest): ResponseEntity<Any> {
-        return responseEntity(APIErrorDto(BAD_REQUEST.value(), "Group Conflict", e.message))
+    @ExceptionHandler(ResourceExistsException::class)
+    fun handle(e: ResourceExistsException, request: WebRequest): ResponseEntity<Any> {
+        return responseEntity(APIErrorDto(BAD_REQUEST.value(), "Resource Conflict", e.message))
     }
 
     @Throws(DataIntegrityViolationException::class)

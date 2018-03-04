@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 @SpringBootApplication
 class CrowdControllerServerApplication
 
-
 fun main(args: Array<String>) {
     SpringApplication.run(CrowdControllerServerApplication::class.java, *args)
 }
