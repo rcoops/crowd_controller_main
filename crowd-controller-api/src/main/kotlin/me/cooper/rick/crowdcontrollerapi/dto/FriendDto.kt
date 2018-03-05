@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 data class FriendDto(
         val id: Long = 0,
         val username: String = "",
-        val status: Status = Status.TO_ACCEPT,
+        val status: Status = Status.INACTIVE,
         val groupStatus: GroupStatus = GroupStatus.INACTIVE) {
 
     @JsonIgnore
@@ -15,7 +15,7 @@ data class FriendDto(
     fun canJoinGroup() = !isGrouped() && status == Status.CONFIRMED
 
     enum class Status {
-        CONFIRMED, TO_ACCEPT, AWAITING_ACCEPT
+        CONFIRMED, TO_ACCEPT, AWAITING_ACCEPT, INACTIVE
     }
 
     enum class GroupStatus {

@@ -1,10 +1,12 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
+import javassist.tools.web.BadHttpRequest
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipExistsException
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipNotFoundException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.InvalidBodyException
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotFoundException
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Friendship
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Role
@@ -54,23 +56,12 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         return friends(userId)
     }
 
-    @Throws(UserNotFoundException::class, FriendshipNotFoundException::class)
-    override fun respondToFriendRequest(userId: Long, friendId: Long, isAccepting: Boolean): List<FriendDto> {
+    @Throws(InvalidBodyException::class, UserNotFoundException::class, FriendshipNotFoundException::class)
+    override fun updateFriendship(userId: Long, friendId: Long, friendDto: FriendDto): List<FriendDto> {
+        if (friendId != friendDto.id) throw InvalidBodyException(friendId, friendDto.id)
+
         val friendship = findFriendship(userId, friendId)
-
-        if (isAccepting) saveFriendship(friendship.copy(activated = true))
-        else deleteFriendship(friendship)
-
-        return friends(userId)
-    }
-
-    @Throws(UserNotFoundException::class, FriendshipNotFoundException::class, FriendshipExistsException::class)
-    override fun cancelFriendRequest(userId: Long, friendId: Long): List<FriendDto> {
-        val friendship = findFriendship(userId, friendId)
-
-        if (friendship.activated) throw FriendshipExistsException(userEntity(friendId).username)
-
-        deleteFriendship(friendship)
+        saveFriendship(friendship.copy(activated = friendDto.status == FriendDto.Status.CONFIRMED))
 
         return friends(userId)
     }
