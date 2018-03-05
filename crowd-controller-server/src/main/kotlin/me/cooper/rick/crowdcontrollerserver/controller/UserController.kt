@@ -43,6 +43,7 @@ class UserController(private val userService: UserService) {
     }
 
     @PutMapping("/{userId}/friends/{friendId}", produces = [APPLICATION_JSON_VALUE])
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun updateFriendship(@PathVariable userId: Long,
                          @PathVariable friendId: Long,
                          @RequestBody friendDto: FriendDto): List<FriendDto> {
