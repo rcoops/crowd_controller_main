@@ -4,6 +4,7 @@ import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipExistsException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipNotFoundException
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotFoundException
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Friendship
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Role
@@ -29,8 +30,8 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
     @Throws(UserNotFoundException::class)
     override fun user(username: String): UserDto {
-        return userRepository.findByUsername(username)?.toDto() ?:
-        throw UserNotFoundException("User with name $username does not exist")
+        return userRepository.findByUsername(username)?.toDto()
+                ?: throw UserNotFoundException("User with name $username does not exist")
     }
 
     @Throws(UserNotFoundException::class)
@@ -43,8 +44,8 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     override fun addFriend(userId: Long, friendIdentifier: String): List<FriendDto> {
         val user = userEntity(userId)
 
-        val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendIdentifier) ?:
-        throw UserNotFoundException("User with detail: $friendIdentifier does not exist")
+        val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendIdentifier)
+                ?: throw UserNotFoundException("User with detail: $friendIdentifier does not exist")
 
         if (friendshipExists(userId, friend.id)) throw FriendshipExistsException(friend.username)
 
@@ -53,17 +54,30 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         return friends(userId)
     }
 
+    @Throws(UserNotFoundException::class, FriendshipNotFoundException::class)
     override fun respondToFriendRequest(userId: Long, friendId: Long, isAccepting: Boolean): List<FriendDto> {
-        val friendship = friendshipRepository.findFriendshipBetweenUsers(userId, friendId)
+        val friendship = findFriendship(userId, friendId)
 
-        if (isAccepting) saveFriendship(friendship?.copy(activated = true))
+        if (isAccepting) saveFriendship(friendship.copy(activated = true))
         else deleteFriendship(friendship)
 
         return friends(userId)
     }
 
+    @Throws(UserNotFoundException::class, FriendshipNotFoundException::class, FriendshipExistsException::class)
+    override fun cancelFriendRequest(userId: Long, friendId: Long): List<FriendDto> {
+        val friendship = findFriendship(userId, friendId)
+
+        if (friendship.activated) throw FriendshipExistsException(userEntity(friendId).username)
+
+        deleteFriendship(friendship)
+
+        return friends(userId)
+    }
+
+    @Throws(UserNotFoundException::class, FriendshipNotFoundException::class, FriendshipExistsException::class)
     override fun deleteFriend(userId: Long, friendId: Long): List<FriendDto> {
-        deleteFriendship(friendshipRepository.findFriendshipBetweenUsers(userId, friendId))
+        deleteFriendship(findFriendship(userId, friendId))
 
         return friends(userId)
     }
@@ -79,6 +93,12 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
             friendshipRepository.delete(friendship)
             friendshipRepository.flush()
         }
+    }
+
+    @Throws(UserNotFoundException::class, FriendshipNotFoundException::class)
+    private fun findFriendship(userId: Long, friendId: Long): Friendship {
+        return friendshipRepository.findFriendshipBetweenUsers(userId, friendId)
+                ?: throw FriendshipNotFoundException(userEntity(userId).username, userEntity(friendId).username)
     }
 
     private fun newUser(dto: RegistrationDto): User {

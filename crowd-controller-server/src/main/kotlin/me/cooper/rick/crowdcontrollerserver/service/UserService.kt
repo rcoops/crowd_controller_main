@@ -20,6 +20,8 @@ interface UserService {
 
     fun respondToFriendRequest(userId: Long, friendId: Long, isAccepting: Boolean): List<FriendDto>
 
+    fun cancelFriendRequest(userId: Long, friendId: Long): List<FriendDto>
+
     fun deleteFriend(userId: Long, friendId: Long): List<FriendDto>
 
 }

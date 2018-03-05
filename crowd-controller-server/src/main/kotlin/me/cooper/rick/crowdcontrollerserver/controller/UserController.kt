@@ -50,6 +50,13 @@ class UserController(private val userService: UserService) {
         return userService.respondToFriendRequest(userId, friendId, isAccepting)
     }
 
+    @PutMapping("/{userId}/friends/{friendId}/cancel", produces = [APPLICATION_JSON_VALUE])
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
+    fun cancelFriendRequest(@PathVariable userId: Long,
+                            @PathVariable friendId: Long): List<FriendDto> {
+        return userService.cancelFriendRequest(userId, friendId)
+    }
+
     @DeleteMapping("/{userId}/friends/{friendId}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun deleteFriend(@PathVariable userId: Long,
