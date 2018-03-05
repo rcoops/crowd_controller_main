@@ -23,10 +23,17 @@ data class FriendDto(
     }
 
     companion object {
-        fun getStatus(isInviter: Boolean, isFriendshipActivated: Boolean) = when {
+        fun getFriendStatus(isInviter: Boolean, isFriendshipActivated: Boolean) = when {
             isFriendshipActivated -> FriendDto.Status.CONFIRMED
-            isInviter -> FriendDto.Status.AWAITING_ACCEPT
-            else -> FriendDto.Status.TO_ACCEPT
+            isInviter -> FriendDto.Status.TO_ACCEPT
+            else -> FriendDto.Status.AWAITING_ACCEPT
+        }
+        fun getGroupStatus(hasGroup: Boolean, hasAccepted: Boolean): FriendDto.GroupStatus {
+            return when {
+                !hasGroup -> FriendDto.GroupStatus.INACTIVE
+                hasAccepted -> FriendDto.GroupStatus.CONFIRMED
+                else -> FriendDto.GroupStatus.TO_ACCEPT
+            }
         }
     }
 

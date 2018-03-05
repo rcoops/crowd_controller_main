@@ -15,7 +15,7 @@ INSERT INTO user_role(user_id, role_id) VALUES(3, 1);
 INSERT INTO user_role(user_id, role_id) VALUES(4, 1);
 INSERT INTO user_role(user_id, role_id) VALUES(5, 1);
 
-INSERT INTO friendship(invitee_id, inviter_id, activated) VALUES(1, 2, true);
-INSERT INTO friendship(invitee_id, inviter_id, activated) VALUES(1, 3, false);
-INSERT INTO friendship(invitee_id, inviter_id, activated) VALUES(4, 1, false);
-INSERT INTO friendship(invitee_id, inviter_id, activated) VALUES(5, 1, false);
+INSERT INTO friendship(inviter_id, invitee_id, activated) VALUES(1, 2, true);
+INSERT INTO friendship(inviter_id, invitee_id, activated) VALUES(3, 1, false);
+INSERT INTO friendship(inviter_id, invitee_id, activated) VALUES(4, 1, false);
+INSERT INTO friendship(inviter_id, invitee_id, activated) VALUES(1, 5, false);

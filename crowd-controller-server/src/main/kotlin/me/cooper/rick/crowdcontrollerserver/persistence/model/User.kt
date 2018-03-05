@@ -1,7 +1,8 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.model
 
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
-import me.cooper.rick.crowdcontrollerapi.dto.FriendDto.Companion.getStatus
+import me.cooper.rick.crowdcontrollerapi.dto.FriendDto.Companion.getFriendStatus
+import me.cooper.rick.crowdcontrollerapi.dto.FriendDto.Companion.getGroupStatus
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_EMAIL
@@ -70,19 +71,12 @@ internal data class User(
     }
 
     private fun toFriendDto(friendship: Friendship): FriendDto {
-        fun getGroupStatus(user: User?): FriendDto.GroupStatus {
-            return when {
-                user?.group == null -> FriendDto.GroupStatus.INACTIVE
-                user.groupAccepted -> FriendDto.GroupStatus.CONFIRMED
-                else -> FriendDto.GroupStatus.TO_ACCEPT
-            }
-        }
         val partner = friendship.partner(username)
         return FriendDto(
                 id = partner?.id ?: -1,
                 username = partner?.username ?: "",
-                status = getStatus(!friendship.isInviter(username), friendship.activated),
-                groupStatus = getGroupStatus(partner)
+                status = getFriendStatus(!friendship.isInviter(username), friendship.activated),
+                groupStatus = getGroupStatus(partner?.group != null, partner?.groupAccepted ?: false)
         )
     }
 
