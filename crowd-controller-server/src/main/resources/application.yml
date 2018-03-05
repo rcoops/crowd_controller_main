@@ -47,3 +47,4 @@ logging:
   level:
     root: INFO
     me.cooper.rick: DEBUG
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
