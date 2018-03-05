@@ -35,18 +35,18 @@ class UserController(private val userService: UserService) {
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun friends(@PathVariable userId: Long, principal: Principal): List<FriendDto> = userService.friends(userId)
 
-    @PutMapping("/{userId}/friends/{friendIdentifier:.*}", produces = [APPLICATION_JSON_VALUE])
+    @PostMapping("/{userId}/friends", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun addFriend(@PathVariable userId: Long,
-                  @PathVariable friendIdentifier: String, principal: Principal): List<FriendDto> {
-        return userService.addFriend(userId, friendIdentifier)
+                  @RequestBody friendDto: FriendDto, principal: Principal): List<FriendDto> {
+        return userService.addFriend(userId, friendDto)
     }
 
     @PutMapping("/{userId}/friends/{friendId}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun updateFriendship(@PathVariable userId: Long,
                          @PathVariable friendId: Long,
-                         @RequestBody friendDto: FriendDto): List<FriendDto> {
+                         @RequestBody friendDto: FriendDto, principal: Principal): List<FriendDto> {
         return userService.updateFriendship(userId, friendId, friendDto)
     }
 

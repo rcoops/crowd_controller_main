@@ -16,7 +16,7 @@ interface UserService {
 
     fun friends(id: Long): List<FriendDto>
 
-    fun addFriend(userId: Long, friendIdentifier: String): List<FriendDto>
+    fun addFriend(userId: Long, friendDto: FriendDto): List<FriendDto>
 
     fun updateFriendship(userId: Long, friendId: Long, friendDto: FriendDto): List<FriendDto>
 

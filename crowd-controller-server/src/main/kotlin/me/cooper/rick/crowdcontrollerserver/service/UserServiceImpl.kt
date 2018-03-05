@@ -43,11 +43,11 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     override fun friends(id: Long): List<FriendDto> = user(id).friends
 
     @Throws(UserNotFoundException::class, FriendshipExistsException::class)
-    override fun addFriend(userId: Long, friendIdentifier: String): List<FriendDto> {
+    override fun addFriend(userId: Long, friendDto: FriendDto): List<FriendDto> {
         val user = userEntity(userId)
 
-        val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendIdentifier)
-                ?: throw UserNotFoundException("User with detail: $friendIdentifier does not exist")
+        val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendDto.username)
+                ?: throw UserNotFoundException("User with detail: ${friendDto.username} does not exist")
 
         if (friendshipExists(userId, friend.id)) throw FriendshipExistsException(friend.username)
 
