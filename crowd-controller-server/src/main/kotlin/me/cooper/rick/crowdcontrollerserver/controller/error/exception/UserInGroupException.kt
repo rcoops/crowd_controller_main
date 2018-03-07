@@ -1,9 +1,11 @@
 package me.cooper.rick.crowdcontrollerserver.controller.error.exception
 
-class UserInGroupException(override val message: String = "User already in group"): ResourceExistsException(message) {
+import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 
-    constructor(id: Long): this("User with id: $id already belongs to a group")
+class UserInGroupException(override val message: String = "User already in group"): BadHttpRequestException(message) {
 
-    constructor(ids: List<Long>): this("Users with ids: [${ids.joinToString(", ")}] already belong to a group")
+    constructor(userDto: UserDto): this("User ${userDto.username} already belongs to a different group")
+
+    constructor(users: List<UserDto>): this("Users: [${users.joinToString(", ")}] already belong to a group")
 
 }

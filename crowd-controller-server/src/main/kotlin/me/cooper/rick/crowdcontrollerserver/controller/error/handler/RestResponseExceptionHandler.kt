@@ -1,8 +1,8 @@
 package me.cooper.rick.crowdcontrollerserver.controller.error.handler
 
 import me.cooper.rick.crowdcontrollerapi.dto.error.APIErrorDto
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.ResourceNotFoundException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.ResourceExistsException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.BadHttpRequestException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.NotFoundException
 import org.hibernate.exception.ConstraintViolationException
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpHeaders
@@ -17,13 +17,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 class RestResponseExceptionHandler : ResponseEntityExceptionHandler() {
 
-    @ExceptionHandler(ResourceNotFoundException::class)
-    fun handle(e: ResourceNotFoundException, request: WebRequest): ResponseEntity<Any> {
+    @ExceptionHandler(NotFoundException::class)
+    fun handle(e: NotFoundException, request: WebRequest): ResponseEntity<Any> {
         return responseEntity(APIErrorDto(NOT_FOUND.value(), "Not Found", e.message))
     }
 
-    @ExceptionHandler(ResourceExistsException::class)
-    fun handle(e: ResourceExistsException, request: WebRequest): ResponseEntity<Any> {
+    @ExceptionHandler(BadHttpRequestException::class)
+    fun handle(e: BadHttpRequestException, request: WebRequest): ResponseEntity<Any> {
         return responseEntity(APIErrorDto(BAD_REQUEST.value(), "Resource Conflict", e.message))
     }
 

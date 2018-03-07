@@ -2,10 +2,8 @@ package me.cooper.rick.crowdcontrollerserver.service
 
 import me.cooper.rick.crowdcontrollerapi.dto.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.GroupNotFoundException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserInGroupException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotFoundException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotGroupedException
+import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.*
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupRepository
@@ -27,32 +25,39 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     @Throws(UserInGroupException::class)
     override fun create(dto: CreateGroupDto): GroupDto {
-        val user = userRepository.findOne(dto.adminId) ?: throw UserNotFoundException(dto.adminId)
-        if (user.group != null) throw UserInGroupException(dto.adminId)
+        val admin = userRepository.findOne(dto.adminId) ?: throw UserNotFoundException(dto.adminId)
+        if (admin.group != null) throw UserInGroupException(admin.toDto())
 
         // Ensure that it doesn't matter if admin id is included in members or not
         val members = userRepository.findAllWithIdIn((dto.members + dto.adminId).toSet())
         val groupedMembers = members.filter { it.group != null }
-        if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::id))
+        if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::toDto))
 
-        val group = groupRepository.save(Group.fromUsers(user, members))
+        val group = groupRepository.save(Group.fromUsers(admin, members))
 
-        groupUsers(group, false, members)
-        userRepository.saveAndFlush(user.copy(groupAccepted = true))
+        groupUsers(group, members)
+        userRepository.saveAndFlush(admin.copy(groupAccepted = true))
 
         return group.toDto()
     }
 
-    @Throws(UserInGroupException::class, UserNotFoundException::class, GroupNotFoundException::class)
-    override fun addToGroup(groupId: Long, userId: Long): GroupDto {
-        val user = userRepository.findOne(userId) ?: throw UserNotFoundException(userId)
-        if (user.group != null) throw UserInGroupException(userId)
-        val group = groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
+    @Throws(InvalidBodyException::class, GroupNotFoundException::class, UserNotFoundException::class,
+            IllegalPromotionException::class, UserInGroupException::class)
+    override fun update(groupId: Long, dto: GroupDto): GroupDto {
+        if (groupId != dto.id) throw InvalidBodyException(groupId, dto.id)
 
-        group.members.add(user)
-        groupRepository.save(group)
+        val group = groupRepository.findOne(dto.id) ?: throw GroupNotFoundException(dto.id)
 
-        groupUsers(group, false, user)
+        val admin = userRepository.findOne(dto.adminId) ?: throw UserNotFoundException(dto.adminId)
+        if (admin.group != group) throw IllegalPromotionException(admin.toDto(), group.toDto())
+
+        val newMembers = userRepository.findAllWithIdIn(dto.members.map(UserDto::id).toSet()).toMutableSet()
+        val membersToRemove = (group.members - newMembers)
+        val membersToAdd = (newMembers - group.members)
+
+        groupRepository.save(group.copy(admin = admin, members = newMembers))
+        groupUsers(group, *membersToAdd.toTypedArray())
+        unGroupUsers(*membersToRemove.toTypedArray())
 
         return group.toDto()
     }
@@ -83,12 +88,12 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     }
 
     @Throws(UsernameNotFoundException::class, GroupNotFoundException::class, UserInGroupException::class)
-    override fun acceptGroupInvite(groupId: Long, userId: Long): GroupDto {
+    override fun acceptInvite(groupId: Long, userId: Long): GroupDto {
         val user = userRepository.findOne(userId) ?: throw UserNotFoundException(userId)
         val group = groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
 
         if (user.group == null) throw UserNotGroupedException(userId)
-        if (group != user.group) throw UserInGroupException(userId)
+        if (group != user.group) throw UserInGroupException(user.toDto())
 
         userRepository.saveAndFlush(user.copy(groupAccepted = true))
 
@@ -110,15 +115,13 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     }
 
     @Throws(UserInGroupException::class)
-    private fun groupUsers(group: Group, accepted: Boolean, users: List<User>) {
-        return groupUsers(group, accepted, *users.toTypedArray())
-    }
+    private fun groupUsers(group: Group, users: List<User>) = groupUsers(group, *users.toTypedArray())
 
     @Throws(UserInGroupException::class)
-    private fun groupUsers(group: Group, accepted: Boolean, vararg users: User) {
+    private fun groupUsers(group: Group, vararg users: User) {
         users.forEach {
-            if (it.group != null) throw UserInGroupException(it.id)
-            userRepository.save(it.copy(group = group, groupAccepted = accepted))
+            if (it.group != null && it.group.id != group.id) throw UserInGroupException(it.toDto())
+            userRepository.save(it.copy(group = group, groupAccepted = it.groupAccepted))
         }
         userRepository.flush()
     }

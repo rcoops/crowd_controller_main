@@ -31,18 +31,16 @@ class GroupController(private val groupService: GroupService) {
     @PreAuthorize("isAuthenticated()")
     fun create(@RequestBody createGroupDto: CreateGroupDto): GroupDto = groupService.create(createGroupDto)
 
-    @PutMapping("/{groupId}/members/{userId}", produces = [APPLICATION_JSON_VALUE])
+    @PutMapping("/{groupId}")
     @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN")
-    fun addToGroup(@PathVariable groupId: Long,
-                   @PathVariable userId: Long, principal: Principal): GroupDto {
-        return groupService.addToGroup(groupId, userId)
-    }
+    fun update(@PathVariable groupId: Long,
+               @RequestBody groupDto: GroupDto, principal: Principal): GroupDto = groupService.update(groupId, groupDto)
 
-    @PutMapping("/{groupId}/members/{userId}/accept", produces = [APPLICATION_JSON_VALUE])
+    @PatchMapping("/{groupId}/members/{userId}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
-    fun acceptGroupInvite(@PathVariable groupId: Long,
-                          @PathVariable userId: Long, principal: Principal): GroupDto {
-        return groupService.acceptGroupInvite(groupId, userId)
+    fun acceptInvite(@PathVariable groupId: Long,
+                     @PathVariable userId: Long, principal: Principal): GroupDto {
+        return groupService.acceptInvite(groupId, userId)
     }
 
     @DeleteMapping("/{groupId}/members/{userId}", produces = [APPLICATION_JSON_VALUE])

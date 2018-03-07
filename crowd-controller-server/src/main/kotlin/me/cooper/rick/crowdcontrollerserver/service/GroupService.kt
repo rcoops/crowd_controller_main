@@ -12,7 +12,7 @@ interface GroupService {
 
     fun create(dto: CreateGroupDto): GroupDto
 
-    fun addToGroup(groupId: Long, userId: Long): GroupDto
+    fun update(groupId: Long, dto: GroupDto): GroupDto
 
     fun removeFromGroup(groupId: Long, userId: Long): GroupDto
 
@@ -20,7 +20,7 @@ interface GroupService {
 
     fun admin(groupId: Long): String
 
-    fun acceptGroupInvite(groupId: Long, userId: Long): GroupDto
+    fun acceptInvite(groupId: Long, userId: Long): GroupDto
 
     fun isInGroup(groupId: Long, username: String): Boolean
 

@@ -46,7 +46,12 @@ internal data class User(
         @ManyToOne @JoinColumn(name="group_id", referencedColumnName = "id")
         val group: Group? = null,
 
-        val groupAccepted: Boolean = false) {
+        val groupAccepted: Boolean = false,
+
+        val latitude: Double? = null,
+
+        val longitude: Double? = null) {
+
 
     fun toDto(): UserDto {
         return UserDto(

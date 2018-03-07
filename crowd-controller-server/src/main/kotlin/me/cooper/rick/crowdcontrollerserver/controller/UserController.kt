@@ -2,6 +2,7 @@ package me.cooper.rick.crowdcontrollerserver.controller
 
 import io.swagger.annotations.Api
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
+import me.cooper.rick.crowdcontrollerapi.dto.LocationDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_ADMIN
@@ -31,6 +32,13 @@ class UserController(private val userService: UserService) {
     @PreAuthorize("permitAll()")
     fun create(@RequestBody dto: RegistrationDto): UserDto = userService.create(dto)
 
+    @PatchMapping("{userId}/location")
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
+    fun updateLocation(@PathVariable userId: Long,
+                       @RequestBody dto: LocationDto, principal: Principal): UserDto {
+        return userService.updateLocation(userId, dto)
+    }
+
     @GetMapping("/{userId}/friends", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun friends(@PathVariable userId: Long, principal: Principal): List<FriendDto> = userService.friends(userId)
@@ -42,7 +50,7 @@ class UserController(private val userService: UserService) {
         return userService.addFriend(userId, friendDto)
     }
 
-    @PutMapping("/{userId}/friends/{friendId}", produces = [APPLICATION_JSON_VALUE])
+    @PatchMapping("/{userId}/friends/{friendId}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun updateFriendship(@PathVariable userId: Long,
                          @PathVariable friendId: Long,

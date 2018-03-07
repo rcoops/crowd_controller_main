@@ -1,12 +1,15 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
+import me.cooper.rick.crowdcontrollerapi.dto.LocationDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 
 interface UserService {
 
     fun create(dto: RegistrationDto): UserDto
+
+    fun updateLocation(userId: Long, dto: LocationDto): UserDto
 
     fun allUsers(): List<UserDto>
 

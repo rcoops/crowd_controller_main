@@ -1,7 +1,7 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
-import javassist.tools.web.BadHttpRequest
 import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
+import me.cooper.rick.crowdcontrollerapi.dto.LocationDto
 import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipExistsException
@@ -27,6 +27,14 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
                                private val bCryptPasswordEncoder: PasswordEncoder) : UserService {
 
     override fun create(dto: RegistrationDto): UserDto = userRepository.save(newUser(dto)).toDto()
+
+    @Throws(InvalidBodyException::class, UserNotFoundException::class)
+    override fun updateLocation(userId: Long, dto: LocationDto): UserDto {
+        if (userId != dto.userId) throw InvalidBodyException(userId, dto.userId)
+        val user = userEntity(userId)
+        userRepository.saveAndFlush(user.copy(latitude = dto.latitude, longitude = dto.longitude))
+        return user.toDto()
+    }
 
     override fun allUsers(): List<UserDto> = userRepository.findAll().map(User::toDto)
 
