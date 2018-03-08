@@ -2,4 +2,8 @@ package me.cooper.rick.crowdcontrollerapi.dto
 
 data class LocationDto(val id: Long? = null,
                        val latitude: Double? = null,
-                       val longitude: Double? = null)
+                       val longitude: Double? = null) {
+
+    fun hasLocation() = latitude != null && longitude != null
+
+}
