@@ -30,7 +30,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
     @Throws(InvalidBodyException::class, UserNotFoundException::class)
     override fun updateLocation(userId: Long, dto: LocationDto): UserDto {
-        if (userId != dto.userId) throw InvalidBodyException(userId, dto.userId)
+        if (userId != dto.id) throw InvalidBodyException(userId, dto.id)
         val user = userEntity(userId)
         userRepository.saveAndFlush(user.copy(latitude = dto.latitude, longitude = dto.longitude))
         return user.toDto()

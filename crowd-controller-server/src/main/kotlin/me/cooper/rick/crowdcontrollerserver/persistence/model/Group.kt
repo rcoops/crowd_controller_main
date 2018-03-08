@@ -1,6 +1,9 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.model
 
 import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
+import me.cooper.rick.crowdcontrollerserver.persistence.location.LocationResolver
+import me.cooper.rick.crowdcontrollerserver.persistence.location.MultiLocationResolver
+import me.cooper.rick.crowdcontrollerserver.persistence.location.SingleLocationResolver
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.util.*
@@ -13,9 +16,13 @@ internal data class Group(
         @Id @GeneratedValue(strategy = AUTO) val id: Long? = null,
         @OneToOne val admin: User? = null,
         @OneToMany(mappedBy = "group") val members: MutableSet<User> = mutableSetOf(),
-        val created: Timestamp = Timestamp.valueOf(LocalDateTime.now())) {
+        val created: Timestamp = Timestamp.valueOf(LocalDateTime.now()),
+        private val isClustering: Boolean = false,
+        @Transient private var resolver: LocationResolver = resolver(isClustering)) {
 
-    fun toDto(): GroupDto = GroupDto(id!!, admin!!.id, members.map { it.toDto() })
+    fun toDto(): GroupDto {
+        return GroupDto(id!!, admin!!.id, members.map { it.toDto() }, resolver.location(this))
+    }
 
     private fun memberIds(): Array<Long> {
         return members.map { it.id }.toTypedArray()
@@ -34,6 +41,10 @@ internal data class Group(
 
         fun fromUsers(user: User, members: List<User>): Group {
             return Group(null, user, members.toMutableSet())
+        }
+
+        private fun resolver(isClustering: Boolean): LocationResolver {
+            return if (isClustering) MultiLocationResolver() else SingleLocationResolver()
         }
 
     }
