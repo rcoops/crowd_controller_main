@@ -1,6 +1,7 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.model
 
 import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
+import me.cooper.rick.crowdcontrollerserver.persistence.listeners.GroupListener
 import me.cooper.rick.crowdcontrollerserver.persistence.location.LocationResolver
 import me.cooper.rick.crowdcontrollerserver.persistence.location.MultiLocationResolver
 import me.cooper.rick.crowdcontrollerserver.persistence.location.SingleLocationResolver
@@ -11,6 +12,7 @@ import javax.persistence.*
 import javax.persistence.GenerationType.AUTO
 
 @Entity
+@EntityListeners(GroupListener::class)
 @Table(name = "clique")
 internal data class Group(
         @Id @GeneratedValue(strategy = AUTO) val id: Long? = null,
@@ -33,7 +35,7 @@ internal data class Group(
     }
 
     override fun toString(): String {
-        return "Group(id=$id, admin_id=${admin?.id}, created= $created" +
+        return "Group(id=$id, admin_id=${admin?.id}, created=$created, " +
                 "members=[${memberIds().joinToString(", ")}])"
     }
 
