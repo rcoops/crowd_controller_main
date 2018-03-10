@@ -8,11 +8,13 @@ import me.cooper.rick.crowdcontrollerapi.dto.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_EMAIL
 import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_MOBILE
 import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_USERNAME
+import me.cooper.rick.crowdcontrollerserver.persistence.listeners.UserListener
 import java.util.*
 import javax.persistence.*
 import javax.persistence.GenerationType.AUTO
 
 @Entity
+@EntityListeners(UserListener::class)
 @Table(name="user", uniqueConstraints = [
     UniqueConstraint(name = UNIQUE_USERNAME, columnNames = ["username"]),
     UniqueConstraint(name = UNIQUE_EMAIL, columnNames = ["email"]),
@@ -37,10 +39,10 @@ internal data class User(
                 inverseJoinColumns = [(JoinColumn(name="role_id", referencedColumnName = "id"))])
         var roles: Set<Role> = setOf(Role()),
 
-        @OneToMany(mappedBy = "inviter")
+        @OneToMany(mappedBy = "inviter", cascade = [CascadeType.ALL])
         private val friendsInviters: Set<Friendship> = emptySet(),
 
-        @OneToMany(mappedBy = "invitee")
+        @OneToMany(mappedBy = "invitee", cascade = [CascadeType.ALL])
         private val friendsInvitees: Set<Friendship> = emptySet(),
 
         @ManyToOne @JoinColumn(name="group_id", referencedColumnName = "id")

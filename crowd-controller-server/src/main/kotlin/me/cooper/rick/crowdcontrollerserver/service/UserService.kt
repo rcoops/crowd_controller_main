@@ -9,6 +9,8 @@ interface UserService {
 
     fun create(dto: RegistrationDto): UserDto
 
+    fun delete(userId: Long)
+
     fun updateLocation(userId: Long, dto: LocationDto): UserDto
 
     fun allUsers(): List<UserDto>

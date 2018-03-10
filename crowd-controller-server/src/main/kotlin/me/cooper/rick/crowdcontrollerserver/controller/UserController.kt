@@ -9,6 +9,7 @@ import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_ADMIN
 import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_PRINCIPAL
 import me.cooper.rick.crowdcontrollerserver.service.UserService
 import org.springframework.http.HttpStatus.CREATED
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -31,6 +32,13 @@ class UserController(private val userService: UserService) {
     @ResponseStatus(CREATED)
     @PreAuthorize("permitAll()")
     fun create(@RequestBody dto: RegistrationDto): UserDto = userService.create(dto)
+
+    @DeleteMapping("/{userId}")
+    @ResponseStatus(NO_CONTENT)
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
+    fun delete(@PathVariable userId: Long, principal: Principal) {
+        userService.delete(userId)
+    }
 
     @PatchMapping("{userId}/location")
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")

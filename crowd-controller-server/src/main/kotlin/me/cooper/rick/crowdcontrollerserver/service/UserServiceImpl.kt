@@ -28,6 +28,12 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
     override fun create(dto: RegistrationDto): UserDto = userRepository.save(newUser(dto)).toDto()
 
+    override fun delete(userId: Long) {
+        val user = userEntity(userId)
+        userRepository.delete(user)
+        userRepository.flush()
+    }
+
     @Throws(InvalidBodyException::class, UserNotFoundException::class)
     override fun updateLocation(userId: Long, dto: LocationDto): UserDto {
         if (userId != dto.id) throw InvalidBodyException(userId, dto.id)
