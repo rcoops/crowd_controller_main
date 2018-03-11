@@ -19,7 +19,7 @@ internal data class Group(
         @OneToOne val admin: User? = null,
         @OneToMany(mappedBy = "group") val members: MutableSet<User> = mutableSetOf(),
         val created: Timestamp = Timestamp.valueOf(LocalDateTime.now()),
-        private val isClustering: Boolean = false,
+        val isClustering: Boolean = false,
         @Transient private var resolver: LocationResolver = resolver(isClustering)) {
 
     fun toDto(): GroupDto {

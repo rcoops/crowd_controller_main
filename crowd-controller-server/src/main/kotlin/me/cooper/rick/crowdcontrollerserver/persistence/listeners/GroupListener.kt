@@ -8,16 +8,19 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import javax.persistence.PostPersist
+import javax.persistence.PostUpdate
 
 @Component
 class GroupListener {
 
-    @Autowired private var controller: WebsocketController? = null
+    @Autowired
+    private var controller: WebsocketController? = null
 
     @PostPersist
+    @PostUpdate
     internal fun postUser(group: Group) {
         AutowireHelper.autowire(this)
-        controller?.greeting(group.toDto())
+        controller?.send(group.toDto())
         LOG.debug(group.toString())
     }
 
