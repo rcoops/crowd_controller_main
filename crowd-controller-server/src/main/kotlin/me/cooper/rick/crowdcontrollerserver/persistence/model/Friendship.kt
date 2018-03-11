@@ -1,5 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.model
 
+import me.cooper.rick.crowdcontrollerserver.persistence.listeners.FriendshipListener
 import java.io.Serializable
 import java.util.*
 import javax.persistence.*
@@ -7,6 +8,7 @@ import javax.persistence.*
 @Entity
 @IdClass(FriendshipId::class)
 @Table(name="friendship")
+@EntityListeners(FriendshipListener::class)
 internal data class Friendship(
         @Id @ManyToOne @JoinColumn(name = "inviter_id") var inviter: User? = null,
         @Id @ManyToOne @JoinColumn(name = "invitee_id") var invitee: User? = null,

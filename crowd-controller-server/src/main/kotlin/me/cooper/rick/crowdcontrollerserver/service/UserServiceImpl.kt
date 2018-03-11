@@ -39,6 +39,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         if (userId != dto.id) throw InvalidBodyException(userId, dto.id)
         val user = userEntity(userId)
         userRepository.saveAndFlush(user.copy(latitude = dto.latitude, longitude = dto.longitude))
+
         return user.toDto()
     }
 
