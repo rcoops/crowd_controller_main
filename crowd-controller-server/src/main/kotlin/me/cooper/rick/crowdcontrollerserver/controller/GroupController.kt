@@ -46,7 +46,7 @@ class GroupController(private val groupService: GroupService) {
     @DeleteMapping("/{groupId}/members/{userId}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN or $IS_PRINCIPAL")
     fun removeFromGroup(@PathVariable groupId: Long,
-                        @PathVariable userId: Long, principal: Principal): GroupDto {
+                        @PathVariable userId: Long, principal: Principal): GroupDto? {
         return groupService.removeFromGroup(groupId, userId)
     }
 

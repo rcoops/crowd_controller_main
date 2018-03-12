@@ -5,20 +5,24 @@ import me.cooper.rick.crowdcontrollerserver.persistence.listeners.GroupListener
 import me.cooper.rick.crowdcontrollerserver.persistence.location.LocationResolver
 import me.cooper.rick.crowdcontrollerserver.persistence.location.MultiLocationResolver
 import me.cooper.rick.crowdcontrollerserver.persistence.location.SingleLocationResolver
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
+import javax.persistence.TemporalType.TIMESTAMP
 import javax.persistence.GenerationType.AUTO
 
 @Entity
-@EntityListeners(GroupListener::class)
+@EntityListeners(GroupListener::class, AuditingEntityListener::class)
 @Table(name = "clique")
 internal data class Group(
         @Id @GeneratedValue(strategy = AUTO) val id: Long? = null,
-        @OneToOne val admin: User? = null,
-        @OneToMany(mappedBy = "group") val members: MutableSet<User> = mutableSetOf(),
+        @OneToOne var admin: User? = null,
+        @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL]) val members: MutableSet<User> = mutableSetOf(),
         val created: Timestamp = Timestamp.valueOf(LocalDateTime.now()),
+        @LastModifiedDate @Temporal(TIMESTAMP) val lastModified: Date? = null,
         val isClustering: Boolean = false,
         @Transient private var resolver: LocationResolver = resolver(isClustering)) {
 

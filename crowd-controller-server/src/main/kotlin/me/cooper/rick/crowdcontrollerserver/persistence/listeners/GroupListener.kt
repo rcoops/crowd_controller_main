@@ -17,8 +17,14 @@ class GroupListener {
     private var controller: WebSocketController? = null
 
     @PostPersist
+    internal fun create(group: Group) {
+        AutowireHelper.autowire(this)
+        controller?.send(group.toDto())
+        LOG.debug(group.toString())
+    }
+
     @PostUpdate
-    internal fun postUser(group: Group) {
+    internal fun update(group: Group) {
         AutowireHelper.autowire(this)
         controller?.send(group.toDto())
         LOG.debug(group.toString())

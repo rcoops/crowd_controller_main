@@ -13,7 +13,7 @@ interface GroupService {
 
     fun update(groupId: Long, dto: GroupDto): GroupDto
 
-    fun removeFromGroup(groupId: Long, userId: Long): GroupDto
+    fun removeFromGroup(groupId: Long, userId: Long): GroupDto?
 
     fun removeGroup(groupId: Long): Boolean
 

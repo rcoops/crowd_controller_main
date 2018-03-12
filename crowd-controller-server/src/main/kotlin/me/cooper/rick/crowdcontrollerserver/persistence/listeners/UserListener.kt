@@ -17,8 +17,14 @@ class UserListener {
     private var controller: WebSocketController? = null
 
     @PostPersist
+    internal fun create(user: User) {
+        AutowireHelper.autowire(this)
+        controller?.send(user.toDto())
+        LOG.debug(user.toString())
+    }
+
     @PostUpdate
-    internal fun postUser(user: User) {
+    internal fun update(user: User) {
         AutowireHelper.autowire(this)
         controller?.send(user.toDto())
         sendGroupLocationUpdate(user)
