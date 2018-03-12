@@ -1,7 +1,7 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.listeners
 
 import me.cooper.rick.crowdcontrollerserver.AutowireHelper
-import me.cooper.rick.crowdcontrollerserver.controller.WebsocketController
+import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -14,7 +14,7 @@ import javax.persistence.PostUpdate
 class UserListener {
 
     @Autowired
-    private var controller: WebsocketController? = null
+    private var controller: WebSocketController? = null
 
     @PostPersist
     @PostUpdate
