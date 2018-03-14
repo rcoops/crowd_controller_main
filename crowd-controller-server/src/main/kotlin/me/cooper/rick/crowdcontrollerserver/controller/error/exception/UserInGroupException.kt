@@ -1,6 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.controller.error.exception
 
-import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 
 class UserInGroupException(override val message: String = "User already in group"): BadHttpRequestException(message) {
 

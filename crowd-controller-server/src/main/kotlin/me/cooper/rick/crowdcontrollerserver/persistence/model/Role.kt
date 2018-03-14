@@ -8,7 +8,6 @@ import javax.persistence.Id
 import javax.persistence.Table
 
 @Entity
-@Table(name = "role")
 internal data class Role(
         @Id @GeneratedValue(strategy = AUTO) val id: Long = 0,
         val name: String = Role.ROLE_USER.name) {

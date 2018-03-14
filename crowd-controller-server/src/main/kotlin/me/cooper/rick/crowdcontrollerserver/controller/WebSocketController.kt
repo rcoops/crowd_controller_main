@@ -1,7 +1,7 @@
 package me.cooper.rick.crowdcontrollerserver.controller
 
-import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
-import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.web.bind.annotation.RestController
 

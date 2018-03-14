@@ -3,6 +3,7 @@ package me.cooper.rick.crowdcontrollerserver.persistence.listeners
 import me.cooper.rick.crowdcontrollerserver.AutowireHelper
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
+import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,6 +17,11 @@ class UserListener {
     @Autowired
     private var controller: WebSocketController? = null
 
+    @Autowired
+    private var groupRepository: GroupRepository? = null
+
+    private val userGroupCache = mutableMapOf<Long, Long?>()
+
     @PostPersist
     internal fun create(user: User) {
         AutowireHelper.autowire(this)
@@ -23,16 +29,31 @@ class UserListener {
         LOG.debug(user.toString())
     }
 
+    private fun updateGroup(user: User) {
+        val oldGroupId = userGroupCache[user.id]
+        val newGroupId = user.group?.id
+        if (oldGroupId != newGroupId) {
+            oldGroupId?.let { findGroupAndPost(it) }
+            newGroupId?.let { findGroupAndPost(it) }
+        }
+    }
+
+    private fun findGroupAndPost(groupId: Long?) {
+        groupRepository?.findOne(groupId)?.let { controller?.send(it.toDto()) }
+    }
+
     @PostUpdate
     internal fun update(user: User) {
         AutowireHelper.autowire(this)
         controller?.send(user.toDto())
+        updateGroup(user)
+        userGroupCache[user.id] = user.group?.id
         sendGroupLocationUpdate(user)
         LOG.debug(user.toString())
     }
 
     private fun sendGroupLocationUpdate(user: User) {
-        user.group?.let { if (it.isClustering || it.admin == user) controller?.send(it.toDto()) }
+        user.group?.let { if (it.settings.isClustering || it.admin == user) controller?.send(it.toDto()) }
     }
 
     companion object {

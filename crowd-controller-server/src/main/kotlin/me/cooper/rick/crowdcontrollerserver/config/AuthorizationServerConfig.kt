@@ -1,6 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.config
 
-import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 import me.cooper.rick.crowdcontrollerserver.service.UserService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration

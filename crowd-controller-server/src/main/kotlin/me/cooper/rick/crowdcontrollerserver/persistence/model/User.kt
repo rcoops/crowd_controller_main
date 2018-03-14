@@ -1,10 +1,11 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.model
 
-import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
-import me.cooper.rick.crowdcontrollerapi.dto.FriendDto.Companion.getFriendStatus
-import me.cooper.rick.crowdcontrollerapi.dto.FriendDto.Companion.getGroupStatus
-import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
-import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto.Companion.getFriendStatus
+import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto.Companion.getGroupStatus
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupMemberDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.RegistrationDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_EMAIL
 import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_MOBILE
 import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_USERNAME
@@ -15,7 +16,7 @@ import javax.persistence.GenerationType.AUTO
 
 @Entity
 @EntityListeners(UserListener::class)
-@Table(name="user", uniqueConstraints = [
+@Table(uniqueConstraints = [
     UniqueConstraint(name = UNIQUE_USERNAME, columnNames = ["username"]),
     UniqueConstraint(name = UNIQUE_EMAIL, columnNames = ["email"]),
     UniqueConstraint(name = UNIQUE_MOBILE, columnNames = ["mobileNumber"])
@@ -68,12 +69,22 @@ internal data class User(
         )
     }
 
+    fun toGroupMemberDto(): GroupMemberDto {
+        return GroupMemberDto(
+                id,
+                username,
+                groupAccepted
+        )
+    }
+
+    internal fun hasLocation() = latitude != null && longitude != null
+
     override fun hashCode(): Int = Objects.hash(id, username, email, password, mobileNumber)
 
     private fun friends(): Set<Friendship> = (friendsInviters + friendsInvitees).toSet()
 
     private fun friendsToDto(): List<FriendDto> {
-        return friends().map(this::toFriendDto)
+        return friends().map(::toFriendDto)
                 .sortedWith(compareBy(FriendDto::status, FriendDto::username))
     }
 

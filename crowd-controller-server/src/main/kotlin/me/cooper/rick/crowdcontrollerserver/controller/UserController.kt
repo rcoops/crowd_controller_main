@@ -1,10 +1,10 @@
 package me.cooper.rick.crowdcontrollerserver.controller
 
 import io.swagger.annotations.Api
-import me.cooper.rick.crowdcontrollerapi.dto.FriendDto
-import me.cooper.rick.crowdcontrollerapi.dto.LocationDto
-import me.cooper.rick.crowdcontrollerapi.dto.RegistrationDto
-import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.RegistrationDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_ADMIN
 import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_PRINCIPAL
 import me.cooper.rick.crowdcontrollerserver.service.UserService

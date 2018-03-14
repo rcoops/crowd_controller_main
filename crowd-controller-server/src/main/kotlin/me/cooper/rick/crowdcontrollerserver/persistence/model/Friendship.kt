@@ -7,7 +7,6 @@ import javax.persistence.*
 
 @Entity
 @IdClass(FriendshipId::class)
-@Table(name="friendship")
 @EntityListeners(FriendshipListener::class)
 internal data class Friendship(
         @Id @ManyToOne @JoinColumn(name = "inviter_id") var inviter: User? = null,

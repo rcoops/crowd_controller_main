@@ -1,4 +1,4 @@
-package me.cooper.rick.crowdcontrollerapi.dto
+package me.cooper.rick.crowdcontrollerapi.dto.user
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 
@@ -24,15 +24,15 @@ data class FriendDto(
 
     companion object {
         fun getFriendStatus(isInviter: Boolean, isFriendshipActivated: Boolean) = when {
-            isFriendshipActivated -> FriendDto.Status.CONFIRMED
-            isInviter -> FriendDto.Status.TO_ACCEPT
-            else -> FriendDto.Status.AWAITING_ACCEPT
+            isFriendshipActivated -> Status.CONFIRMED
+            isInviter -> Status.TO_ACCEPT
+            else -> Status.AWAITING_ACCEPT
         }
-        fun getGroupStatus(hasGroup: Boolean, hasAccepted: Boolean): FriendDto.GroupStatus {
+        fun getGroupStatus(hasGroup: Boolean, hasAccepted: Boolean): GroupStatus {
             return when {
-                !hasGroup -> FriendDto.GroupStatus.INACTIVE
-                hasAccepted -> FriendDto.GroupStatus.CONFIRMED
-                else -> FriendDto.GroupStatus.TO_ACCEPT
+                !hasGroup -> GroupStatus.INACTIVE
+                hasAccepted -> GroupStatus.CONFIRMED
+                else -> GroupStatus.TO_ACCEPT
             }
         }
     }

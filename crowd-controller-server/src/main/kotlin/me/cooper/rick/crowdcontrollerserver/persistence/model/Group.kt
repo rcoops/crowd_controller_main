@@ -1,6 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.model
 
-import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerserver.persistence.listeners.GroupListener
 import me.cooper.rick.crowdcontrollerserver.persistence.location.LocationResolver
 import me.cooper.rick.crowdcontrollerserver.persistence.location.MultiLocationResolver
@@ -16,18 +16,21 @@ import javax.persistence.GenerationType.AUTO
 
 @Entity
 @EntityListeners(GroupListener::class, AuditingEntityListener::class)
-@Table(name = "clique")
+@Table(name = "`group`")
 internal data class Group(
         @Id @GeneratedValue(strategy = AUTO) val id: Long? = null,
         @OneToOne var admin: User? = null,
         @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL]) val members: MutableSet<User> = mutableSetOf(),
         val created: Timestamp = Timestamp.valueOf(LocalDateTime.now()),
         @LastModifiedDate @Temporal(TIMESTAMP) val lastModified: Date? = null,
-        val isClustering: Boolean = false,
-        @Transient private var resolver: LocationResolver = resolver(isClustering)) {
+        @OneToOne
+        @JoinColumn(name = "settings_id", referencedColumnName = "id")
+        val settings: GroupSettings = GroupSettings(),
+        @Transient private var resolver: LocationResolver = resolver(settings.isClustering)) {
 
     fun toDto(): GroupDto {
-        return GroupDto(id!!, admin!!.id, members.map { it.toDto() }, resolver.location(this))
+        return GroupDto(id!!, admin!!.id, members.map { it.toGroupMemberDto() }, resolver.location(this),
+                settings.toDto())
     }
 
     private fun memberIds(): Array<Long> {

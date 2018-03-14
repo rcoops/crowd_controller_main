@@ -1,8 +1,8 @@
 package me.cooper.rick.crowdcontrollerserver.controller
 
 import io.swagger.annotations.Api
-import me.cooper.rick.crowdcontrollerapi.dto.CreateGroupDto
-import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_ADMIN
 import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_PRINCIPAL
 import me.cooper.rick.crowdcontrollerserver.service.GroupService

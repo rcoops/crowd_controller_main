@@ -1,7 +1,7 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
-import me.cooper.rick.crowdcontrollerapi.dto.CreateGroupDto
-import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 
 interface GroupService {
 

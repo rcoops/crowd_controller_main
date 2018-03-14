@@ -1,4 +1,4 @@
-package me.cooper.rick.crowdcontrollerapi.dto
+package me.cooper.rick.crowdcontrollerapi.dto.group
 
 data class LocationDto(val id: Long? = null,
                        val latitude: Double? = null,

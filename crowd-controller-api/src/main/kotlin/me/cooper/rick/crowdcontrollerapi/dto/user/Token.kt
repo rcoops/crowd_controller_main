@@ -1,6 +1,7 @@
-package me.cooper.rick.crowdcontrollerapi.dto
+package me.cooper.rick.crowdcontrollerapi.dto.user
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 
 data class Token(
         @get:JsonProperty("access_token")

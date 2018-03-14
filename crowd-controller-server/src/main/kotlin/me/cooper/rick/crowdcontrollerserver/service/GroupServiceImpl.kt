@@ -1,9 +1,9 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
 import me.cooper.rick.crowdcontrollerapi.constants.Role
-import me.cooper.rick.crowdcontrollerapi.dto.CreateGroupDto
-import me.cooper.rick.crowdcontrollerapi.dto.GroupDto
-import me.cooper.rick.crowdcontrollerapi.dto.UserDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupMemberDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.*
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
@@ -32,7 +32,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         if (admin.group != null) throw UserInGroupException(admin.toDto())
 
         // Ensure that it doesn't matter if admin id is included in members or not
-        val members = userRepository.findAllWithIdIn((dto.members + dto.adminId).toSet())
+        val members = userRepository.findAllWithIdIn((dto.members.map(GroupMemberDto::id) + dto.adminId).toSet())
         val groupedMembers = members.filter { it.group != null }
         if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::toDto))
 
@@ -61,7 +61,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
             userRepository.save(admin.copy(roles = admin.roles + groupAdminRole))
         }
 
-        val newMembers = userRepository.findAllWithIdIn(dto.members.map(UserDto::id).toSet()).toMutableSet()
+        val newMembers = userRepository.findAllWithIdIn(dto.members.map(GroupMemberDto::id).toSet()).toMutableSet()
         val membersToRemove = (group.members - newMembers)
         val membersToAdd = (newMembers - group.members)
 

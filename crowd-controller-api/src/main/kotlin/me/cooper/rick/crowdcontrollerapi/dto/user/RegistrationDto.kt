@@ -1,4 +1,4 @@
-package me.cooper.rick.crowdcontrollerapi.dto
+package me.cooper.rick.crowdcontrollerapi.dto.user
 
 data class RegistrationDto(
         var username: String = "",
