@@ -29,7 +29,7 @@ internal class MultiLocationResolver(private val minUsersPercentage: Double = 0.
         val bestClusterMatch = cluster.filter(minNodes, maxDistanceMetres)
 
         return when (bestClusterMatch) {
-            null -> LocationDto(group.id, group.admin!!.latitude, group.admin!!.longitude) // default to admin if not within limits
+            null -> LocationDto(group.id, group.admin!!.latitude, group.admin.longitude) // default to admin if not within limits
             else -> buildAverageLocationDto(bestClusterMatch.leaves().map { it.name }, group)
         }
     }

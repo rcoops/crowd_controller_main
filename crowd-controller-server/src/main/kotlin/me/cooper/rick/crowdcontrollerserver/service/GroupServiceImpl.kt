@@ -11,7 +11,6 @@ import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.RoleRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.UserRepository
-import me.cooper.rick.crowdcontrollerserver.service.UserServiceImpl.Companion.userEntity
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -176,6 +175,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     private fun groupAdminRole() = roleRepository.findAllByNameIn(listOf(Role.ROLE_GROUP_ADMIN.name)).first()
 
-    private fun userEntity(id: Long) = userEntity(userRepository, id)
+    @Throws(UserNotFoundException::class)
+    private fun userEntity(id: Long) = userRepository.findOne(id) ?: throw UserNotFoundException(id)
 
 }

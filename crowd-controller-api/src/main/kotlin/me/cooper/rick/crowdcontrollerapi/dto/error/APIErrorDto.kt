@@ -2,6 +2,7 @@ package me.cooper.rick.crowdcontrollerapi.dto.error
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+// Json properties allow me to map this to spring response errors
 class APIErrorDto(@get:JsonProperty("status")
                   val status: Int = DEFAULT_STATUS,
 
