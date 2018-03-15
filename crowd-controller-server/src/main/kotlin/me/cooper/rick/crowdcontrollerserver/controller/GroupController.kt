@@ -3,6 +3,7 @@ package me.cooper.rick.crowdcontrollerserver.controller
 import io.swagger.annotations.Api
 import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupSettingsDto
 import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_ADMIN
 import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_PRINCIPAL
 import me.cooper.rick.crowdcontrollerserver.service.GroupService
@@ -42,6 +43,11 @@ class GroupController(private val groupService: GroupService) {
                      @PathVariable userId: Long, principal: Principal): GroupDto {
         return groupService.acceptInvite(groupId, userId)
     }
+
+    @PutMapping("/{groupId}/settings")
+    @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN")
+    fun updateSettings(@PathVariable groupId: Long,
+                       @RequestBody dto: GroupSettingsDto): GroupDto = groupService.updateSettings(groupId, dto)
 
     @DeleteMapping("/{groupId}/members/{userId}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN or $IS_PRINCIPAL")

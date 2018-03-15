@@ -1,6 +1,7 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.model
 
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupSettingsDto
 import me.cooper.rick.crowdcontrollerserver.persistence.listeners.GroupListener
 import me.cooper.rick.crowdcontrollerserver.persistence.location.LocationResolver
 import me.cooper.rick.crowdcontrollerserver.persistence.location.MultiLocationResolver
@@ -12,6 +13,7 @@ import java.time.LocalDateTime
 import java.util.*
 import java.util.Objects.hash
 import javax.persistence.*
+import javax.persistence.CascadeType.MERGE
 import javax.persistence.TemporalType.TIMESTAMP
 import javax.persistence.GenerationType.AUTO
 
@@ -23,10 +25,10 @@ internal data class Group(
         val id: Long? = null,
 
         @OneToOne
-        var admin: User? = null,
+        val admin: User? = null,
 
-        @OneToMany(mappedBy = "group")
-        val members: MutableSet<User> = mutableSetOf(),
+        @OneToMany(mappedBy = "group", cascade = [MERGE])
+        val members: Set<User> = mutableSetOf(),
 
         val created: Timestamp = Timestamp.valueOf(LocalDateTime.now()),
 
@@ -46,9 +48,12 @@ internal data class Group(
                 settings.toDto())
     }
 
-    fun settingsFromDto(dto: GroupDto): GroupSettings {
-        return settings.fromDto(dto.settings)
-    }
+
+    fun settingsFromDto(dto: GroupSettingsDto?) = settings.fromDto(dto)
+
+    fun acceptedMembers() = members.filter { it.groupAccepted }
+
+    fun hasMoreThanOneAcceptedMember() = members.count { it.groupAccepted } > 1
 
     private fun memberIds(): Array<Long> {
         return members.map(User::id).toTypedArray()

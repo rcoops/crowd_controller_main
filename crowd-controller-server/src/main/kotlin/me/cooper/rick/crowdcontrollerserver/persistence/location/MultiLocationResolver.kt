@@ -34,7 +34,7 @@ internal class MultiLocationResolver(private val minUsersPercentage: Double = 0.
         }
     }
 
-    internal fun toDistanceMatrixMap(users: MutableSet<User>): DistanceMatrixMap {
+    internal fun toDistanceMatrixMap(users: Set<User>): DistanceMatrixMap {
         fun User.getDistanceMatrix(users: Set<User>): DistanceMatrix {
             fun User.findDistance(other: User): Distance {
                 fun isMissingLocation(user: User, other: User) = !user.hasLocation() || !other.hasLocation()

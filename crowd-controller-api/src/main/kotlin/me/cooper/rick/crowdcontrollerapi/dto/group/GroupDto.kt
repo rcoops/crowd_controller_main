@@ -4,4 +4,4 @@ data class GroupDto(val id: Long = -1,
                     val adminId: Long = -1,
                     val members: List<GroupMemberDto> = emptyList(),
                     val location: LocationDto? = null,
-                    val settings: GroupSettingsDto = GroupSettingsDto())
+                    val settings: GroupSettingsDto? = null)

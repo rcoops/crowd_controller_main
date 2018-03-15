@@ -4,12 +4,14 @@ import me.cooper.rick.crowdcontrollerapi.constants.Role
 import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupMemberDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupSettingsDto
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.*
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.RoleRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.UserRepository
+import me.cooper.rick.crowdcontrollerserver.service.UserServiceImpl.Companion.userEntity
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,13 +24,12 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     override fun groups(): List<GroupDto> = groupRepository.findAll().map(Group::toDto)
 
-    override fun group(groupId: Long): GroupDto {
-        return groupRepository.findOne(groupId)?.toDto() ?: throw GroupNotFoundException(groupId)
-    }
+    @Throws(GroupNotFoundException::class)
+    override fun group(groupId: Long): GroupDto = groupEntity(groupId).toDto()
 
     @Throws(UserInGroupException::class)
     override fun create(dto: CreateGroupDto): GroupDto {
-        val admin = userRepository.findOne(dto.adminId) ?: throw UserNotFoundException(dto.adminId)
+        val admin = userEntity(dto.adminId)
         if (admin.group != null) throw UserInGroupException(admin.toDto())
 
         // Ensure that it doesn't matter if admin id is included in members or not
@@ -48,10 +49,10 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     override fun update(groupId: Long, dto: GroupDto): GroupDto {
         if (groupId != dto.id) throw InvalidBodyException(groupId, dto.id)
 
-        val group = groupRepository.findOne(dto.id) ?: throw GroupNotFoundException(dto.id)
+        val group = groupEntity(dto.id)
 
-        val admin = userRepository.findOne(dto.adminId) ?: throw UserNotFoundException(dto.adminId)
-        if (admin.group != group) throw IllegalPromotionException(admin.toDto(), group.toDto())
+        val admin = userEntity(dto.adminId)
+        if (admin.group != group || !admin.groupAccepted) throw IllegalPromotionException(admin.toDto(), group.toDto())
 
         if (group.admin != admin) swapAdminRole(group, admin)
 
@@ -61,8 +62,8 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
         groupRepository.saveAndFlush(group.copy(
                 admin = admin,
-                members = newMembers.toMutableSet(),
-                settings = group.settingsFromDto(dto))
+                members = newMembers.toSet(),
+                settings = group.settingsFromDto(dto.settings))
         )
         groupUsers(group, *membersToAdd.toTypedArray())
         unGroupUsers(*membersToRemove.toTypedArray())
@@ -70,36 +71,36 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         return group.toDto()
     }
 
+    @Throws(GroupNotFoundException::class)
+    override fun updateSettings(groupId: Long, dto: GroupSettingsDto): GroupDto {
+        val group = groupEntity(groupId)
+        return groupRepository.saveAndFlush(group.copy(settings = group.settingsFromDto(dto)))
+                .toDto()
+    }
+
     @Throws(UserNotFoundException::class, GroupNotFoundException::class)
     override fun removeFromGroup(groupId: Long, userId: Long): GroupDto? {
-        val user = userRepository.findOne(userId) ?: throw UserNotFoundException(userId)
-        val group = groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
+        val user = userEntity(userId)
+        val group = groupEntity(groupId)
 
-        if (group.members.filter { it.groupAccepted }.size == 1) {
+        if (!group.hasMoreThanOneAcceptedMember() && user.groupAccepted) {
             removeGroup(groupId)
             return null
         }
-
-        val admin = if (user == group.admin) {
-            val nextUser =  group.members.first { it != user && it.groupAccepted }
-            group.admin = nextUser
-            userRepository.save(nextUser.copy(roles = nextUser.roles + groupAdminRole()))
-
-            nextUser
-        } else {
-            group.admin
-        }
-
-        group.members.remove(user)
-        groupRepository.save(if (admin == group.admin) group else group.copy(admin = admin))
-
-        unGroupUsers(user)
+        val newAdmin = getNewAdmin(user, group)
+        groupRepository.saveAndFlush(group.copy(
+                members = (group.members - userRepository.save(user.copy(
+                        group = null,
+                        groupAccepted = false,
+                        roles = user.roles - groupAdminRole()))),
+                admin = userRepository.save(newAdmin.copy(roles = newAdmin.roles + groupAdminRole()))
+        ))
 
         return group.toDto()
     }
 
     override fun removeGroup(groupId: Long): Boolean {
-        val group = groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
+        val group = groupEntity(groupId)
 
         val users = userRepository.findByGroup(group)
         unGroupUsers(users)
@@ -112,8 +113,8 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     @Throws(UsernameNotFoundException::class, GroupNotFoundException::class, UserInGroupException::class)
     override fun acceptInvite(groupId: Long, userId: Long): GroupDto {
-        val user = userRepository.findOne(userId) ?: throw UserNotFoundException(userId)
-        val group = groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
+        val user = userEntity(userId)
+        val group = groupEntity(groupId)
 
         if (user.group == null) throw UserNotGroupedException(userId)
         if (group != user.group) throw UserInGroupException(user.toDto())
@@ -125,21 +126,29 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     @Throws(GroupNotFoundException::class)
     override fun admin(groupId: Long): String {
-        val group = groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
+        val group = groupEntity(groupId)
         return group.admin!!.username
     }
 
     override fun isInGroup(groupId: Long, username: String): Boolean {
         val user = userRepository.findByUsername(username) ?:
         throw UserNotFoundException("User with detail: $username does not exist")
-        val group = groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
+        val group = groupEntity(groupId)
 
         return group.members.any { it.id == user.id }
     }
 
+    private fun groupEntity(groupId: Long): Group {
+        return groupRepository.findOne(groupId) ?: throw GroupNotFoundException(groupId)
+    }
+
+    private fun getNewAdmin(user: User, group: Group): User {
+        return (if (user == group.admin) group.acceptedMembers().find { it != user } else group.admin)!!
+    }
+
     private fun swapAdminRole(group: Group, newAdmin: User) {
         val groupAdminRole = groupAdminRole()
-        userRepository.save(group.admin!!.copy(roles = group.admin!!.roles - groupAdminRole))
+        userRepository.save(group.admin!!.copy(roles = group.admin.roles - groupAdminRole))
         userRepository.save(newAdmin.copy(roles = newAdmin.roles + groupAdminRole))
     }
 
@@ -166,5 +175,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     }
 
     private fun groupAdminRole() = roleRepository.findAllByNameIn(listOf(Role.ROLE_GROUP_ADMIN.name)).first()
+
+    private fun userEntity(id: Long) = userEntity(userRepository, id)
 
 }

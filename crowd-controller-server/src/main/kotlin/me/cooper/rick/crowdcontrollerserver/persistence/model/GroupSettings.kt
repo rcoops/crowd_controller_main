@@ -19,8 +19,8 @@ internal data class GroupSettings(
         return GroupSettingsDto(isClustering, minClusterRadius, minNodePercentage)
     }
 
-    fun fromDto(dto: GroupSettingsDto): GroupSettings {
-        return copy(
+    fun fromDto(dto: GroupSettingsDto?): GroupSettings {
+        return if (dto == null) this else copy(
                 isClustering = dto.isClustering,
                 minClusterRadius = dto.minClusterRadius,
                 minNodePercentage = dto.minNodePercentage

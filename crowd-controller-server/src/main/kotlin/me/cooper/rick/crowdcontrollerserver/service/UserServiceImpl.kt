@@ -117,8 +117,16 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     private fun friendshipExists(userId: Long, friendId: Long): Boolean {
         return friendshipRepository.findFriendshipBetweenUsers(userId, friendId) != null
     }
-
     @Throws(UserNotFoundException::class)
-    private fun userEntity(id: Long): User = userRepository.findOne(id) ?: throw UserNotFoundException(id)
+    private fun userEntity(id: Long): User = Companion.userEntity(userRepository, id)
+
+    companion object {
+
+        @Throws(UserNotFoundException::class)
+        internal fun userEntity(userRepository: UserRepository, id: Long): User {
+            return userRepository.findOne(id) ?: throw UserNotFoundException(id)
+        }
+
+    }
 
 }
