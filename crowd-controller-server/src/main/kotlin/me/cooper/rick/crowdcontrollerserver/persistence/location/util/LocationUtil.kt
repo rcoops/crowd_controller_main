@@ -2,31 +2,116 @@ package me.cooper.rick.crowdcontrollerserver.persistence.location.util
 
 import com.apporiented.algorithm.clustering.Cluster
 import me.cooper.rick.crowdcontrollerserver.persistence.location.Distance
+import java.lang.Math.*
 
-typealias Point = Pair<Double, Double>
-typealias OptionalPoint = Pair<Double?, Double?>
-typealias xCoOrdinate = Double
-typealias yCoOrdinate = Double
+typealias Latitude = Double
+typealias Longitude = Double
+typealias LatLonDeg = Pair<Latitude, Longitude>
+typealias OptionalLatLonDeg = Pair<Latitude?, Longitude?>
 
 internal object DistanceUtil {
+    /*
+     * Copyright (C) 2007 The Android Open Source Project
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    /* Original retrieved from http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/5.1.1_r1/android/location/Location.java#Location.computeDistanceAndBearing%28double%2Cdouble%2Cdouble%2Cdouble%2Cfloat%5B%5D%29 */
+    private const val WGS84_MAJOR_AXIS = 6378137.0
+    private const val WGS84_SEMI_MAJOR_AXIS = 6356752.3142
+    private const val MAX_ITERATIONS = 20
 
-    private fun squaredDifference(first: Double, second: Double) = Math.pow(first - second, 2.0)
+    private const val F = (WGS84_MAJOR_AXIS - WGS84_SEMI_MAJOR_AXIS) / WGS84_MAJOR_AXIS
+    private val aSqMinusBSqOverBSq = (pow(WGS84_MAJOR_AXIS, 2.0) - pow(WGS84_SEMI_MAJOR_AXIS, 2.0)) / pow(WGS84_SEMI_MAJOR_AXIS, 2.0)
 
-    internal fun distance(pointX: xCoOrdinate, pointY: yCoOrdinate,
-                          otherX: xCoOrdinate, otherY: yCoOrdinate): Distance {
-        return Math.sqrt(squaredDifference(pointX, otherX) + squaredDifference(pointY, otherY))
+    internal fun distance(pointX: Latitude, pointY: Longitude,
+                          otherX: Latitude, otherY: Longitude): Distance {
+        // Based on http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
+        // using the "Inverse Formula" (section 4)
+
+        val lat1 = toRadians(pointX)
+        val lon1 = toRadians(pointY)
+        val lat2 = toRadians(otherX)
+        val lon2 = toRadians(otherY)
+
+        val initialGuess = lon2 - lon1
+        var A = 0.0
+        val U1 = atan((1.0 - F) * tan(lat1))
+        val U2 = atan((1.0 - F) * tan(lat2))
+
+        val cosU1 = cos(U1)
+        val cosU2 = cos(U2)
+        val sinU1 = sin(U1)
+        val sinU2 = sin(U2)
+        val cosU1cosU2 = cosU1 * cosU2
+        val sinU1sinU2 = sinU1 * sinU2
+
+        var sigma = 0.0
+        var deltaSigma = 0.0
+        var cosSqAlpha: Double
+        var cos2SM: Double
+        var cosSigma: Double
+        var sinSigma: Double
+        var cosLambda: Double
+        var sinLambda: Double
+
+        var lambda = initialGuess
+        for (i in 0 until MAX_ITERATIONS) {
+            val lambdaOrig = lambda
+            cosLambda = cos(lambda)
+            sinLambda = sin(lambda)
+            val t1 = cosU2 * sinLambda
+            val t2 = cosU1 * sinU2 - sinU1 * cosU2 * cosLambda
+            val sinSqSigma = t1 * t1 + t2 * t2 // (14)
+            sinSigma = sqrt(sinSqSigma)
+            cosSigma = sinU1sinU2 + cosU1cosU2 * cosLambda // (15)
+            sigma = atan2(sinSigma, cosSigma) // (16)
+            val sinAlpha = if (sinSigma == 0.0) 0.0 else cosU1cosU2 * sinLambda / sinSigma // (17)
+            cosSqAlpha = 1.0 - sinAlpha * sinAlpha
+            cos2SM = if (cosSqAlpha == 0.0) 0.0 else cosSigma - 2.0 * sinU1sinU2 / cosSqAlpha // (18)
+
+            val uSquared = cosSqAlpha * aSqMinusBSqOverBSq // defn
+            A = 1 + uSquared / 16384.0 * (4096.0 + uSquared * (-768 + uSquared * (320.0 - 175.0 * uSquared))) // (3)
+            val b = uSquared / 1024.0 * (256.0 + uSquared * (-128.0 + uSquared * (74.0 - 47.0 * uSquared))) // (4)
+            val c = F / 16.0 * cosSqAlpha * (4.0 + F * (4.0 - 3.0 * cosSqAlpha)) // (10)
+            val cos2SMSq = cos2SM * cos2SM
+            deltaSigma = b * sinSigma * (
+                    cos2SM + b / 4.0 * (
+                            cosSigma * (-1.0 + 2.0 * cos2SMSq) - b / 6.0 * cos2SM * (-3.0 + 4.0 * sinSigma * sinSigma) *
+                                    (-3.0 + 4.0 * cos2SMSq)
+                            )
+                    ) // (6)
+
+            lambda = initialGuess + (1.0 - c) * F * sinAlpha * (
+                    sigma + c * sinSigma * (cos2SM + c * cosSigma * (-1.0 + 2.0 * cos2SM * cos2SM))
+                    ) // (11)
+
+            val delta = (lambda - lambdaOrig) / lambda
+            if (abs(delta) < 1.0e-12) break
+        }
+
+        return WGS84_SEMI_MAJOR_AXIS * A * (sigma - deltaSigma)
     }
 
-    private fun sum(vararg points: OptionalPoint): Point {
-        operator fun Point.plus(other: OptionalPoint): Point {
+    private fun sum(vararg points: OptionalLatLonDeg): LatLonDeg {
+        operator fun LatLonDeg.plus(other: OptionalLatLonDeg): LatLonDeg {
             return kotlin.Pair(first + (other.first ?: 0.0), second + (other.second ?: 0.0))
         }
 
-        return points.fold(Point(0.0, 0.0), { current, next -> current + next })
+        return points.fold(LatLonDeg(0.0, 0.0), { current, next -> current + next })
     }
 
-    internal fun average(vararg points: OptionalPoint): Point {
-        operator fun Point.div(numberOfPairs: Int): Point {
+    internal fun average(vararg points: OptionalLatLonDeg): LatLonDeg {
+        operator fun LatLonDeg.div(numberOfPairs: Int): LatLonDeg {
             return kotlin.Pair(first / numberOfPairs, second / numberOfPairs)
         }
 
