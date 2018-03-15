@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.util.*
+import java.util.Objects.hash
 import javax.persistence.*
 import javax.persistence.TemporalType.TIMESTAMP
 import javax.persistence.GenerationType.AUTO
@@ -18,32 +19,48 @@ import javax.persistence.GenerationType.AUTO
 @EntityListeners(GroupListener::class, AuditingEntityListener::class)
 @Table(name = "`group`")
 internal data class Group(
-        @Id @GeneratedValue(strategy = AUTO) val id: Long? = null,
-        @OneToOne var admin: User? = null,
-        @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL]) val members: MutableSet<User> = mutableSetOf(),
-        val created: Timestamp = Timestamp.valueOf(LocalDateTime.now()),
-        @LastModifiedDate @Temporal(TIMESTAMP) val lastModified: Date? = null,
+        @Id @GeneratedValue(strategy = AUTO)
+        val id: Long? = null,
+
         @OneToOne
+        var admin: User? = null,
+
+        @OneToMany(mappedBy = "group")
+        val members: MutableSet<User> = mutableSetOf(),
+
+        val created: Timestamp = Timestamp.valueOf(LocalDateTime.now()),
+
+        @LastModifiedDate
+        @Temporal(TIMESTAMP)
+        val lastModified: Date? = null,
+
+        @OneToOne(cascade = [CascadeType.ALL], optional = false)
         @JoinColumn(name = "settings_id", referencedColumnName = "id")
         val settings: GroupSettings = GroupSettings(),
-        @Transient private var resolver: LocationResolver = resolver(settings.isClustering)) {
+
+        @Transient
+        private var resolver: LocationResolver = resolver(settings)) {
 
     fun toDto(): GroupDto {
         return GroupDto(id!!, admin!!.id, members.map { it.toGroupMemberDto() }, resolver.location(this),
                 settings.toDto())
     }
 
+    fun settingsFromDto(dto: GroupDto): GroupSettings {
+        return settings.fromDto(dto.settings)
+    }
+
     private fun memberIds(): Array<Long> {
-        return members.map { it.id }.toTypedArray()
+        return members.map(User::id).toTypedArray()
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(id, admin?.id, *memberIds(), created)
+        return hash(id, admin?.id, *memberIds(), created, lastModified, settings)
     }
 
     override fun toString(): String {
         return "Group(id=$id, admin_id=${admin?.id}, created=$created, " +
-                "members=[${memberIds().joinToString(", ")}])"
+                "members=[${memberIds()}])"
     }
 
     companion object {
@@ -52,8 +69,12 @@ internal data class Group(
             return Group(null, user, members.toMutableSet())
         }
 
-        private fun resolver(isClustering: Boolean): LocationResolver {
-            return if (isClustering) MultiLocationResolver() else SingleLocationResolver()
+        private fun resolver(settings: GroupSettings): LocationResolver {
+            return if (settings.isClustering) {
+                MultiLocationResolver(settings.minNodePercentage, settings.minClusterRadius)
+            } else {
+                SingleLocationResolver()
+            }
         }
 
     }

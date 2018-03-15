@@ -5,9 +5,12 @@ import javax.persistence.*
 
 @Entity
 internal data class GroupSettings(
-        @Id @GeneratedValue(strategy = GenerationType.AUTO) private val id: Long = 0,
-        @OneToOne(mappedBy = "settings", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, optional = false)
+        @Id @GeneratedValue(strategy = GenerationType.AUTO)
+        private val id: Long = 0,
+
+        @OneToOne(mappedBy = "settings", fetch = FetchType.LAZY, optional = false)
         val group: Group? = null,
+
         val isClustering: Boolean = false,
         val minClusterRadius: Double = 100.0,
         val minNodePercentage: Double = 0.5) {
@@ -15,4 +18,13 @@ internal data class GroupSettings(
     fun toDto(): GroupSettingsDto {
         return GroupSettingsDto(isClustering, minClusterRadius, minNodePercentage)
     }
+
+    fun fromDto(dto: GroupSettingsDto): GroupSettings {
+        return copy(
+                isClustering = dto.isClustering,
+                minClusterRadius = dto.minClusterRadius,
+                minNodePercentage = dto.minNodePercentage
+        )
+    }
+
 }

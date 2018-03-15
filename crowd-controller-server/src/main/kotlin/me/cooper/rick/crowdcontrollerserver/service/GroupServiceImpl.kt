@@ -37,10 +37,8 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::toDto))
 
         val group = groupRepository.save(Group.fromUsers(admin, members))
-
         groupUsers(group, members)
-        val groupAdminRole = roleRepository.findAllByNameIn(listOf(Role.ROLE_GROUP_ADMIN.name)).first()
-        userRepository.saveAndFlush(admin.copy(groupAccepted = true, roles = admin.roles + groupAdminRole))
+        userRepository.saveAndFlush(admin.copy(groupAccepted = true, roles = admin.roles + groupAdminRole()))
 
         return group.toDto()
     }
@@ -55,17 +53,17 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         val admin = userRepository.findOne(dto.adminId) ?: throw UserNotFoundException(dto.adminId)
         if (admin.group != group) throw IllegalPromotionException(admin.toDto(), group.toDto())
 
-        if (group.admin != admin) {
-            val groupAdminRole = roleRepository.findAllByNameIn(listOf(Role.ROLE_GROUP_ADMIN.name)).first()
-            userRepository.save(group.admin!!.copy(roles = group.admin!!.roles - groupAdminRole))
-            userRepository.save(admin.copy(roles = admin.roles + groupAdminRole))
-        }
+        if (group.admin != admin) swapAdminRole(group, admin)
 
-        val newMembers = userRepository.findAllWithIdIn(dto.members.map(GroupMemberDto::id).toSet()).toMutableSet()
+        val newMembers = userRepository.findAllWithIdIn(dto.members.map(GroupMemberDto::id).toSet())
         val membersToRemove = (group.members - newMembers)
         val membersToAdd = (newMembers - group.members)
 
-        groupRepository.saveAndFlush(group.copy(admin = admin, members = newMembers))
+        groupRepository.saveAndFlush(group.copy(
+                admin = admin,
+                members = newMembers.toMutableSet(),
+                settings = group.settingsFromDto(dto))
+        )
         groupUsers(group, *membersToAdd.toTypedArray())
         unGroupUsers(*membersToRemove.toTypedArray())
 
@@ -82,15 +80,18 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
             return null
         }
 
-        if (user == group.admin) {
-            val groupAdminRole = roleRepository.findAllByNameIn(listOf(Role.ROLE_GROUP_ADMIN.name)).first()
+        val admin = if (user == group.admin) {
             val nextUser =  group.members.first { it != user && it.groupAccepted }
             group.admin = nextUser
-            userRepository.save(nextUser.copy(roles = nextUser.roles + groupAdminRole))
+            userRepository.save(nextUser.copy(roles = nextUser.roles + groupAdminRole()))
+
+            nextUser
+        } else {
+            group.admin
         }
 
         group.members.remove(user)
-        groupRepository.save(group)
+        groupRepository.save(if (admin == group.admin) group else group.copy(admin = admin))
 
         unGroupUsers(user)
 
@@ -136,6 +137,12 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         return group.members.any { it.id == user.id }
     }
 
+    private fun swapAdminRole(group: Group, newAdmin: User) {
+        val groupAdminRole = groupAdminRole()
+        userRepository.save(group.admin!!.copy(roles = group.admin!!.roles - groupAdminRole))
+        userRepository.save(newAdmin.copy(roles = newAdmin.roles + groupAdminRole))
+    }
+
     @Throws(UserInGroupException::class)
     private fun groupUsers(group: Group, users: List<User>) = groupUsers(group, *users.toTypedArray())
 
@@ -151,11 +158,13 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     private fun unGroupUsers(users: List<User>) = unGroupUsers(*users.toTypedArray())
 
     private fun unGroupUsers(vararg users: User) {
-        val groupAdminRole = roleRepository.findAllByNameIn(listOf(Role.ROLE_GROUP_ADMIN.name)).first()
+        val groupAdminRole = groupAdminRole()
         users.forEach {
             userRepository.save(it.copy(group = null, groupAccepted = false, roles = it.roles - groupAdminRole))
         }
         userRepository.flush()
     }
+
+    private fun groupAdminRole() = roleRepository.findAllByNameIn(listOf(Role.ROLE_GROUP_ADMIN.name)).first()
 
 }
