@@ -19,7 +19,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 internal class GroupServiceImpl(private val userRepository: UserRepository,
                                 private val roleRepository: RoleRepository,
-                                private val groupRepository: GroupRepository): GroupService {
+                                private val groupRepository: GroupRepository,
+                                private val locationResolverService: LocationResolverService): GroupService {
 
     override fun groups(): List<GroupDto> = groupRepository.findAll().map(Group::toDto)
 
@@ -36,7 +37,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         val groupedMembers = members.filter { it.group != null }
         if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::toDto))
 
-        val group = groupRepository.save(Group.fromUsers(admin, members))
+        val group = groupRepository.save(Group.fromUsers(admin, members, locationResolverService))
         groupUsers(group, members)
         userRepository.saveAndFlush(admin.copy(groupAccepted = true, roles = admin.roles + groupAdminRole()))
 

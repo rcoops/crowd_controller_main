@@ -2,10 +2,12 @@ package me.cooper.rick.crowdcontrollerserver.persistence.model
 
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupSettingsDto
+import me.cooper.rick.crowdcontrollerserver.CrowdControllerServerApplication
 import me.cooper.rick.crowdcontrollerserver.persistence.listeners.GroupListener
 import me.cooper.rick.crowdcontrollerserver.persistence.location.LocationResolver
 import me.cooper.rick.crowdcontrollerserver.persistence.location.MultiLocationResolver
 import me.cooper.rick.crowdcontrollerserver.persistence.location.SingleLocationResolver
+import me.cooper.rick.crowdcontrollerserver.service.LocationResolverService
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.sql.Timestamp
@@ -41,13 +43,17 @@ internal data class Group(
         val settings: GroupSettings = GroupSettings(),
 
         @Transient
-        private var resolver: LocationResolver = resolver(settings)) {
+        private val locationResolverService: LocationResolverService) {
 
     fun toDto(): GroupDto {
-        return GroupDto(id!!, admin!!.id, members.map { it.toGroupMemberDto() }, resolver.location(this),
-                settings.toDto())
+        return GroupDto(
+                id!!,
+                admin!!.id,
+                members.map { it.toGroupMemberDto() },
+                locationResolverService.resolveLocation(this),
+                settings.toDto()
+        )
     }
-
 
     fun settingsFromDto(dto: GroupSettingsDto?) = settings.fromDto(dto)
 
@@ -70,16 +76,8 @@ internal data class Group(
 
     companion object {
 
-        fun fromUsers(user: User, members: List<User>): Group {
-            return Group(null, user, members.toMutableSet())
-        }
-
-        private fun resolver(settings: GroupSettings): LocationResolver {
-            return if (settings.isClustering) {
-                MultiLocationResolver(settings.minNodePercentage, settings.minClusterRadius)
-            } else {
-                SingleLocationResolver()
-            }
+        fun fromUsers(user: User, members: List<User>, locationResolverService: LocationResolverService): Group {
+            return Group(null, user, members.toMutableSet(), locationResolverService = locationResolverService)
         }
 
     }

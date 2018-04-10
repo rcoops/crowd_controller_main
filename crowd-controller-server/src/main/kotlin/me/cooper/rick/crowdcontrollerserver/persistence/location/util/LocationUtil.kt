@@ -1,13 +1,9 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.location.util
 
 import com.apporiented.algorithm.clustering.Cluster
+import com.google.maps.model.LatLng
 import me.cooper.rick.crowdcontrollerserver.persistence.location.Distance
 import java.lang.Math.*
-
-typealias Latitude = Double
-typealias Longitude = Double
-typealias LatLonDeg = Pair<Latitude, Longitude>
-typealias OptionalLatLonDeg = Pair<Latitude?, Longitude?>
 
 internal object DistanceUtil {
     /*
@@ -33,15 +29,14 @@ internal object DistanceUtil {
     private const val F = (WGS84_MAJOR_AXIS - WGS84_SEMI_MAJOR_AXIS) / WGS84_MAJOR_AXIS
     private val aSqMinusBSqOverBSq = (pow(WGS84_MAJOR_AXIS, 2.0) - pow(WGS84_SEMI_MAJOR_AXIS, 2.0)) / pow(WGS84_SEMI_MAJOR_AXIS, 2.0)
 
-    internal fun distance(pointX: Latitude, pointY: Longitude,
-                          otherX: Latitude, otherY: Longitude): Distance {
+    internal fun distance(latLng: LatLng, otherLatLng: LatLng): Distance {
         // Based on http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
         // using the "Inverse Formula" (section 4)
 
-        val lat1 = toRadians(pointX)
-        val lon1 = toRadians(pointY)
-        val lat2 = toRadians(otherX)
-        val lon2 = toRadians(otherY)
+        val lat1 = toRadians(latLng.lat)
+        val lon1 = toRadians(latLng.lng)
+        val lat2 = toRadians(otherLatLng.lat)
+        val lon2 = toRadians(otherLatLng.lng)
 
         val initialGuess = lon2 - lon1
         var A = 0.0
@@ -102,17 +97,17 @@ internal object DistanceUtil {
         return WGS84_SEMI_MAJOR_AXIS * A * (sigma - deltaSigma)
     }
 
-    private fun sum(vararg points: OptionalLatLonDeg): LatLonDeg {
-        operator fun LatLonDeg.plus(other: OptionalLatLonDeg): LatLonDeg {
-            return kotlin.Pair(first + (other.first ?: 0.0), second + (other.second ?: 0.0))
+    internal fun average(vararg points: LatLng?): LatLng {
+        fun sum(vararg points: LatLng?): LatLng {
+            operator fun LatLng.plus(other: LatLng?): LatLng {
+                return LatLng(lat + (other?.lat ?: 0.0), lng + (other?.lng ?: 0.0))
+            }
+
+            return points.fold(LatLng(0.0, 0.0), { current, next -> current + next })
         }
 
-        return points.fold(LatLonDeg(0.0, 0.0), { current, next -> current + next })
-    }
-
-    internal fun average(vararg points: OptionalLatLonDeg): LatLonDeg {
-        operator fun LatLonDeg.div(numberOfPairs: Int): LatLonDeg {
-            return kotlin.Pair(first / numberOfPairs, second / numberOfPairs)
+        operator fun LatLng.div(numberOfPairs: Int): LatLng {
+            return LatLng(lat / numberOfPairs, lng / numberOfPairs)
         }
 
         return sum(*points) / points.size
