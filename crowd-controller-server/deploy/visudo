@@ -1,0 +1,4 @@
+# Cmnd alias specification
+Cmnd_Alias CROWD_CONTROLLER = /bin/systemctl start CrowdController, /bin/systemctl stop CrowdController, /bin/systemctl restart CrowdController
+# Allow members of group sudo to crowd controller commands without password
+%sudo   ALL=(ALL) NOPASSWD: CROWD_CONTROLLER
