@@ -46,8 +46,8 @@ endpoints:
     sensitive: false
 
 logging:
+  file: /var/crowdcontroller/logs/crowdcontroller.log
   level:
     root: INFO
     me.cooper.rick: DEBUG
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
-  file: crowdcontroller.log

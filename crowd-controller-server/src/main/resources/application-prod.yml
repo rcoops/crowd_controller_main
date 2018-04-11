@@ -10,6 +10,6 @@ security:
 
 spring:
   datasource:
-    url: jdbc:mysql://crowdcontroller.ddns.net:3306/crowd_controller
+    url: jdbc:mysql://crowdcontroller.ddns.net:3306/crowd_controller?useSSL=false
     username: root
     password: '*stb098*'
