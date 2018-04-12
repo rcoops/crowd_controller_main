@@ -1,0 +1,13 @@
+[Unit]
+# place me in /etc/systemd/system
+Description=Crowd Controller
+After network.target = crowdcontroller.service
+
+[Service]
+Type = forking
+ExecStart = /usr/local/bin/crowdcontroller start
+ExecStop = /usr/local/bin/crowdcontroller stop
+ExecReload = /usr/local/bin/crowdcontroller stop
+
+[Install]
+WantedBy=multi-user.target
