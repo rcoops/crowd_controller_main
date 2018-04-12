@@ -40,7 +40,7 @@ class UserController(private val userService: UserService) {
         userService.delete(userId)
     }
 
-    @PatchMapping("{userId}/latLng")
+    @PatchMapping("{userId}/location")
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
     fun updateLocation(@PathVariable userId: Long,
                        @RequestBody dto: LocationDto, principal: Principal): UserDto {
