@@ -13,3 +13,6 @@ spring:
     url: jdbc:mysql://crowdcontroller.ddns.net:3306/crowd_controller?useSSL=false
     username: root
     password: '*stb098*'
+
+logging:
+  file: /var/crowdcontroller/logs/crowdcontroller.log
