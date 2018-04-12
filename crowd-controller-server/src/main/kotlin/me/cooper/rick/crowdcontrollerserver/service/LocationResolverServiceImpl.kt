@@ -20,7 +20,7 @@ internal class LocationResolverServiceImpl(private val geoApiContext: GeoApiCont
     override fun resolveLocation(group: Group): LocationDto {
         val resolver = resolver(group.settings)
         val latLng = resolver.latLng(group)
-        return LocationDto(group.id, latLng.lat, latLng.lng, getAddress(latLng))
+        return LocationDto(group.id, latLng?.lat, latLng?.lng, getAddress(latLng))
     }
 
     private fun resolver(settings: GroupSettings): LocationResolver {
@@ -31,7 +31,8 @@ internal class LocationResolverServiceImpl(private val geoApiContext: GeoApiCont
         }
     }
 
-    private fun getAddress(latLng: LatLng): String? {
+    private fun getAddress(latLng: LatLng?): String? {
+        if (latLng == null) return null
         val results = reverseGeocode(geoApiContext, latLng).await()
 
         return results[0].formattedAddress

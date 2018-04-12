@@ -131,7 +131,7 @@ internal object MultiLocationResolverSpec : Spek({
                 "6" to LatLng(2352.13525,    546238.235235)
         ))
 
-        val group = Group(null, users.first(), users, locationResolverService = locationResolverService)
+        val group = Group(null, users.first(), users)
         val usersToExpectedAverageLocation = mapOf(
                 listOf("1", "2", "3", "4", "5", "6") to LatLng(393687.4289572,	99345.9455693),
                 listOf("1", "2", "3", "4") to           LatLng(1854.0558483,     26642.9183201),

@@ -40,20 +40,7 @@ internal data class Group(
 
         @OneToOne(cascade = [CascadeType.ALL], optional = false)
         @JoinColumn(name = "settings_id", referencedColumnName = "id")
-        val settings: GroupSettings = GroupSettings(),
-
-        @Transient
-        private val locationResolverService: LocationResolverService) {
-
-    fun toDto(): GroupDto {
-        return GroupDto(
-                id!!,
-                admin!!.id,
-                members.map { it.toGroupMemberDto() },
-                locationResolverService.resolveLocation(this),
-                settings.toDto()
-        )
-    }
+        val settings: GroupSettings = GroupSettings()) {
 
     fun settingsFromDto(dto: GroupSettingsDto?) = settings.fromDto(dto)
 
@@ -76,8 +63,8 @@ internal data class Group(
 
     companion object {
 
-        fun fromUsers(user: User, members: List<User>, locationResolverService: LocationResolverService): Group {
-            return Group(null, user, members.toMutableSet(), locationResolverService = locationResolverService)
+        fun fromUsers(user: User, members: List<User>): Group {
+            return Group(null, user, members.toMutableSet())
         }
 
     }

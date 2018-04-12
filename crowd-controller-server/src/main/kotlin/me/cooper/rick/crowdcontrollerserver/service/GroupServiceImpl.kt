@@ -22,7 +22,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
                                 private val groupRepository: GroupRepository,
                                 private val locationResolverService: LocationResolverService): GroupService {
 
-    override fun groups(): List<GroupDto> = groupRepository.findAll().map(Group::toDto)
+    override fun groups(): List<GroupDto> = groupRepository.findAll().map { it -> it.toDto() }
 
     @Throws(GroupNotFoundException::class)
     override fun group(groupId: Long): GroupDto = groupEntity(groupId).toDto()
@@ -37,7 +37,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         val groupedMembers = members.filter { it.group != null }
         if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::toDto))
 
-        val group = groupRepository.save(Group.fromUsers(admin, members, locationResolverService))
+        val group = groupRepository.save(Group.fromUsers(admin, members))
         groupUsers(group, members)
         userRepository.saveAndFlush(admin.copy(groupAccepted = true, roles = admin.roles + groupAdminRole()))
 
@@ -178,5 +178,19 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     @Throws(UserNotFoundException::class)
     private fun userEntity(id: Long) = userRepository.findOne(id) ?: throw UserNotFoundException(id)
+
+    override fun toGroupDto(group: Group): GroupDto {
+        return group.toDto()
+    }
+
+    fun Group.toDto(): GroupDto {
+        return GroupDto(
+                id!!,
+                admin!!.id,
+                members.map { it.toGroupMemberDto() },
+                this@GroupServiceImpl.locationResolverService.resolveLocation(this),
+                settings.toDto()
+        )
+    }
 
 }

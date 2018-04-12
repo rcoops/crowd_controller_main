@@ -5,6 +5,6 @@ import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 
 internal interface LocationResolver {
 
-    fun latLng(group: Group): LatLng
+    fun latLng(group: Group): LatLng?
 
 }

@@ -17,7 +17,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/groups")
 @Api(value = "Group", description = "REST API for Group", tags = ["Group"])
-class GroupController(private val groupService: GroupService) {
+internal class GroupController(private val groupService: GroupService) {
 
     @GetMapping(produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize(IS_ADMIN)
