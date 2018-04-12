@@ -1,0 +1,12 @@
+[Unit]
+Description=Crowd Controller
+After network.target = CrowdController.service
+
+[Service]
+Type = forking
+ExecStart = /usr/local/bin/CrowdController start
+ExecStop = /usr/local/bin/CrowdController stop
+ExecReload = /usr/local/bin/CrowdController stop
+
+[Install]
+WantedBy=multi-user.target

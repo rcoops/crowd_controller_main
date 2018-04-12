@@ -1,12 +1,14 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.location
 
-import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
+import com.google.maps.model.LatLng
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 
 internal class SingleLocationResolver : LocationResolver {
 
-    override fun location(group: Group): LocationDto {
-        return LocationDto(group.id, group.admin?.latitude, group.admin?.longitude)
+    override fun latLng(group: Group): LatLng? {
+        return if (group.admin!!.hasLocation()) {
+            LatLng(group.admin.latitude!!, group.admin.longitude!!)
+        } else null
     }
 
 }

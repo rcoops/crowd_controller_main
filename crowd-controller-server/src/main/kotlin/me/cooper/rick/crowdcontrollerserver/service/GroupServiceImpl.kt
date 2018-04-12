@@ -19,9 +19,10 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 internal class GroupServiceImpl(private val userRepository: UserRepository,
                                 private val roleRepository: RoleRepository,
-                                private val groupRepository: GroupRepository): GroupService {
+                                private val groupRepository: GroupRepository,
+                                private val locationResolverService: LocationResolverService): GroupService {
 
-    override fun groups(): List<GroupDto> = groupRepository.findAll().map(Group::toDto)
+    override fun groups(): List<GroupDto> = groupRepository.findAll().map { it -> it.toDto() }
 
     @Throws(GroupNotFoundException::class)
     override fun group(groupId: Long): GroupDto = groupEntity(groupId).toDto()
@@ -177,5 +178,19 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     @Throws(UserNotFoundException::class)
     private fun userEntity(id: Long) = userRepository.findOne(id) ?: throw UserNotFoundException(id)
+
+    override fun toGroupDto(group: Group): GroupDto {
+        return group.toDto()
+    }
+
+    fun Group.toDto(): GroupDto {
+        return GroupDto(
+                id!!,
+                admin!!.id,
+                members.map { it.toGroupMemberDto() },
+                this@GroupServiceImpl.locationResolverService.resolveLocation(this),
+                settings.toDto()
+        )
+    }
 
 }

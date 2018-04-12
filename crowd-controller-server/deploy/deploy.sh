@@ -1,16 +1,14 @@
 #!/bin/bash
-echo 'DEPLOYING SCRIPTS'
-sftp stb098@helios.csesalford.com <<< $'put deploy/st*.sh'
-echo 'SCRIPT DEPLOYMENT END'
+
 echo 'SHUTTING DOWN APP'
-curl -X POST http://stb098.edu.csesalford.com/actuator/shutdown
+ssh rick@crowdcontroller.ddns.net <<< $'sudo systemctl stop CrowdController'
 echo 'SHUTDOWN END'
 echo 'REMOVING OLD JAR'
-ssh stb098@helios.csesalford.com <<< $'chmod 777 st*.sh; bash stop.sh'
+ssh rick@crowdcontroller.ddns.net <<< $'rm /var/crowdcontroller/crowd-controller-server.jar'
 echo 'OLD JAR REMOVAL END'
 echo 'DEPLOYING NEW JAR'
-sftp stb098@helios.csesalford.com <<< $'put target/crowd-controller-server-*.jar'
+sftp rick@crowdcontroller.ddns.net <<< $'put target/crowd-controller-server-*.jar /var/crowdcontroller/crowd-controller-server.jar'
 echo 'JAR DEPLOYMENT END'
 echo 'STARTING APP'
-ssh stb098@helios.csesalford.com <<< $'bash start.sh'
+ssh rick@crowdcontroller.ddns.net <<< $'sudo systemctl start CrowdController'
 echo 'APP START END'

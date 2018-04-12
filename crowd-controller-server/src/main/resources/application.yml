@@ -1,7 +1,13 @@
 server:
-  port: 9098
+  port: 8080
 
 spring:
+  profiles:
+    active: prod
+  datasource:
+    url: jdbc:mysql://helios.csesalford.com:3306/stb098_crowdcontroller?useSSL=false
+    username: stb098
+    password: '*stb098*'
   jpa:
     hibernate:
       ddl-auto: create
@@ -10,10 +16,6 @@ spring:
 #    username: sa
 #    password:
 #    driver-class-name: org.h2.Driver
-  datasource:
-    url: jdbc:mysql://helios.csesalford.com:3306/stb098_crowdcontroller?useSSL=false
-    username: stb098
-    password: '*stb098*'
 #  http:
 #    converters:
 #      preferred-json-mapper: gson
@@ -44,6 +46,7 @@ endpoints:
     sensitive: false
 
 logging:
+  file: crowdcontroller.log
   level:
     root: INFO
     me.cooper.rick: DEBUG

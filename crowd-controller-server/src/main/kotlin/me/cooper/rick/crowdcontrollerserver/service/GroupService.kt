@@ -3,8 +3,9 @@ package me.cooper.rick.crowdcontrollerserver.service
 import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupSettingsDto
+import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 
-interface GroupService {
+internal interface GroupService {
 
     fun group(groupId: Long): GroupDto
 
@@ -25,5 +26,7 @@ interface GroupService {
     fun acceptInvite(groupId: Long, userId: Long): GroupDto
 
     fun isInGroup(groupId: Long, username: String): Boolean
+
+    fun toGroupDto(group: Group): GroupDto
 
 }

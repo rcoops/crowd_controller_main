@@ -4,6 +4,7 @@ import me.cooper.rick.crowdcontrollerserver.AutowireHelper
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupRepository
+import me.cooper.rick.crowdcontrollerserver.service.GroupService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +19,7 @@ class UserListener {
     private var controller: WebSocketController? = null
 
     @Autowired
-    private var groupRepository: GroupRepository? = null
+    private var groupService: GroupService? = null
 
     private val userGroupCache = mutableMapOf<Long, Long?>()
 
@@ -39,7 +40,7 @@ class UserListener {
     }
 
     private fun findGroupAndPost(groupId: Long?) {
-        groupRepository?.findOne(groupId)?.let { controller?.send(it.toDto()) }
+        groupService!!.group(groupId!!).let { controller?.send(it) }
     }
 
     @PostUpdate
@@ -53,7 +54,9 @@ class UserListener {
     }
 
     private fun sendGroupLocationUpdate(user: User) {
-        user.group?.let { if (it.settings.isClustering || it.admin == user) controller?.send(it.toDto()) }
+        user.group?.let {
+            if (it.settings.isClustering || it.admin == user) controller?.send(groupService!!.toGroupDto(it))
+        }
     }
 
     companion object {
