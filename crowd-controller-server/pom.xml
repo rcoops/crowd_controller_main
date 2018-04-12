@@ -110,7 +110,7 @@
         <dependency>
             <groupId>me.cooper.rick</groupId>
             <artifactId>crowd-controller-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
