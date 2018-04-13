@@ -16,3 +16,5 @@ spring:
 
 logging:
   file: /var/crowdcontroller/logs/crowdcontroller.log
+  level:
+    me.cooper.rick: DEBUG
