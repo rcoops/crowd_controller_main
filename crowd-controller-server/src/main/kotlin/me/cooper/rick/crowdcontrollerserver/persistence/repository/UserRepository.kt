@@ -20,4 +20,7 @@ internal interface UserRepository: JpaRepository<User, Long> {
 
     fun findByGroup(group: Group): List<User>
 
+    @Query("FROM User WHERE group != NULL AND groupAccepted = false")
+    fun findAllWithPendingInvites(): List<User>
+
 }

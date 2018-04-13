@@ -10,5 +10,6 @@ data class UserDto(
         val friends: List<FriendDto> = listOf(),
         val roles: Set<String> = setOf(Role.ROLE_USER.name),
         val group: Long? = null,
+        val groupAdmin: String? = "",
         val groupAccepted: Boolean = false
 )

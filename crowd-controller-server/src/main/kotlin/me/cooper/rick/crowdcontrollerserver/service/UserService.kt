@@ -27,4 +27,6 @@ interface UserService {
 
     fun deleteFriend(userId: Long, friendId: Long): List<FriendDto>
 
+    fun findAllWithPendingInvites(): List<UserDto>
+
 }

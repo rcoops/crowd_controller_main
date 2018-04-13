@@ -65,6 +65,7 @@ internal data class User(
                 friendsToDto(),
                 roles.map { it.name }.toSet(),
                 group?.id,
+                group?.admin?.username,
                 groupAccepted
         )
     }

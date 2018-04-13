@@ -101,6 +101,10 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         }
     }
 
+    override fun findAllWithPendingInvites(): List<UserDto> {
+        return userRepository.findAllWithPendingInvites().map(User::toDto)
+    }
+
     @Throws(UserNotFoundException::class, FriendshipNotFoundException::class)
     private fun findFriendship(userId: Long, friendId: Long): Friendship {
         return friendshipRepository.findFriendshipBetweenUsers(userId, friendId)
