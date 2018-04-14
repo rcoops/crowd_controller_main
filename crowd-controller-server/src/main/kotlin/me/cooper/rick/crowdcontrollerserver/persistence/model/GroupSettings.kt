@@ -17,14 +17,15 @@ internal data class GroupSettings(
         val maxLifeInHours: Int = 12) {
 
     fun toDto(): GroupSettingsDto {
-        return GroupSettingsDto(isClustering, minClusterRadius, minNodePercentage)
+        return GroupSettingsDto(isClustering, minClusterRadius, minNodePercentage, maxLifeInHours)
     }
 
     fun fromDto(dto: GroupSettingsDto?): GroupSettings {
         return if (dto == null) this else copy(
                 isClustering = dto.clustering,
                 minClusterRadius = dto.minClusterRadius,
-                minNodePercentage = dto.minNodePercentage
+                minNodePercentage = dto.minNodePercentage,
+                maxLifeInHours = dto.maxLifeInHours
         )
     }
 

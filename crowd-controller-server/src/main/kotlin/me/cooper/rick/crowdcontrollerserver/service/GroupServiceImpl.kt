@@ -34,7 +34,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     @Throws(UserInGroupException::class)
     override fun create(dto: CreateGroupDto): GroupDto {
-        val admin = userEntity(dto.adminId)
+        var admin = userEntity(dto.adminId)
         if (admin.group != null) throw UserInGroupException(admin.toDto())
 
         // Ensure that it doesn't matter if admin id is included in members or not
@@ -42,9 +42,9 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         val groupedMembers = members.filter { it.group != null }
         if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::toDto))
 
+        admin = userRepository.saveAndFlush(admin.copy(groupAccepted = true, roles = admin.roles + groupAdminRole()))
         val group = groupRepository.save(Group.fromUsers(admin, members))
         groupUsers(group, members)
-        userRepository.saveAndFlush(admin.copy(groupAccepted = true, roles = admin.roles + groupAdminRole()))
 
         return group.toDto()
     }
