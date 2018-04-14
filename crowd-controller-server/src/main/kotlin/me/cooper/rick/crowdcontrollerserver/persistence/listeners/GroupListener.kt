@@ -23,15 +23,19 @@ class GroupListener {
     @PostPersist
     internal fun create(group: Group) {
         AutowireHelper.autowire(this)
-        controller?.send(groupService!!.toGroupDto(group))
-        LOG.debug(group.toString())
+        val dto = groupService!!.toGroupDto(group)
+        controller?.send(*group.members.map { it.toDto() }.toTypedArray())
+        controller?.send(dto)
+        LOG.debug("Created group: $dto")
     }
 
     @PostUpdate
     internal fun update(group: Group) {
         AutowireHelper.autowire(this)
-        controller?.send(groupService!!.toGroupDto(group))
-        LOG.debug(group.toString())
+        val dto = groupService!!.toGroupDto(group)
+        controller?.send(*group.members.map { it.toDto() }.toTypedArray())
+        controller?.send(dto)
+        LOG.debug("Updated group: $dto")
     }
 
     companion object {

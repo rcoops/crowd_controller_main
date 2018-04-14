@@ -13,7 +13,8 @@ internal data class GroupSettings(
 
         val isClustering: Boolean = false,
         val minClusterRadius: Double = 100.0,
-        val minNodePercentage: Double = 0.5) {
+        val minNodePercentage: Double = 0.5,
+        val maxLifeInHours: Int = 12) {
 
     fun toDto(): GroupSettingsDto {
         return GroupSettingsDto(isClustering, minClusterRadius, minNodePercentage)

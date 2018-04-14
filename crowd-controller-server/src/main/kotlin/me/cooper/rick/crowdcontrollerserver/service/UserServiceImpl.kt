@@ -4,6 +4,7 @@ import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
+import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipExistsException
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipNotFoundException
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.InvalidBodyException
@@ -24,7 +25,8 @@ import org.springframework.transaction.annotation.Transactional
 internal class UserServiceImpl(private val userRepository: UserRepository,
                                private val roleRepository: RoleRepository,
                                private val friendshipRepository: FriendshipRepository,
-                               private val bCryptPasswordEncoder: PasswordEncoder) : UserService {
+                               private val bCryptPasswordEncoder: PasswordEncoder,
+                               private val webSocketController: WebSocketController) : UserService {
 
     override fun create(dto: RegistrationDto): UserDto = userRepository.save(newUser(dto)).toDto()
 
@@ -101,7 +103,13 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         }
     }
 
-    override fun findAllWithPendingInvites(): List<UserDto> {
+    override fun sendGroupInvites() {
+        val users: List<UserDto> = findAllWithPendingInvites()
+
+        webSocketController.send(*users.toTypedArray())
+    }
+
+    private fun findAllWithPendingInvites(): List<UserDto> {
         return userRepository.findAllWithPendingInvites().map(User::toDto)
     }
 

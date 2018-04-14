@@ -29,4 +29,6 @@ internal interface GroupService {
 
     fun toGroupDto(group: Group): GroupDto
 
+    fun expireGroups()
+
 }

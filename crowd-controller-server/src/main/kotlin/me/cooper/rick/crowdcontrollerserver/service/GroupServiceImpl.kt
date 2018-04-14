@@ -5,6 +5,7 @@ import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupMemberDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupSettingsDto
+import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.*
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
@@ -14,13 +15,17 @@ import me.cooper.rick.crowdcontrollerserver.persistence.repository.UserRepositor
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 @Service
 @Transactional
 internal class GroupServiceImpl(private val userRepository: UserRepository,
                                 private val roleRepository: RoleRepository,
                                 private val groupRepository: GroupRepository,
-                                private val locationResolverService: LocationResolverService): GroupService {
+                                private val locationResolverService: LocationResolverService,
+                                private val webSocketController: WebSocketController): GroupService {
 
     override fun groups(): List<GroupDto> = groupRepository.findAll().map { it -> it.toDto() }
 
@@ -136,6 +141,19 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         val group = groupEntity(groupId)
 
         return group.members.any { it.id == user.id }
+    }
+
+    override fun expireGroups() {
+        val groups = groupRepository.findByExpiryBefore(
+                Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
+        )
+
+        groups.forEach {
+            webSocketController.sendGroupExpiredNotification(it.toDto())
+            unGroupUsers(it.members.toList())
+            groupRepository.delete(it)
+        }
+        groupRepository.flush()
     }
 
     private fun groupEntity(groupId: Long): Group {
