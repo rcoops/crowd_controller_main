@@ -1,13 +1,7 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.model
 
-import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupSettingsDto
-import me.cooper.rick.crowdcontrollerserver.CrowdControllerServerApplication
 import me.cooper.rick.crowdcontrollerserver.persistence.listeners.GroupListener
-import me.cooper.rick.crowdcontrollerserver.persistence.location.LocationResolver
-import me.cooper.rick.crowdcontrollerserver.persistence.location.MultiLocationResolver
-import me.cooper.rick.crowdcontrollerserver.persistence.location.SingleLocationResolver
-import me.cooper.rick.crowdcontrollerserver.service.LocationResolverService
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.sql.Timestamp
@@ -16,8 +10,8 @@ import java.util.*
 import java.util.Objects.hash
 import javax.persistence.*
 import javax.persistence.CascadeType.MERGE
-import javax.persistence.TemporalType.TIMESTAMP
 import javax.persistence.GenerationType.AUTO
+import javax.persistence.TemporalType.TIMESTAMP
 
 @Entity
 @EntityListeners(GroupListener::class, AuditingEntityListener::class)
@@ -33,6 +27,7 @@ internal data class Group(
         val members: Set<User> = mutableSetOf(),
 
         val created: Timestamp = Timestamp.valueOf(LocalDateTime.now()),
+        val expiry: Timestamp = Timestamp.valueOf(LocalDateTime.now().plusHours(12)),
 
         @LastModifiedDate
         @Temporal(TIMESTAMP)

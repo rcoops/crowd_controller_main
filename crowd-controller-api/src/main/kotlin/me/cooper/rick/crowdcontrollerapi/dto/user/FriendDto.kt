@@ -9,7 +9,7 @@ data class FriendDto(
         val groupStatus: GroupStatus = GroupStatus.INACTIVE) {
 
     @JsonIgnore
-    fun isGrouped() = GroupStatus.INACTIVE != groupStatus
+    fun isGrouped() = GroupStatus.CONFIRMED == groupStatus
 
     @JsonIgnore
     fun canJoinGroup() = !isGrouped() && status == Status.CONFIRMED
