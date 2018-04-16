@@ -47,7 +47,9 @@ internal class GroupController(private val groupService: GroupService) {
     @PutMapping("/{groupId}/settings")
     @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN")
     fun updateSettings(@PathVariable groupId: Long,
-                       @RequestBody dto: GroupSettingsDto): GroupDto = groupService.updateSettings(groupId, dto)
+                       @RequestBody dto: GroupSettingsDto, principal: Principal): GroupDto {
+        return groupService.updateSettings(groupId, dto)
+    }
 
     @DeleteMapping("/{groupId}/members/{userId}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_GROUP_ADMIN or $IS_PRINCIPAL")
