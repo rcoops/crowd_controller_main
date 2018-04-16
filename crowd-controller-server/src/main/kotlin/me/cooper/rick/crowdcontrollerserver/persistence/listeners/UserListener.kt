@@ -26,8 +26,16 @@ class UserListener {
     @PostPersist
     internal fun create(user: User) {
         AutowireHelper.autowire(this)
-        controller?.send(user.toDto())
-        LOG.debug(user.toString())
+        sendUser(user, "Creating")
+    }
+
+    @PostUpdate
+    internal fun update(user: User) {
+        AutowireHelper.autowire(this)
+        sendUser(user, "Updating")
+        updateGroup(user)
+        userGroupCache[user.id] = user.group?.id
+        sendGroupLocationUpdate(user)
     }
 
     private fun updateGroup(user: User) {
@@ -43,14 +51,9 @@ class UserListener {
         groupService!!.group(groupId!!).let { controller?.send(it) }
     }
 
-    @PostUpdate
-    internal fun update(user: User) {
-        AutowireHelper.autowire(this)
+    private fun sendUser(user: User, action: String) {
         controller?.send(user.toDto())
-        updateGroup(user)
-        userGroupCache[user.id] = user.group?.id
-        sendGroupLocationUpdate(user)
-        LOG.debug(user.toString())
+        LOG.debug("$action $user")
     }
 
     private fun sendGroupLocationUpdate(user: User) {

@@ -1,5 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.listeners
 
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerserver.AutowireHelper
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
@@ -23,19 +24,20 @@ class GroupListener {
     @PostPersist
     internal fun create(group: Group) {
         AutowireHelper.autowire(this)
-        val dto = groupService!!.toGroupDto(group)
-        controller?.send(*group.members.map { it.toDto() }.toTypedArray())
-        controller?.send(dto)
-        LOG.debug("Created group: $dto")
+        sendGroup(group, "Created")
     }
 
     @PostUpdate
     internal fun update(group: Group) {
         AutowireHelper.autowire(this)
+        sendGroup(group, "Updated")
+    }
+
+    private fun sendGroup(group: Group, action: String) {
         val dto = groupService!!.toGroupDto(group)
         controller?.send(*group.members.map { it.toDto() }.toTypedArray())
         controller?.send(dto)
-        LOG.debug("Updated group: $dto")
+        LOG.debug("$action group: $dto")
     }
 
     companion object {
