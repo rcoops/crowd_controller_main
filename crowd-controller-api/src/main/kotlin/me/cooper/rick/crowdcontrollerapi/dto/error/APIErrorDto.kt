@@ -16,7 +16,7 @@ class APIErrorDto(@get:JsonProperty("status")
 
         private const val DEFAULT_STATUS = 503
         const val DEFAULT_ERROR = "Connection Error"
-        const val DEFAULT_DESCRIPTION = "Unfortunately the service is not currently available. Please try again later."
+        const val DEFAULT_DESCRIPTION = "There appears to be a temporary connection issue - please check your internet connection and try again."
 
     }
 
