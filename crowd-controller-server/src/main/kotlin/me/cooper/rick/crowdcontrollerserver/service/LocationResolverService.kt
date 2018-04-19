@@ -5,6 +5,6 @@ import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 
 internal interface LocationResolverService {
 
-    fun resolveLocation(group: Group): LocationDto
+    fun resolveLocation(group: Group): LocationDto?
 
 }

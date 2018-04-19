@@ -1,7 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
 import com.google.maps.GeoApiContext
-import com.google.maps.GeocodingApi
 import com.google.maps.GeocodingApi.reverseGeocode
 import com.google.maps.model.LatLng
 import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
@@ -17,10 +16,10 @@ internal class LocationResolverServiceImpl(private val geoApiContext: GeoApiCont
 
     private val singleLocationResolver: SingleLocationResolver = SingleLocationResolver()
 
-    override fun resolveLocation(group: Group): LocationDto {
+    override fun resolveLocation(group: Group): LocationDto? {
         val resolver = resolver(group.settings)
-        val latLng = resolver.latLng(group)
-        return LocationDto(group.id, latLng?.lat, latLng?.lng, getAddress(latLng))
+        val locationDto = resolver.location(group)
+        return locationDto?.copy(address = getAddress(LatLng(locationDto.latitude!!, locationDto.longitude!!)))
     }
 
     private fun resolver(settings: GroupSettings): LocationResolver {

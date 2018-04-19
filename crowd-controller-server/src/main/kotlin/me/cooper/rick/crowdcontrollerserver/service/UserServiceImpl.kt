@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 @Service
 @Transactional
@@ -40,7 +42,13 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     override fun updateLocation(userId: Long, dto: LocationDto): UserDto {
         if (userId != dto.id) throw InvalidBodyException(userId, dto.id)
         val user = userEntity(userId)
-        userRepository.saveAndFlush(user.copy(latitude = dto.latitude, longitude = dto.longitude))
+        userRepository.saveAndFlush(
+                user.copy(
+                        latitude = dto.latitude,
+                        longitude = dto.longitude,
+                        lastLocationUpdate = Timestamp.valueOf(LocalDateTime.now())
+                )
+        )
 
         return user.toDto()
     }
