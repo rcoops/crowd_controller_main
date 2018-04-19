@@ -101,7 +101,7 @@ internal object MultiLocationResolverSpec : Spek({
                 }
             }
         }
-        on("calculating most suitable cluster for group latLng") {
+        on("calculating most suitable cluster for group location") {
             val distanceMatrixMap = multiLocationResolver.toDistanceMatrixMap(users)
             val cluster: Cluster = DefaultClusteringAlgorithm()
                     .performClustering(distanceMatrixMap.values.toTypedArray(),
@@ -145,7 +145,7 @@ internal object MultiLocationResolverSpec : Spek({
         )
         // @formatter:on
         usersToExpectedAverageLocation.forEach { userNames, expectedAverage ->
-            on("building an average latLng dto for $userNames") {
+            on("building an average location dto for $userNames") {
                 val latLng = multiLocationResolver.getAverateLatLng(userNames, group)
                 val lat = latLng.lat
                 val long = latLng.lng

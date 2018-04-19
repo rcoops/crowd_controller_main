@@ -4,12 +4,15 @@ import com.apporiented.algorithm.clustering.Cluster
 import com.apporiented.algorithm.clustering.CompleteLinkageStrategy
 import com.apporiented.algorithm.clustering.DefaultClusteringAlgorithm
 import com.google.maps.model.LatLng
+import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.DistanceUtil.average
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.DistanceUtil.distance
+import me.cooper.rick.crowdcontrollerserver.persistence.location.util.buildLocationFromAdmin
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.filter
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.leaves
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
+import javax.xml.stream.Location
 import kotlin.math.ceil
 
 typealias DistanceMatrixMap = Map<String, DoubleArray>
@@ -19,7 +22,7 @@ typealias Distance = Double
 internal class MultiLocationResolver(private val minUsersPercentage: Double = 0.5,
                                      private val maxDistanceMetres: Double = 200.0) : LocationResolver {
 
-    override fun latLng(group: Group): LatLng {
+    override fun location(group: Group): LocationDto? {
         val distanceMatrixMap = toDistanceMatrixMap(group.members)
         val names = distanceMatrixMap.keys.toTypedArray()
         val minNodes = ceil(names.size * minUsersPercentage).toInt()
@@ -29,10 +32,21 @@ internal class MultiLocationResolver(private val minUsersPercentage: Double = 0.
         val bestClusterMatch = cluster.filter(minNodes, maxDistanceMetres)
 
         return when (bestClusterMatch) {
-            null -> LatLng(group.admin!!.latitude!!, group.admin.longitude!!) // default to admin if not within limits
-            else -> getAverateLatLng(bestClusterMatch.leaves().map { it.name }, group)
+            null -> buildLocationFromAdmin(group, group.admin!!) // default to admin if not within limits
+            else -> buildClusteredLocation(bestClusterMatch, group)
         }
     }
+
+    private fun buildClusteredLocation(bestClusterMatch: Cluster, group: Group): LocationDto {
+        val latLng = getAverateLatLng(bestClusterMatch.leaves().map { it.name }, group)
+        return LocationDto(
+                id = group.id,
+                latitude = latLng.lat,
+                longitude = latLng.lng,
+                lastUpdate = group.members.mapNotNull { it.lastLocationUpdate }.min()?.toLocalDateTime()
+        )
+    }
+
 
     internal fun toDistanceMatrixMap(users: Set<User>): DistanceMatrixMap {
         fun User.getDistanceMatrix(users: Set<User>): DistanceMatrix {

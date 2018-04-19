@@ -2,7 +2,10 @@ package me.cooper.rick.crowdcontrollerserver.persistence.location.util
 
 import com.apporiented.algorithm.clustering.Cluster
 import com.google.maps.model.LatLng
+import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
 import me.cooper.rick.crowdcontrollerserver.persistence.location.Distance
+import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
+import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import java.lang.Math.*
 
 internal object DistanceUtil {
@@ -150,4 +153,15 @@ internal fun Cluster.filter(minLeaves: Int, maxDistance: Double): Cluster? {
         }
     }
     return filterCluster(this)
+}
+
+
+internal fun buildLocationFromAdmin(group: Group, admin: User): LocationDto {
+    return LocationDto(
+            id = group.id,
+            latitude = group.admin!!.latitude!!,
+            longitude = admin.longitude!!,
+            lastUpdate = admin.lastLocationUpdate?.toLocalDateTime()
+    )
+
 }

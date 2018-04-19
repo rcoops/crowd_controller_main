@@ -10,6 +10,7 @@ import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestRespons
 import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_MOBILE
 import me.cooper.rick.crowdcontrollerserver.controller.error.handler.RestResponseExceptionHandler.Companion.UNIQUE_USERNAME
 import me.cooper.rick.crowdcontrollerserver.persistence.listeners.UserListener
+import java.sql.Timestamp
 import java.util.*
 import javax.persistence.*
 import javax.persistence.GenerationType.AUTO
@@ -53,8 +54,9 @@ internal data class User(
 
         val latitude: Double? = null,
 
-        val longitude: Double? = null) {
+        val longitude: Double? = null,
 
+        val lastLocationUpdate: Timestamp? = null) {
 
     fun toDto(): UserDto {
         return UserDto(
