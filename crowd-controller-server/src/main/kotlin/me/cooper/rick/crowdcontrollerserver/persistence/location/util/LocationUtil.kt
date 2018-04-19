@@ -7,6 +7,9 @@ import me.cooper.rick.crowdcontrollerserver.persistence.location.Distance
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import java.lang.Math.*
+import java.sql.Timestamp
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 internal object DistanceUtil {
     /*
@@ -161,7 +164,12 @@ internal fun buildLocationFromAdmin(group: Group, admin: User): LocationDto {
             id = group.id,
             latitude = group.admin!!.latitude!!,
             longitude = admin.longitude!!,
-            lastUpdate = admin.lastLocationUpdate?.toLocalDateTime()
+            lastUpdate = admin.lastLocationUpdate?.toDateString()
     )
 
 }
+
+const val DATE_FORMAT: String = "HH:mm:ss (MMM dd)"
+val simpleDateFormat: DateFormat = SimpleDateFormat(DATE_FORMAT)
+
+internal fun Timestamp.toDateString(): String = simpleDateFormat.format(this)

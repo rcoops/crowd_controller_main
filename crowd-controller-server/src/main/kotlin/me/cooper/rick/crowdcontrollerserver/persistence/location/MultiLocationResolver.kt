@@ -10,6 +10,7 @@ import me.cooper.rick.crowdcontrollerserver.persistence.location.util.DistanceUt
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.buildLocationFromAdmin
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.filter
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.leaves
+import me.cooper.rick.crowdcontrollerserver.persistence.location.util.toDateString
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import javax.xml.stream.Location
@@ -43,7 +44,7 @@ internal class MultiLocationResolver(private val minUsersPercentage: Double = 0.
                 id = group.id,
                 latitude = latLng.lat,
                 longitude = latLng.lng,
-                lastUpdate = group.members.mapNotNull { it.lastLocationUpdate }.min()?.toLocalDateTime()
+                lastUpdate = group.members.mapNotNull { it.lastLocationUpdate }.min()?.toDateString()
         )
     }
 
