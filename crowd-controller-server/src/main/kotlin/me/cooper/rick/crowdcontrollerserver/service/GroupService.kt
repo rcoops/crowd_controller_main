@@ -23,7 +23,7 @@ internal interface GroupService {
 
     fun admin(groupId: Long): String
 
-    fun acceptInvite(groupId: Long, userId: Long): GroupDto
+    fun respondToInvite(groupId: Long, userId: Long, isAccept: Boolean): GroupDto?
 
     fun isInGroup(groupId: Long, username: String): Boolean
 

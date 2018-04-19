@@ -25,7 +25,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
                                 private val roleRepository: RoleRepository,
                                 private val groupRepository: GroupRepository,
                                 private val locationResolverService: LocationResolverService,
-                                private val webSocketController: WebSocketController): GroupService {
+                                private val webSocketController: WebSocketController) : GroupService {
 
     override fun groups(): List<GroupDto> = groupRepository.findAll().map { it -> it.toDto() }
 
@@ -117,16 +117,20 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     }
 
     @Throws(UsernameNotFoundException::class, GroupNotFoundException::class, UserInGroupException::class)
-    override fun acceptInvite(groupId: Long, userId: Long): GroupDto {
+    override fun respondToInvite(groupId: Long, userId: Long, isAccept: Boolean): GroupDto? {
         val user = userEntity(userId)
         val group = groupEntity(groupId)
 
         if (user.group == null) throw UserNotGroupedException(userId)
         if (group != user.group) throw UserInGroupException(user.toDto())
+        return if (!isAccept) {
+            removeFromGroup(groupId, userId)
+            null
+        } else {
+            userRepository.saveAndFlush(user.copy(groupAccepted = isAccept))
 
-        userRepository.saveAndFlush(user.copy(groupAccepted = true))
-
-        return group.toDto()
+            group.toDto()
+        }
     }
 
     @Throws(GroupNotFoundException::class)
@@ -136,8 +140,8 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     }
 
     override fun isInGroup(groupId: Long, username: String): Boolean {
-        val user = userRepository.findByUsername(username) ?:
-        throw UserNotFoundException("User with detail: $username does not exist")
+        val user = userRepository.findByUsername(username)
+                ?: throw UserNotFoundException("User with detail: $username does not exist")
         val group = groupEntity(groupId)
 
         return group.members.any { it.id == user.id }

@@ -39,9 +39,10 @@ internal class GroupController(private val groupService: GroupService) {
 
     @PatchMapping("/{groupId}/members/{userId}", produces = [APPLICATION_JSON_VALUE])
     @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
-    fun acceptInvite(@PathVariable groupId: Long,
-                     @PathVariable userId: Long, principal: Principal): GroupDto {
-        return groupService.acceptInvite(groupId, userId)
+    fun respondToInvite(@PathVariable groupId: Long,
+                        @PathVariable userId: Long, principal: Principal,
+                        @RequestParam isAccept: Boolean): GroupDto? {
+        return groupService.respondToInvite(groupId, userId, isAccept)
     }
 
     @PutMapping("/{groupId}/settings")
