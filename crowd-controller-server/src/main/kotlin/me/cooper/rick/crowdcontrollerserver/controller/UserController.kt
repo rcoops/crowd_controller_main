@@ -3,6 +3,7 @@ package me.cooper.rick.crowdcontrollerserver.controller
 import io.swagger.annotations.Api
 import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.PasswordResetDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.constants.IS_ADMIN
@@ -87,7 +88,7 @@ class UserController(private val userService: UserService) {
 
     @PatchMapping("/{userId}/password")
     fun updatePassword(@PathVariable userId: Long,
-                       @RequestBody dto: RegistrationDto): UserDto = userService.updatePassword(userId, dto)
+                       @RequestBody dto: PasswordResetDto): UserDto = userService.updatePassword(userId, dto)
 
     companion object {
         const val PASSWORD_RESET_PATH = "/request_password_reset"

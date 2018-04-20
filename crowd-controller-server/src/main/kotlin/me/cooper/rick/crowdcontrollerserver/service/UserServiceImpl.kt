@@ -2,6 +2,7 @@ package me.cooper.rick.crowdcontrollerserver.service
 
 import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.PasswordResetDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
@@ -14,6 +15,7 @@ import me.cooper.rick.crowdcontrollerserver.persistence.repository.RoleRepositor
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.UserRepository
 import me.cooper.rick.crowdcontrollerserver.util.RandomPasswordGenerator.generatePassword
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -131,18 +133,22 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         val user = userRepository.findByEmailAndPasswordResetToken(email, token) ?: throw UserNotFoundException(email)
         val newPassword = generatePassword()
         mailingService.sendNewPasswordMail(user, newPassword)
-        userRepository.saveAndFlush(user.copy(password = bCryptPasswordEncoder.encode(newPassword)))
+        userRepository.saveAndFlush(user.copy(
+                password = bCryptPasswordEncoder.encode(newPassword),
+                passwordResetToken = null
+        ))
         return user.toDto()
     }
 
-    override fun updatePassword(id: Long, dto: RegistrationDto): UserDto {
+    override fun updatePassword(id: Long, dto: PasswordResetDto): UserDto {
+        if (id != dto.userId) throw InvalidBodyException(id, dto.userId)
         val user = userRepository.findOne(id) ?: throw UserNotFoundException(id)
-        if (user.email != dto.email) throw InvalidBodyException(user.email, dto.email)
 
-        val plainPassword = dto.password
-        if (plainPassword.isBlank()) throw EmptyPasswordException("You cannot enter a blank password!")
+        if (bCryptPasswordEncoder.encode(dto.oldPassword) != user.password) throw InvalidBodyException("Password entered is not correct!")
+        if (dto.newPassword.isBlank()) throw EmptyPasswordException("You cannot enter a blank password!")
 
-        userRepository.saveAndFlush(user.copy(password = bCryptPasswordEncoder.encode(plainPassword)))
+        userRepository.saveAndFlush(user.copy(password = bCryptPasswordEncoder.encode(dto.newPassword)))
+
         return user.toDto()
     }
 

@@ -11,7 +11,7 @@
     <parent>
         <artifactId>crowd-controller</artifactId>
         <groupId>me.cooper.rick</groupId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </parent>
 
     <properties>
@@ -114,7 +114,7 @@
         <dependency>
             <groupId>me.cooper.rick</groupId>
             <artifactId>crowd-controller-api</artifactId>
-            <version>1.0</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>

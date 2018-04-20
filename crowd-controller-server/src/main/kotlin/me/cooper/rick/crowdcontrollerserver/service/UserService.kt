@@ -2,6 +2,7 @@ package me.cooper.rick.crowdcontrollerserver.service
 
 import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.PasswordResetDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 
@@ -35,6 +36,6 @@ interface UserService {
 
     fun resetPassword(email: String, token: String): UserDto
 
-    fun updatePassword(id: Long, dto: RegistrationDto): UserDto
+    fun updatePassword(id: Long, dto: PasswordResetDto): UserDto
 
 }
