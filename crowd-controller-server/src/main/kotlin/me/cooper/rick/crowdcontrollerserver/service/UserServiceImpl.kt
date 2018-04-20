@@ -144,7 +144,9 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         if (id != dto.userId) throw InvalidBodyException(id, dto.userId)
         val user = userRepository.findOne(id) ?: throw UserNotFoundException(id)
 
-        if (bCryptPasswordEncoder.encode(dto.oldPassword) != user.password) throw InvalidBodyException("Password entered is not correct!")
+        if (!bCryptPasswordEncoder.matches(dto.oldPassword, user.password)) {
+            throw InvalidBodyException("The current password you entered is not correct! Please try again.")
+        }
         if (dto.newPassword.isBlank()) throw EmptyPasswordException("You cannot enter a blank password!")
 
         userRepository.saveAndFlush(user.copy(password = bCryptPasswordEncoder.encode(dto.newPassword)))

@@ -23,7 +23,7 @@
     <parent>
         <artifactId>crowd-controller</artifactId>
         <groupId>me.cooper.rick</groupId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
