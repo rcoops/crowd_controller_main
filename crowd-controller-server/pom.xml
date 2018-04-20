@@ -11,7 +11,7 @@
     <parent>
         <artifactId>crowd-controller</artifactId>
         <groupId>me.cooper.rick</groupId>
-        <version>1.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <properties>
@@ -65,6 +65,10 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
             <version>1.0.9.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

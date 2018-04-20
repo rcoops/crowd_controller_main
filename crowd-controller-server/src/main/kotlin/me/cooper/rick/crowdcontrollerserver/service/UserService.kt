@@ -31,4 +31,10 @@ interface UserService {
 
     fun clearLocationOfUngroupedUsers()
 
+    fun requestResetPassword(dto: RegistrationDto): Boolean
+
+    fun resetPassword(email: String, token: String): UserDto
+
+    fun updatePassword(id: Long, dto: RegistrationDto): UserDto
+
 }

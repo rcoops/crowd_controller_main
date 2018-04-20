@@ -1,26 +1,25 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
-import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.FriendDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.RegistrationDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipExistsException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.FriendshipNotFoundException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.InvalidBodyException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotFoundException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.*
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Friendship
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Role
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.FriendshipRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.RoleRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.UserRepository
+import me.cooper.rick.crowdcontrollerserver.util.RandomPasswordGenerator.generatePassword
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Timestamp
 import java.time.LocalDateTime
+import java.util.*
 
 @Service
 @Transactional
@@ -28,6 +27,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
                                private val roleRepository: RoleRepository,
                                private val friendshipRepository: FriendshipRepository,
                                private val bCryptPasswordEncoder: PasswordEncoder,
+                               private val mailingService: MailingService,
                                private val webSocketController: WebSocketController) : UserService {
 
     override fun create(dto: RegistrationDto): UserDto = userRepository.save(newUser(dto)).toDto()
@@ -58,7 +58,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     @Throws(UserNotFoundException::class)
     override fun user(username: String): UserDto {
         return userRepository.findByUsername(username)?.toDto()
-                ?: throw UserNotFoundException("User with name $username does not exist")
+                ?: throw UserNotFoundException(username)
     }
 
     @Throws(UserNotFoundException::class)
@@ -72,7 +72,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         val user = userEntity(userId)
 
         val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendDto.username)
-                ?: throw UserNotFoundException("User with detail: ${friendDto.username} does not exist")
+                ?: throw UserNotFoundException(friendDto.username)
 
         if (friendshipExists(userId, friend.id)) throw FriendshipExistsException(friend.username)
 
@@ -112,11 +112,38 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     }
 
     override fun clearLocationOfUngroupedUsers() {
-        val ungroupedUsersWithLocation = userRepository.findAllUngroupedWithLocation()
-        ungroupedUsersWithLocation.forEach {
+        val unGroupedUsersWithLocation = userRepository.findAllUnGroupedWithLocation()
+        unGroupedUsersWithLocation.forEach {
             userRepository.save(it.copy(latitude = null, longitude = null))
         }
         userRepository.flush()
+    }
+
+    override fun requestResetPassword(dto: RegistrationDto): Boolean {
+        val user = userRepository.findByEmail(dto.email) ?: throw UserNotFoundException(dto.email)
+
+        val uuid = UUID.randomUUID().toString()
+        userRepository.saveAndFlush(user.copy(passwordResetToken = uuid))
+        return mailingService.sendPasswordResetMail(user, uuid)
+    }
+
+    override fun resetPassword(email: String, token: String): UserDto {
+        val user = userRepository.findByEmailAndPasswordResetToken(email, token) ?: throw UserNotFoundException(email)
+        val newPassword = generatePassword()
+        mailingService.sendNewPasswordMail(user, newPassword)
+        userRepository.saveAndFlush(user.copy(password = bCryptPasswordEncoder.encode(newPassword)))
+        return user.toDto()
+    }
+
+    override fun updatePassword(id: Long, dto: RegistrationDto): UserDto {
+        val user = userRepository.findOne(id) ?: throw UserNotFoundException(id)
+        if (user.email != dto.email) throw InvalidBodyException(user.email, dto.email)
+
+        val plainPassword = dto.password
+        if (plainPassword.isBlank()) throw EmptyPasswordException("You cannot enter a blank password!")
+
+        userRepository.saveAndFlush(user.copy(password = bCryptPasswordEncoder.encode(plainPassword)))
+        return user.toDto()
     }
 
     override fun sendGroupInvites() {
