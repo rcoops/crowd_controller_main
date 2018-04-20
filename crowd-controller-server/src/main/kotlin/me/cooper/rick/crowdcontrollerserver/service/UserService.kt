@@ -29,4 +29,6 @@ interface UserService {
 
     fun sendGroupInvites()
 
+    fun clearLocationOfUngroupedUsers()
+
 }

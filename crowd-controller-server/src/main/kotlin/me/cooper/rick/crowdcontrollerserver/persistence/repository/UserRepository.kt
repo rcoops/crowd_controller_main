@@ -23,4 +23,7 @@ internal interface UserRepository: JpaRepository<User, Long> {
     @Query("FROM User WHERE group != NULL AND groupAccepted = false")
     fun findAllWithPendingInvites(): List<User>
 
+    @Query("FROM User WHERE group = NULL AND (latitude != NULL OR longitude != NULL)")
+    fun findAllUngroupedWithLocation(): List<User>
+
 }
