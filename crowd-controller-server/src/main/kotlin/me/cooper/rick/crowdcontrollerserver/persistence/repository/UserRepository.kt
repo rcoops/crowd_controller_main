@@ -15,6 +15,8 @@ internal interface UserRepository: JpaRepository<User, Long> {
 
     fun findByEmail(email: String?): User?
 
+    fun findByEmailAndPasswordResetToken(email: String?, token: String?): User?
+
     @Query("FROM User WHERE email = :identifier OR username = :identifier OR mobile_number = :identifier")
     fun findFirstByEmailOrUsernameOrMobileNumber(@Param("identifier") identifier: String?): User?
 
@@ -24,6 +26,6 @@ internal interface UserRepository: JpaRepository<User, Long> {
     fun findAllWithPendingInvites(): List<User>
 
     @Query("FROM User WHERE group = NULL AND (latitude != NULL OR longitude != NULL)")
-    fun findAllUngroupedWithLocation(): List<User>
+    fun findAllUnGroupedWithLocation(): List<User>
 
 }

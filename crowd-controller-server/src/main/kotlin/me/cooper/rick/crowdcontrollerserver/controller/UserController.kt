@@ -73,4 +73,24 @@ class UserController(private val userService: UserService) {
         return userService.deleteFriend(userId, friendId)
     }
 
+    @PostMapping(PASSWORD_RESET_PATH)
+    fun requestPasswordReset(@RequestBody dto: RegistrationDto): Boolean = userService.requestResetPassword(dto)
+
+    @GetMapping(PASSWORD_RESET_PATH)
+    @PreAuthorize("$IS_ADMIN or $IS_PRINCIPAL")
+    fun resetPassword(@RequestParam(required = true) email: String,
+                      @RequestParam(required = true) token: String, principal: Principal): String {
+        val user = userService.resetPassword(email, token)
+        val identifier = if (user.username.isBlank()) user.email else user.username
+        return "Hi $identifier! Your Password has been reset and sent to your registered email address. Please check your inbox."
+    }
+
+    @PatchMapping("/{userId}/password")
+    fun updatePassword(@PathVariable userId: Long,
+                       @RequestBody dto: RegistrationDto): UserDto = userService.updatePassword(userId, dto)
+
+    companion object {
+        const val PASSWORD_RESET_PATH = "/request_password_reset"
+    }
+
 }

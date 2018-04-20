@@ -11,14 +11,23 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-#  datasource:
-#    url: jdbc:h2:mem:testdb
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
-#  http:
-#    converters:
-#      preferred-json-mapper: gson
+#      https://www.quickprogrammingtips.com/spring-boot/how-to-send-email-from-spring-boot-applications.html
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: crowdcontrollerapp
+    password: D*eU%Qve3xK72bW0r3c30PW0KB$xI87r
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enabled: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 security:
   signing-key: MaYzkSjmkzPC57L
@@ -51,3 +60,7 @@ logging:
     root: INFO
     me.cooper.rick: DEBUG
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+my:
+  application:
+    url: http://localhost:${server.port}

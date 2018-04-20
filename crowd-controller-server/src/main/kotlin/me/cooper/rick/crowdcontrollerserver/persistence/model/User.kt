@@ -30,9 +30,9 @@ internal data class User(
 
         var password: String = "",
 
+        @Column(nullable = false)
         val email: String = "",
 
-        @Column(nullable = false)
         val mobileNumber: String = "",
 
         @ManyToMany
@@ -56,7 +56,9 @@ internal data class User(
 
         val longitude: Double? = null,
 
-        val lastLocationUpdate: Timestamp? = null) {
+        val lastLocationUpdate: Timestamp? = null,
+
+        val passwordResetToken: String? = null) {
 
     fun toDto(): UserDto {
         return UserDto(

@@ -15,7 +15,7 @@ internal class UserDetailsServiceImpl(private val userRepository: UserRepository
     @Throws(UserNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepository.findByUsername(username) ?: userRepository.findByEmail(username) ?:
-                throw UserNotFoundException("User with name $username does not exist")
+                throw UserNotFoundException(username)
         val grantedAuthorities = user.roles.map { SimpleGrantedAuthority(it.name) }
 
         return org.springframework.security.core.userdetails.User(

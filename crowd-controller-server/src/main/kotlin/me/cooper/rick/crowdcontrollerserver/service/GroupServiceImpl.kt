@@ -141,7 +141,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
     override fun isInGroup(groupId: Long, username: String): Boolean {
         val user = userRepository.findByUsername(username)
-                ?: throw UserNotFoundException("User with detail: $username does not exist")
+                ?: throw UserNotFoundException(username)
         val group = groupEntity(groupId)
 
         return group.members.any { it.id == user.id }

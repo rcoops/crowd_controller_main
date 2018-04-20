@@ -18,3 +18,7 @@ logging:
   file: /var/crowdcontroller/logs/crowdcontroller.log
   level:
     me.cooper.rick: DEBUG
+
+my:
+  application:
+    url: https://crowdcontroller.ddns.net:${server.port}
