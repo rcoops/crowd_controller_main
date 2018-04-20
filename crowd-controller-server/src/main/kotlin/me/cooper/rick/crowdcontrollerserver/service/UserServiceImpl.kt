@@ -111,6 +111,14 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
         }
     }
 
+    override fun clearLocationOfUngroupedUsers() {
+        val ungroupedUsersWithLocation = userRepository.findAllUngroupedWithLocation()
+        ungroupedUsersWithLocation.forEach {
+            userRepository.save(it.copy(latitude = null, longitude = null))
+        }
+        userRepository.flush()
+    }
+
     override fun sendGroupInvites() {
         val users: List<UserDto> = findAllWithPendingInvites()
 
