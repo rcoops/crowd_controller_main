@@ -5,15 +5,14 @@ import com.apporiented.algorithm.clustering.CompleteLinkageStrategy
 import com.apporiented.algorithm.clustering.DefaultClusteringAlgorithm
 import com.google.maps.model.LatLng
 import me.cooper.rick.crowdcontrollerapi.dto.group.LocationDto
-import me.cooper.rick.crowdcontrollerserver.persistence.location.util.DistanceUtil.average
-import me.cooper.rick.crowdcontrollerserver.persistence.location.util.DistanceUtil.distance
+import me.cooper.rick.crowdcontrollerserver.persistence.location.util.LocationUtil.average
+import me.cooper.rick.crowdcontrollerserver.persistence.location.util.LocationUtil.distance
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.buildLocationFromAdmin
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.filter
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.leaves
 import me.cooper.rick.crowdcontrollerserver.persistence.location.util.toDateString
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
-import javax.xml.stream.Location
 import kotlin.math.ceil
 
 typealias DistanceMatrixMap = Map<String, DoubleArray>

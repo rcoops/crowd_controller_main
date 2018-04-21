@@ -11,7 +11,7 @@ import java.sql.Timestamp
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
-internal object DistanceUtil {
+internal object LocationUtil {
     /*
      * Copyright (C) 2007 The Android Open Source Project
      *
@@ -170,6 +170,6 @@ internal fun buildLocationFromAdmin(group: Group, admin: User): LocationDto {
 }
 
 const val DATE_FORMAT: String = "HH:mm:ss (MMM dd)"
-val simpleDateFormat: DateFormat = SimpleDateFormat(DATE_FORMAT)
+val simpleDateFormat = SimpleDateFormat(DATE_FORMAT)
 
 internal fun Timestamp.toDateString(): String = simpleDateFormat.format(this)
