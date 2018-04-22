@@ -1,11 +1,10 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
 import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
+import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.GroupNotFoundException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserInGroupException
-import me.cooper.rick.crowdcontrollerserver.controller.error.exception.UserNotFoundException
+import me.cooper.rick.crowdcontrollerserver.controller.error.exception.*
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Role
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
@@ -13,6 +12,7 @@ import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupReposito
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.RoleRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.UserRepository
 import me.cooper.rick.crowdcontrollerserver.testutil.buildTestGroup
+import me.cooper.rick.crowdcontrollerserver.testutil.buildTestUser
 import me.cooper.rick.crowdcontrollerserver.testutil.buildTestUserList
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -20,10 +20,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.any
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.doReturn
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -64,8 +65,8 @@ internal class GroupServiceTest {
                 .`when`(roleRepository).findAllByNameIn(listOf("ROLE_GROUP_ADMIN"))
 
         // user repository mocks
-//        doReturn(testGroup.admin).`when`(userRepository).findOne(TEST_ADMIN_ID)
         doReturn(testGroupedAdmin).`when`(userRepository).findOne(testGroupedAdmin.id)
+        doReturn(testGroup.admin).`when`(userRepository).findOne(testGroup.admin!!.id)
         doReturn(null).`when`(userRepository).findOne(TEST_NON_EXISTENT_ADMIN_ID)
     }
 
@@ -152,6 +153,7 @@ internal class GroupServiceTest {
 
     @Test
     fun testCreateForNonExistentAdminId() {
+        // Expect an UserNotFoundException
         thrown.expect(UserNotFoundException::class.java)
         thrown.expectMessage("User with identifier: $TEST_NON_EXISTENT_ADMIN_ID not found")
         // When the service is called to create a group using a non existent admin id
@@ -160,10 +162,103 @@ internal class GroupServiceTest {
 
     @Test
     fun testCreateForAlreadyGroupedAdmin() {
+        // Expect an UserInGroupException
         thrown.expect(UserInGroupException::class.java)
         thrown.expectMessage("User ${testGroupedAdmin.username} already belongs to a different group")
 
         groupService.create(CreateGroupDto(testGroupedAdmin.id))
+    }
+
+    @Test
+    fun testUpdate() {
+        val additionalUser = buildTestUser(2L, "New Admin")
+        val testGroup = this.testGroup.copy(members = setOf(testGroup.admin!!, additionalUser))
+        // admin switch
+        doReturn(additionalUser.copy(group = testGroup, groupAccepted = true))
+                .`when`(userRepository).findOne(additionalUser.id)
+
+        doReturn(testGroup).`when`(groupRepository).findOne(testGroup.id)
+
+        groupService.update(testGroup.id!!, groupService.toGroupDto(testGroup))
+    }
+
+    @Test
+    fun testUpdateWithIncorrectBody() {
+        // Given a path Id which does not match that of the associated DTO
+        val pathId = 1 + testGroup.id!!
+        val testGroupDto = groupService.toGroupDto(testGroup)
+
+        // Expect an InvalidBodyException
+        thrown.expect(InvalidBodyException::class.java)
+        thrown.expectMessage("Path resource identifier $pathId & body identifier ${testGroupDto.id} do not match")
+
+        // When the service is asked to update a group with these details
+        groupService.update(pathId, testGroupDto)
+    }
+
+    @Test
+    fun testUpdateWithNonExistentGroup() {
+        // Given a dto for a non-existent group
+        val nonExistentGroupDto = GroupDto(TEST_NON_EXISTENT_GROUP_ID)
+        //Expect a GroupNotFoundException
+        thrown.expect(GroupNotFoundException::class.java)
+        thrown.expectMessage("Group with id: $TEST_NON_EXISTENT_GROUP_ID not found")
+
+        // When attempting to update the group
+        groupService.update(nonExistentGroupDto.id, nonExistentGroupDto)
+    }
+
+    @Test(expected = IllegalPromotionException::class)
+    fun testUpdateAdminPromotionForUnconfirmedMember() {
+        // Given a group that does not include testGroupedAdmin
+        val testUnconfirmedAdmin = testGroup.admin!!.copy(groupAccepted = false)
+        val testGroupWithUnconfirmedAdmin = testGroup.copy(admin =  testUnconfirmedAdmin)
+        // And the group repository is mocked to return that group when queried
+        doReturn(testGroupWithUnconfirmedAdmin).`when`(groupRepository).findOne(testGroupWithUnconfirmedAdmin.id)
+        // And the user repository is mocked to return the admin when queried
+        doReturn(testUnconfirmedAdmin).`when`(userRepository).findOne(testUnconfirmedAdmin.id)
+        // When the service is asked to update
+        groupService.update(testGroupWithUnconfirmedAdmin.id!!, groupService.toGroupDto(testGroupWithUnconfirmedAdmin))
+
+        // Expect an IllegalPromotionException
+    }
+
+    @Test
+    fun testRemoveFromGroupPromotesNewAdmin() {
+        // Given a test group with 2 accepted members
+        val testAdditionalUser = User(3L, "New Admin", groupAccepted = true)
+        val testGroup = this.testGroup.copy(members = setOf(testGroup.admin!!, testAdditionalUser))
+        val groupArgCaptor = ArgumentCaptor.forClass(Group::class.java)
+        // And the group repository is mocked to return that group when queried
+        doReturn(testGroup).`when`(groupRepository).findOne(testGroup.id)
+        // and the user repository is mocked to return the test user when an entity with its id is saved
+        doReturn(testAdditionalUser).`when`(userRepository).save(argThat<User> { it.id == testAdditionalUser.id })
+
+        // When the current admin of the group is removed
+        groupService.removeFromGroup(testGroup.id!!, testGroup.admin!!.id)
+
+        // Then the group is saved
+        verify(groupRepository, times(1)).saveAndFlush(groupArgCaptor.capture())
+        // And the new admin is the remaining user
+        assertEquals(testAdditionalUser, groupArgCaptor.value.admin)
+    }
+
+    @Test
+    fun testRemoveFromGroupRemovesGroupWithOneMember() {
+        // When the one accepted member of a group is removed
+        groupService.removeFromGroup(testGroup.id!!, testGroup.admin!!.id)
+
+        // Then the group is deleted
+        verify(groupRepository, times(1)).delete(TEST_GROUP_ID)
+    }
+
+    @Test
+    fun testAdmin() {
+        // When the service is asked to retrieve a group admin
+        val adminUsername = groupService.admin(testGroup.id!!)
+
+        // Then the admin is returned
+        assertEquals(testGroup.admin!!.username, adminUsername)
     }
 
     private fun setupTestGroupedAdmin() {
