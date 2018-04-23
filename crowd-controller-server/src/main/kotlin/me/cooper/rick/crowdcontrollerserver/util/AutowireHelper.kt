@@ -1,4 +1,4 @@
-package me.cooper.rick.crowdcontrollerserver
+package me.cooper.rick.crowdcontrollerserver.util
 
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component
 
 //https://stackoverflow.com/questions/12155632/injecting-a-spring-dependency-into-a-jpa-entitylistener
 @Component
-class AutowireHelper private constructor() : ApplicationContextAware {
+class AutowireHelper : ApplicationContextAware {
 
     override fun setApplicationContext(applicationContext: ApplicationContext) {
-        AutowireHelper.applicationContext = applicationContext
+        Companion.applicationContext = applicationContext
     }
 
     companion object {
@@ -17,8 +17,9 @@ class AutowireHelper private constructor() : ApplicationContextAware {
         private var applicationContext: ApplicationContext? = null
 
         fun autowire(classToAutowire: Any) {
-            AutowireHelper.applicationContext!!.autowireCapableBeanFactory.autowireBean(classToAutowire)
+            applicationContext?.autowireCapableBeanFactory?.autowireBean(classToAutowire)
         }
+
     }
 
 }

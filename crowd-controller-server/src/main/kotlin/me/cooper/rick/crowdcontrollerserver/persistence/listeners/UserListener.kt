@@ -1,9 +1,8 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.listeners
 
-import me.cooper.rick.crowdcontrollerserver.AutowireHelper
+import me.cooper.rick.crowdcontrollerserver.util.AutowireHelper
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
-import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupRepository
 import me.cooper.rick.crowdcontrollerserver.service.GroupService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -48,7 +47,7 @@ class UserListener {
     }
 
     private fun findGroupAndPost(groupId: Long?) {
-        groupService!!.group(groupId!!).let { controller?.send(it) }
+        groupService?.group(groupId!!)?.let { controller?.send(it) }
     }
 
     private fun sendUser(user: User, action: String) {
@@ -58,7 +57,7 @@ class UserListener {
 
     private fun sendGroupLocationUpdate(user: User) {
         user.group?.let {
-            if (it.settings.isClustering || it.admin == user) controller?.send(groupService!!.toGroupDto(it))
+            if (it.settings.isClustering || it.admin == user) groupService?.toGroupDto(it)?.let { controller?.send(it) }
         }
     }
 
