@@ -38,7 +38,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         if (admin.group != null) throw UserInGroupException(admin.toDto())
 
         // Ensure that it doesn't matter if admin id is included in members or not
-        val members = userRepository.findAllWithIdIn((dto.members.map(GroupMemberDto::id) + dto.adminId).toSet())
+        val members = userRepository.findAllByIdIn((dto.members.map(GroupMemberDto::id) + dto.adminId).toSet())
         val groupedMembers = members.filter { it.group != null }
         if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::toDto))
 
@@ -61,7 +61,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
         if (group.admin != admin) swapAdminRole(group, admin)
 
-        val newMembers = userRepository.findAllWithIdIn(dto.members.map(GroupMemberDto::id).toSet())
+        val newMembers = userRepository.findAllByIdIn(dto.members.map(GroupMemberDto::id).toSet())
         val membersToRemove = (group.members - newMembers)
         val membersToAdd = (newMembers - group.members)
 

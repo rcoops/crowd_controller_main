@@ -35,12 +35,8 @@ internal class GroupRepositoryIntegrationTest {
                 Date.from(dateToCheckExpiryBefore.atZone(ZoneId.systemDefault()).toInstant())
         )
 
-        // Then the same number of groups are retrieved as expected
-        assertThat(retrievedExpiredGroups.size).isEqualTo(expiredGroups.size)
-        // And the retrieved list includes all expected expired groups
-        assertThat(retrievedExpiredGroups).containsAll(expiredGroups)
-        // And none of the unexpired
-        assertThat(retrievedExpiredGroups).doesNotContainAnyElementsOf(validGroups)
+        // Then only the expired groups are retrieved
+        assertThat(retrievedExpiredGroups).containsExactlyElementsOf(expiredGroups)
     }
 
     private fun buildDateTime(numberOfMinutesDifference: Long): LocalDateTime {

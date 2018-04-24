@@ -110,13 +110,13 @@ internal class GroupServiceTest {
     @Test
     fun testCreate() {
         // Given a list of members
-        val members = buildTestUserList(5)
+        val members = buildTestUserList(5, role = userRole)
         // And one is designated to be the group admin
         val admin = members[0]
         val mockGroup = Group.fromUsers(admin, members).copy(id = 1L)
         // And repostories are mocked to return expected results
         doReturn(admin).`when`(userRepository).findOne(admin.id)
-        doReturn(members).`when`(userRepository).findAllWithIdIn(members.map(User::id).toSet())
+        doReturn(members).`when`(userRepository).findAllByIdIn(members.map(User::id).toSet())
         doReturn(admin).`when`(userRepository)
                 .saveAndFlush(any(User::class.java))
         doReturn(mockGroup).`when`(groupRepository).save(any(Group::class.java))
@@ -133,12 +133,12 @@ internal class GroupServiceTest {
     @Test
     fun testCreateForGroupedMembers() {
         // Given a list of members that are intended to be added to a group
-        val unGroupedMembers = buildTestUserList(2)
+        val unGroupedMembers = buildTestUserList(2, role = userRole)
         // And some are grouped
-        val groupedMembers = buildTestUserList(2, 3, testGroup)
+        val groupedMembers = buildTestUserList(2, 3, userRole, testGroup)
         val members = groupedMembers + unGroupedMembers
         // And the user repository is mocked to return the members when their ids are supplied
-        doReturn(members).`when`(userRepository).findAllWithIdIn(members.map(User::id).toSet())
+        doReturn(members).`when`(userRepository).findAllByIdIn(members.map(User::id).toSet())
         // And the admin of the group is set
         val admin = unGroupedMembers[0]
         doReturn(admin).`when`(userRepository).findOne(admin.id)
@@ -171,7 +171,7 @@ internal class GroupServiceTest {
 
     @Test
     fun testUpdate() {
-        val additionalUser = buildTestUser(2L, "New Admin")
+        val additionalUser = buildTestUser(2L, "New Admin", userRole)
         val testGroup = this.testGroup.copy(members = setOf(testGroup.admin!!, additionalUser))
         // admin switch
         doReturn(additionalUser.copy(group = testGroup, groupAccepted = true))
@@ -276,6 +276,7 @@ internal class GroupServiceTest {
         private const val TEST_ADMIN_ID = 2L
         private const val TEST_GROUPED_ADMIN_USERNAME = "admin"
         private const val TEST_GROUPED_ADMIN_ID = 666L
+        private val userRole = Role()
         fun List<UserDto>.mapToName() = map(UserDto::username).joinToString(", ")
     }
 

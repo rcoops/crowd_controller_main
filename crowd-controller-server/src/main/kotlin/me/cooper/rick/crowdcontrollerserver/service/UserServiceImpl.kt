@@ -73,7 +73,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     override fun addFriend(userId: Long, friendDto: FriendDto): List<FriendDto> {
         val user = userEntity(userId)
 
-        val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendDto.username)
+        val friend = userRepository.findByEmailOrUsernameOrMobileNumber(friendDto.username)
                 ?: throw UserNotFoundException(friendDto.username)
 
         if (friendshipExists(userId, friend.id)) throw FriendshipExistsException(friend.username)
