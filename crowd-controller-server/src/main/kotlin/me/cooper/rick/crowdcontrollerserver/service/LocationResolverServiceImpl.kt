@@ -34,7 +34,7 @@ internal class LocationResolverServiceImpl(private val geoApiContext: GeoApiCont
         if (latLng == null) return null
         val results = reverseGeocode(geoApiContext, latLng).await()
 
-        return results[0].formattedAddress
+        return results[0]?.formattedAddress
     }
 
 }
