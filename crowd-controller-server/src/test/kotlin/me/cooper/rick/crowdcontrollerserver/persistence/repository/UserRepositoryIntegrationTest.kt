@@ -102,10 +102,10 @@ class UserRepositoryIntegrationTest {
         groupRepository.flush()
         userRepository.flush()
 
-        // When
+        // When attempting to return all users that are grouped but have not accepted
         val retrievedPendingUsers = userRepository.findAllWithPendingInvites()
 
-        // Then
+        // Then the retrieved users are those expected
         assertThat(retrievedPendingUsers).containsExactlyElementsOf(usersWithPendingInvites)
     }
 

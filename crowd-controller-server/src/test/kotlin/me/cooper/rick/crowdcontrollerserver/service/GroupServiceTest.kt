@@ -203,7 +203,6 @@ internal class GroupServiceTest {
         //Expect a GroupNotFoundException
         thrown.expect(GroupNotFoundException::class.java)
         thrown.expectMessage("Group with id: $TEST_NON_EXISTENT_GROUP_ID not found")
-
         // When attempting to update the group
         groupService.update(nonExistentGroupDto.id, nonExistentGroupDto)
     }
