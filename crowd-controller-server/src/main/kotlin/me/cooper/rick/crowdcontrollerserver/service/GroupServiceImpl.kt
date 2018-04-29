@@ -1,6 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.service
 
-import me.cooper.rick.crowdcontrollerapi.constants.Role
+import me.cooper.rick.crowdcontrollerapi.constants.Role as RoleName
 import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupMemberDto
@@ -8,6 +8,7 @@ import me.cooper.rick.crowdcontrollerapi.dto.group.GroupSettingsDto
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.*
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
+import me.cooper.rick.crowdcontrollerserver.persistence.model.Role
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.RoleRepository
@@ -42,7 +43,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         val groupedMembers = members.filter { it.group != null }
         if (groupedMembers.isNotEmpty()) throw UserInGroupException(groupedMembers.map(User::toDto))
 
-        admin = userRepository.saveAndFlush(admin.copy(groupAccepted = true, roles = admin.roles + groupAdminRole()))
+        admin = userRepository.saveAndFlush(admin.copy(groupAccepted = true, roles = addAdminRole(admin.roles)))
         val group = groupRepository.save(Group.fromUsers(admin, members))
         groupUsers(group, members)
 
@@ -67,7 +68,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
 
         groupRepository.saveAndFlush(group.copy(
                 admin = admin,
-                members = newMembers.toSet(),
+                members = newMembers.toMutableSet(),
                 settings = group.settingsFromDto(dto.settings))
         )
         groupUsers(group, *membersToAdd.toTypedArray())
@@ -97,8 +98,8 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
                 members = (group.members - userRepository.save(user.copy(
                         group = null,
                         groupAccepted = false,
-                        roles = user.roles - groupAdminRole()))),
-                admin = userRepository.save(newAdmin.copy(roles = newAdmin.roles + groupAdminRole()))
+                        roles = removeAdminRole(user.roles)))).toMutableSet(),
+                admin = userRepository.save(newAdmin.copy(roles = addAdminRole(newAdmin.roles)))
         ))
 
         return group.toDto()
@@ -169,9 +170,8 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
     }
 
     private fun swapAdminRole(group: Group, newAdmin: User) {
-        val groupAdminRole = groupAdminRole()
-        userRepository.save(group.admin!!.copy(roles = group.admin.roles - groupAdminRole))
-        userRepository.save(newAdmin.copy(roles = newAdmin.roles + groupAdminRole))
+        userRepository.save(group.admin!!.copy(roles = removeAdminRole(group.admin.roles)))
+        userRepository.save(newAdmin.copy(roles = addAdminRole(newAdmin.roles)))
     }
 
     @Throws(UserInGroupException::class)
@@ -186,17 +186,19 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         userRepository.flush()
     }
 
+    private fun addAdminRole(roles: Set<Role>): MutableSet<Role> = (roles + groupAdminRole()).toMutableSet()
+    private fun removeAdminRole(roles: Set<Role>): MutableSet<Role> = (roles - groupAdminRole()).toMutableSet()
+
     private fun unGroupUsers(users: List<User>) = unGroupUsers(*users.toTypedArray())
 
     private fun unGroupUsers(vararg users: User) {
-        val groupAdminRole = groupAdminRole()
         users.forEach {
-            userRepository.save(it.copy(group = null, groupAccepted = false, roles = it.roles - groupAdminRole))
+            userRepository.save(it.copy(group = null, groupAccepted = false, roles = removeAdminRole(it.roles)))
         }
         userRepository.flush()
     }
 
-    private fun groupAdminRole() = roleRepository.findAllByNameIn(listOf(Role.ROLE_GROUP_ADMIN.name)).first()
+    private fun groupAdminRole() = roleRepository.findAllByNameIn(listOf(RoleName.ROLE_GROUP_ADMIN.name)).first()
 
     @Throws(UserNotFoundException::class)
     private fun userEntity(id: Long) = userRepository.findOne(id) ?: throw UserNotFoundException(id)

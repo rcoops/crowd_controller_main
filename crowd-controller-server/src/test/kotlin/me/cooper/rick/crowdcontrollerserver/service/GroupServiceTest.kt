@@ -172,7 +172,7 @@ internal class GroupServiceTest {
     @Test
     fun testUpdate() {
         val additionalUser = buildTestUser(2L, "New Admin", userRole)
-        val testGroup = this.testGroup.copy(members = setOf(testGroup.admin!!, additionalUser))
+        val testGroup = this.testGroup.copy(members = mutableSetOf(testGroup.admin!!, additionalUser))
         // admin switch
         doReturn(additionalUser.copy(group = testGroup, groupAccepted = true))
                 .`when`(userRepository).findOne(additionalUser.id)
@@ -226,7 +226,7 @@ internal class GroupServiceTest {
     fun testRemoveFromGroupPromotesNewAdmin() {
         // Given a test group with 2 accepted members
         val testAdditionalUser = User(3L, "New Admin", groupAccepted = true)
-        val testGroup = this.testGroup.copy(members = setOf(testGroup.admin!!, testAdditionalUser))
+        val testGroup = this.testGroup.copy(members = mutableSetOf(testGroup.admin!!, testAdditionalUser))
         val groupArgCaptor = ArgumentCaptor.forClass(Group::class.java)
         // And the group repository is mocked to return that group when queried
         doReturn(testGroup).`when`(groupRepository).findOne(testGroup.id)

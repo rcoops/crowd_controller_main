@@ -15,5 +15,21 @@ internal fun buildTestUserList(numberOfUsers: Int, startingId: Long = 0, role: R
 }
 
 internal fun buildTestUser(id: Long, username: String, role: Role, group: Group? = null): User {
-    return User(id, username, group = group, email = "$id@email.com", mobileNumber = "0123456789$id", roles = setOf(role))
+    return buildIntegrationTestUser(username, role, group).copy(id = id)
+}
+
+internal fun buildIntegrationTestUsers(vararg usernames: String, role: Role? = null, group: Group? = null): List<User> {
+    return usernames.map { buildIntegrationTestUser(it, role, group) }
+}
+
+fun mapToName(start: Int, end: Int) = (start..end).map { it.toString() }.toTypedArray()
+
+internal fun buildIntegrationTestUser(username: String, role: Role? = null, group: Group? = null): User {
+    return User(
+            username = username,
+            group = group,
+            email = "$username@email.com",
+            mobileNumber = username,
+            roles = if (role != null) mutableSetOf(role) else mutableSetOf()
+    )
 }

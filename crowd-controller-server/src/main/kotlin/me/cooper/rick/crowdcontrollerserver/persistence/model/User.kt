@@ -39,7 +39,7 @@ internal data class User(
         @JoinTable(name = "user_role",
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
                 inverseJoinColumns = [(JoinColumn(name="role_id", referencedColumnName = "id"))])
-        var roles: Set<Role> = setOf(Role()),
+        var roles: MutableSet<Role> = mutableSetOf(Role()),
 
         @OneToMany(mappedBy = "inviter", cascade = [CascadeType.ALL])
         private val friendsInviters: Set<Friendship> = emptySet(),

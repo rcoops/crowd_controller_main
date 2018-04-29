@@ -10,6 +10,7 @@ import java.util.*
 import java.util.Objects.hash
 import javax.persistence.*
 import javax.persistence.CascadeType.MERGE
+import javax.persistence.CascadeType.PERSIST
 import javax.persistence.GenerationType.AUTO
 import javax.persistence.TemporalType.TIMESTAMP
 
@@ -23,8 +24,8 @@ internal data class Group(
         @OneToOne
         val admin: User? = null,
 
-        @OneToMany(mappedBy = "group", cascade = [MERGE])
-        val members: Set<User> = mutableSetOf(),
+        @OneToMany(mappedBy = "group", cascade = [MERGE, PERSIST])
+        val members: MutableSet<User> = mutableSetOf(),
 
         val created: Timestamp = Timestamp.valueOf(LocalDateTime.now()),
         val expiry: Timestamp = Timestamp.valueOf(LocalDateTime.now().plusHours(12)),

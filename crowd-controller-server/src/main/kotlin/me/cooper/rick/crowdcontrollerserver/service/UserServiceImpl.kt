@@ -172,7 +172,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
     private fun newUser(dto: RegistrationDto): User {
         val user = User.fromDto(dto)
-        val roles = roleRepository.findAllByNameIn(user.roles.map(Role::name)).toSet()
+        val roles = roleRepository.findAllByNameIn(user.roles.map(Role::name)).toMutableSet()
 
         return user.copy(password = bCryptPasswordEncoder.encode(dto.password), roles = roles)
     }
