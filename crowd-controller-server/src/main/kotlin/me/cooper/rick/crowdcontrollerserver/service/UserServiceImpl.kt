@@ -32,7 +32,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
                                private val mailingService: MailingService,
                                private val webSocketController: WebSocketController) : UserService {
 
-    override fun create(dto: RegistrationDto): UserDto = userRepository.save(newUser(dto)).toDto()
+    override fun create(dto: RegistrationDto): UserDto = userRepository.saveAndFlush(newUser(dto)).toDto()
 
     override fun delete(userId: Long) {
         val user = userEntity(userId)
