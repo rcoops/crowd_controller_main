@@ -32,7 +32,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
                                private val mailingService: MailingService,
                                private val webSocketController: WebSocketController) : UserService {
 
-    override fun create(dto: RegistrationDto): UserDto = userRepository.save(newUser(dto)).toDto()
+    override fun create(dto: RegistrationDto): UserDto = userRepository.saveAndFlush(newUser(dto)).toDto()
 
     override fun delete(userId: Long) {
         val user = userEntity(userId)
@@ -73,7 +73,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     override fun addFriend(userId: Long, friendDto: FriendDto): List<FriendDto> {
         val user = userEntity(userId)
 
-        val friend = userRepository.findFirstByEmailOrUsernameOrMobileNumber(friendDto.username)
+        val friend = userRepository.findByEmailOrUsernameOrMobileNumber(friendDto.username)
                 ?: throw UserNotFoundException(friendDto.username)
 
         if (friendshipExists(userId, friend.id)) throw FriendshipExistsException(friend.username)
@@ -172,7 +172,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
     private fun newUser(dto: RegistrationDto): User {
         val user = User.fromDto(dto)
-        val roles = roleRepository.findAllByNameIn(user.roles.map(Role::name)).toSet()
+        val roles = roleRepository.findAllByNameIn(user.roles.map(Role::name)).toMutableSet()
 
         return user.copy(password = bCryptPasswordEncoder.encode(dto.password), roles = roles)
     }

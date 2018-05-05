@@ -4,20 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <properties>
-        <jackson.version>2.9.4</jackson.version>
-    </properties>
-
     <artifactId>crowd-controller-api</artifactId>
     <name>crowd-controller-api</name>
     <description>Crowd Controller API</description>
-    <dependencies>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-    </dependencies>
     <packaging>jar</packaging>
 
     <parent>
@@ -25,7 +14,21 @@
         <groupId>me.cooper.rick</groupId>
         <version>1.0.3</version>
     </parent>
+
+    <properties>
+        <jackson.version>2.9.4</jackson.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
     </build>
+
 </project>

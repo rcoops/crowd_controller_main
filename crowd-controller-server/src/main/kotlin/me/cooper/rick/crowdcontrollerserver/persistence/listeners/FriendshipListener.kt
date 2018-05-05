@@ -1,6 +1,6 @@
 package me.cooper.rick.crowdcontrollerserver.persistence.listeners
 
-import me.cooper.rick.crowdcontrollerserver.AutowireHelper
+import me.cooper.rick.crowdcontrollerserver.util.AutowireHelper
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Friendship
 import org.slf4j.Logger
