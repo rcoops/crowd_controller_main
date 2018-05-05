@@ -11,4 +11,7 @@ internal interface FriendshipRepository: JpaRepository<Friendship, Long> {
     fun findFriendshipBetweenUsers(@Param("idOne") userOneId: Long,
                                    @Param("idTwo") userTwoId: Long): Friendship?
 
+    @Query("FROM Friendship WHERE inviter_id = :id or invitee_id = :id")
+    fun findByUserId(@Param("id") id: Long): List<Friendship>
+
 }

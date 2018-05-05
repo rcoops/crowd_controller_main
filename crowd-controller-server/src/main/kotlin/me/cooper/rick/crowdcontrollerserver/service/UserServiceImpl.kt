@@ -32,7 +32,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
                                private val mailingService: MailingService,
                                private val webSocketController: WebSocketController) : UserService {
 
-    override fun create(dto: RegistrationDto): UserDto = userRepository.save(newUser(dto)).toDto()
+    override fun create(dto: RegistrationDto): UserDto = userRepository.save(newUser(dto)).toDtoWithFriends()
 
     override fun delete(userId: Long) {
         val user = userEntity(userId)
@@ -52,19 +52,19 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
                 )
         )
 
-        return user.toDto()
+        return user.toDtoWithFriends()
     }
 
     override fun allUsers(): List<UserDto> = userRepository.findAll().map(User::toDto)
 
     @Throws(UserNotFoundException::class)
     override fun user(username: String): UserDto {
-        return userRepository.findByUsername(username)?.toDto()
+        return userRepository.findByUsername(username)?.toDtoWithFriends()
                 ?: throw UserNotFoundException(username)
     }
 
     @Throws(UserNotFoundException::class)
-    override fun user(id: Long): UserDto = userEntity(id).toDto()
+    override fun user(id: Long): UserDto = userEntity(id).toDtoWithFriends()
 
     @Throws(UserNotFoundException::class)
     override fun friends(id: Long): List<FriendDto> = user(id).friends
@@ -78,7 +78,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
         if (friendshipExists(userId, friend.id)) throw FriendshipExistsException(friend.username)
 
-        saveFriendship(Friendship(user, friend, false))
+        saveFriendship(Friendship(friend, user, false))
 
         return friends(userId)
     }
@@ -137,7 +137,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
                 password = bCryptPasswordEncoder.encode(newPassword),
                 passwordResetToken = null
         ))
-        return user.toDto()
+        return user.toDtoWithFriends()
     }
 
     override fun updatePassword(id: Long, dto: PasswordResetDto): UserDto {
@@ -151,7 +151,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
 
         userRepository.saveAndFlush(user.copy(password = bCryptPasswordEncoder.encode(dto.newPassword)))
 
-        return user.toDto()
+        return user.toDtoWithFriends()
     }
 
     override fun sendGroupInvites() {
@@ -161,7 +161,7 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     }
 
     private fun findAllWithPendingInvites(): List<UserDto> {
-        return userRepository.findAllWithPendingInvites().map(User::toDto)
+        return userRepository.findAllWithPendingInvites().map { it.toDtoWithFriends() }
     }
 
     @Throws(UserNotFoundException::class, FriendshipNotFoundException::class)
@@ -184,6 +184,13 @@ internal class UserServiceImpl(private val userRepository: UserRepository,
     @Throws(UserNotFoundException::class)
     private fun userEntity(id: Long): User {
         return userRepository.findOne(id) ?: throw UserNotFoundException(id)
+    }
+
+    private fun User.toDtoWithFriends(): UserDto {
+        val friendShips = friendshipRepository.findByUserId(this.id)
+        val friends: Map<User, Friendship> = friendShips.map { it.partner(this.username)!! to it }
+                .toMap()
+        return this.toDto().copy(friends = friends.map { it.key.toFriendDto(it.value) })
     }
 
 }

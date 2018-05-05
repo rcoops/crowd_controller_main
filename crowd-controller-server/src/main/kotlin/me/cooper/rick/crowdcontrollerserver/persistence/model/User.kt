@@ -41,12 +41,6 @@ internal data class User(
                 inverseJoinColumns = [(JoinColumn(name="role_id", referencedColumnName = "id"))])
         var roles: Set<Role> = setOf(Role()),
 
-        @OneToMany(mappedBy = "inviter", cascade = [CascadeType.ALL])
-        private val friendsInviters: Set<Friendship> = emptySet(),
-
-        @OneToMany(mappedBy = "invitee", cascade = [CascadeType.ALL])
-        private val friendsInvitees: Set<Friendship> = emptySet(),
-
         @ManyToOne @JoinColumn(name="group_id", referencedColumnName = "id")
         val group: Group? = null,
 
@@ -66,11 +60,10 @@ internal data class User(
                 username,
                 email,
                 mobileNumber,
-                friendsToDto(),
-                roles.map { it.name }.toSet(),
-                group?.id,
-                group?.admin?.username,
-                groupAccepted
+                roles = roles.map { it.name }.toSet(),
+                group = group?.id,
+                groupAdmin = group?.admin?.username,
+                groupAccepted = groupAccepted
         )
     }
 
@@ -86,20 +79,13 @@ internal data class User(
 
     override fun hashCode(): Int = Objects.hash(id, username, email, password, mobileNumber)
 
-    private fun friends(): Set<Friendship> = (friendsInviters + friendsInvitees).toSet()
 
-    private fun friendsToDto(): List<FriendDto> {
-        return friends().map(::toFriendDto)
-                .sortedWith(compareBy(FriendDto::status, FriendDto::username))
-    }
-
-    private fun toFriendDto(friendship: Friendship): FriendDto {
-        val partner = friendship.partner(username)
+    fun toFriendDto(friendship: Friendship): FriendDto {
         return FriendDto(
-                id = partner?.id ?: -1,
-                username = partner?.username ?: "",
+                id =  id,
+                username = username,
                 status = getFriendStatus(!friendship.isInviter(username), friendship.activated),
-                groupStatus = getGroupStatus(partner?.group != null, partner?.groupAccepted ?: false)
+                groupStatus = getGroupStatus(group != null, groupAccepted)
         )
     }
 

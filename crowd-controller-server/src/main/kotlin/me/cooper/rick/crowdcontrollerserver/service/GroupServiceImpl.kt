@@ -5,10 +5,13 @@ import me.cooper.rick.crowdcontrollerapi.dto.group.CreateGroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupMemberDto
 import me.cooper.rick.crowdcontrollerapi.dto.group.GroupSettingsDto
+import me.cooper.rick.crowdcontrollerapi.dto.user.UserDto
 import me.cooper.rick.crowdcontrollerserver.controller.WebSocketController
 import me.cooper.rick.crowdcontrollerserver.controller.error.exception.*
+import me.cooper.rick.crowdcontrollerserver.persistence.model.Friendship
 import me.cooper.rick.crowdcontrollerserver.persistence.model.Group
 import me.cooper.rick.crowdcontrollerserver.persistence.model.User
+import me.cooper.rick.crowdcontrollerserver.persistence.repository.FriendshipRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.GroupRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.RoleRepository
 import me.cooper.rick.crowdcontrollerserver.persistence.repository.UserRepository
@@ -24,6 +27,7 @@ import java.util.*
 internal class GroupServiceImpl(private val userRepository: UserRepository,
                                 private val roleRepository: RoleRepository,
                                 private val groupRepository: GroupRepository,
+                                private val friendshipRepository: FriendshipRepository,
                                 private val locationResolverService: LocationResolverService,
                                 private val webSocketController: WebSocketController) : GroupService {
 
@@ -122,7 +126,7 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
         val group = groupEntity(groupId)
 
         if (user.group == null) throw UserNotGroupedException(userId)
-        if (group != user.group) throw UserInGroupException(user.toDto())
+        if (group != user.group) throw UserInGroupException(user.toDtoWithFriends())
         return if (!isAccept) {
             removeFromGroup(groupId, userId)
             null
@@ -213,6 +217,13 @@ internal class GroupServiceImpl(private val userRepository: UserRepository,
                 this@GroupServiceImpl.locationResolverService.resolveLocation(this),
                 settings.toDto()
         )
+    }
+
+    private fun User.toDtoWithFriends(): UserDto {
+        val friendShips = friendshipRepository.findByUserId(this.id)
+        val friends: Map<User, Friendship> = friendShips.map { it.partner(this.username)!! to it }
+                .toMap()
+        return this.toDto().copy(friends = friends.map { it.key.toFriendDto(it.value) })
     }
 
 }
