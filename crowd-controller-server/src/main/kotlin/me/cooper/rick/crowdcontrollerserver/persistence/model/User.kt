@@ -19,8 +19,7 @@ import javax.persistence.GenerationType.AUTO
 @EntityListeners(UserListener::class)
 @Table(uniqueConstraints = [
     UniqueConstraint(name = UNIQUE_USERNAME, columnNames = ["username"]),
-    UniqueConstraint(name = UNIQUE_EMAIL, columnNames = ["email"]),
-    UniqueConstraint(name = UNIQUE_MOBILE, columnNames = ["mobileNumber"])
+    UniqueConstraint(name = UNIQUE_EMAIL, columnNames = ["email"])
 ])
 internal data class User(
         @Id @GeneratedValue(strategy = AUTO)
